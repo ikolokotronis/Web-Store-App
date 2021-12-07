@@ -8,3 +8,6 @@ class User(models.Model):
     last_name = models.CharField(max_length=250)
     phone_number = models.IntegerField()
     address = models.TextField()
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'

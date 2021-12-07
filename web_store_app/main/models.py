@@ -10,10 +10,16 @@ class Category(models.Model):
     name = models.CharField(max_length=500)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=500)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 
 class ShoppingCart(models.Model):
