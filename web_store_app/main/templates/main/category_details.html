@@ -1,0 +1,10 @@
+{%extends 'main/base.html'%}
+{%block content%}
+<ul>
+    {%for subcategory in subcategories%}
+
+    <li><a href="/category/2/{{subcategory.id}}/">{{subcategory.name}}</a></li>
+
+    {%endfor%}
+</ul>
+{%endblock%}
