@@ -1,0 +1,78 @@
+body{
+    background-color: rgb(231, 228, 228);
+}
+
+#main{
+    width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(231, 228, 228);
+}
+
+.header{
+    width: 1150px;
+    background-color: darkgrey;
+    text-align: center;
+    float: left;
+}
+
+.footer{
+    position:absolute;
+    bottom:0;
+    width:1300px;
+    height:120px;
+    background:#b5fbbd;
+    text-align: center;
+}
+
+.userManagement{
+    float: left;
+    background-color: dimgrey;
+    width: 150px;
+    height: 80px;
+}
+
+#leftContainer{
+    background-color: blue;
+    width: 900px;
+    float: left;
+}
+
+
+.categories{
+    background-color: cadetblue;
+    text-align: center;
+    height: 75px;
+}
+
+.ads{
+    background-color: aqua;
+    height: 150px;
+    text-align: center;
+}
+
+.bestSellers{
+    height: 250px;
+    background-color: dodgerblue;
+    text-align: center;
+}
+
+.newProducts{
+    height: 150px;
+    background-color: skyblue;
+    text-align: center;
+}
+
+#rightContainer{
+    background-color: darkolivegreen;
+    width: 400px;
+    float: left;
+}
+
+.search{
+    background-color: darkgreen;
+}
+
+.categoriesUl{
+    background-color: darkolivegreen;
+}

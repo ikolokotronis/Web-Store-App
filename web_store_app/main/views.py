@@ -5,4 +5,4 @@ from django.views import View
 
 class HomePage(View):
     def get(self, request):
-        return render(request, 'main/homepage.html')
+        return render(request, 'main/base.html')

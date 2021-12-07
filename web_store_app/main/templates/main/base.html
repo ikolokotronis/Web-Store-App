@@ -1,0 +1,56 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+    <link rel="stylesheet" href="{% static 'main/css/basestylesheet.css' %}">
+</head>
+<body>
+<div id="main">
+    <div class="header">
+        <h1>Name</h1>
+    </div>
+
+    <div class="userManagement">
+
+        User buttons
+
+    </div>
+
+    <div id="leftContainer">
+
+        <div class="categories">Categories</div>
+{%block content%}
+        <div class="ads">Ads</div>
+
+        <div class="bestSellers">Bestsellers</div>
+
+        <div class="newProducts">New products</div>
+
+    </div>
+
+    <div id="rightContainer">
+
+        <div class="search">Search</div>
+
+        <div class="categoriesUl">
+
+            <ul>
+                <li>Category 1</li>
+                <li>Category 2</li>
+                <li>Category 3</li>
+                <li>Category 4</li>
+                <li>Category 5</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+{%endblock%}
+<div class="footer">footer</div>
+
+</div>
+</body>
+</html>
