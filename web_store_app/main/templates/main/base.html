@@ -52,16 +52,19 @@
 
     <div id="rightContainer">
 
-        <div class="search">Search</div>
+        <div class="search">
+            <form method="post">
+                Search here: <input type="text"><input type="submit" value="Search">
+            </form>
+        </div>
 
         <div class="categoriesUl">
 
             <ul>
-                <li>Category 1</li>
-                <li>Category 2</li>
-                <li>Category 3</li>
-                <li>Category 4</li>
-                <li>Category 5</li>
+                <li><a href="/stringed_instruments/">{{stringed_instruments}}</a></li>
+                <li><a href="/keyboard_instruments/">{{keyboard_instruments}}</a></li>
+                <li><a href="/drums/">{{drums}}</a></li>
+                <li><a href="/sound_system/">{{sound_system}}</a></li>
 
             </ul>
 
