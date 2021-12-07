@@ -9,7 +9,7 @@
 <body>
 <div id="main">
     <div class="header">
-        <h1>Name</h1>
+        <h1>Music store</h1>
     </div>
 
     <div class="userManagement">
@@ -20,7 +20,12 @@
 
     <div id="leftContainer">
 
-        <div class="categories">Categories</div>
+        <div class="categories">
+            <div class="categoryBox"><a href="/stringed_instruments/">{{stringed_instruments}}</a></div>
+            <div class="categoryBox"><a href="/keyboard_instruments/">{{keyboard_instruments}}</a></div>
+            <div class="categoryBox"><a href="/drums/">{{drums}}</a></div>
+            <div class="categoryBox"><a href="/sound_system/">{{sound_system}}</a></div>
+        </div>
 {%block content%}
         <div class="ads">Ads</div>
 
