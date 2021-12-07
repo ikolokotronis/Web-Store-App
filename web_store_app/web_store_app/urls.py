@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main.views import HomePage
+from main.views import HomePageView, ProductView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', HomePage.as_view())
+    path('', HomePageView.as_view()),
+    path('product/<int:product_id>/', ProductView.as_view())
 ]

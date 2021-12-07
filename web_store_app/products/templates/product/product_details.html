@@ -1,0 +1,6 @@
+{%extends 'main/base.html'%}
+{%block content%}
+Product name: {{product}}<br>
+Price: {{product.price}}<br>
+Rating: {{product.get_rating_display}}
+{%endblock%}
