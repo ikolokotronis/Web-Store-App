@@ -54,20 +54,36 @@ body{
 .bestSellers{
     height: 250px;
     background-color: dodgerblue;
+    padding: 5px;
     text-align: center;
+}
+
+.bestSellerBox{
+    float: left;
+    background-color: green;
+    width: 222.5px;
+    height: 250px;
 }
 
 .newProducts{
     height: 150px;
     background-color: skyblue;
     text-align: center;
+    padding: 5px;
 }
 
+.newProductBox{
+    float: left;
+    background-color: green;
+    width: 222.5px;
+    height: 150px;
+}
 #rightContainer{
     background-color: darkolivegreen;
     width: 400px;
     float: left;
 }
+
 
 .search{
     background-color: darkgreen;
