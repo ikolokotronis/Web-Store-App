@@ -30,20 +30,18 @@
         <div class="ads">Ads</div>
 
         <div class="bestSellers">
-
-            <div class="bestSellerBox">bestseller1</div>
-            <div class="bestSellerBox">bestseller2</div>
-            <div class="bestSellerBox">bestseller3</div>
-            <div class="bestSellerBox">bestseller4</div>
-
+            <b>Bestsellers</b>
+            {%for bestseller in bestsellers%}
+            <div class="bestSellerBox"><a href="product/{{bestseller.id}}/">{{bestseller}}</a></div>
+            {%endfor%}
         </div>
 
         <div class="newProducts">
 
-            <div class="newProductBox">newproduct1</div>
-            <div class="newProductBox">newproduct2</div>
-            <div class="newProductBox">newproduct3</div>
-            <div class="newProductBox">newproduct4</div>
+            <b>New products</b>
+            {%for product in added_recently%}
+            <div class="newProductBox"><a href="product/{{product.id}}/">{{product}}</a></div>
+            {%endfor%}
 
 
         </div>

@@ -1,5 +1,7 @@
 from django.db import models
 
+import main.models
+
 # Create your models here.
 
 
@@ -16,11 +18,13 @@ class Product(models.Model):
         ('4', '****'),
         ('5', '*****')
     )
-    rating = models.IntegerField(choices=star_choices)
+    rating = models.TextField(choices=star_choices)
 
     is_bestseller = models.BooleanField()
 
-    date_added = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateField(auto_now_add=True)
+
+    subcategory_id = models.ForeignKey("main.SubCategory", on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
