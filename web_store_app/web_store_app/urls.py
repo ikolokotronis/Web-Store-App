@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main.views import HomePageView, CategoryDetailsView, SubCategoryView
+from main.views import HomePageView, CategoryDetailsView, SubCategoryView, ContactView
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, UserPanelEditView
 urlpatterns = [
@@ -28,5 +28,6 @@ urlpatterns = [
     path('users/login/', LoginView.as_view()),  #do zmiany na user tak jak pozostałe
     path('users/logout/', LogoutView.as_view()),
     path('users/panel/<int:user_id>/', UserPanelView.as_view()),
-    path('users/edit/<int:user_id>/', UserPanelEditView.as_view())
+    path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),
+    path('contact/', ContactView.as_view())
 ]
