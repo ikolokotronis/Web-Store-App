@@ -1,0 +1,13 @@
+{%extends 'main/base.html'%}
+{%block content%}
+
+<form method="post">
+    {%csrf_token%}
+<p>
+    Username: <input type="text" name="username"> <br><br>
+    Password: <input type="password" name="password"> <br><br>
+    <input type="submit" value="Login">
+</p>
+</form>
+<a href="/users/register/">Don't have an account yet?</a>
+{%endblock%}

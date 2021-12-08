@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from main.views import HomePageView, CategoryDetailsView, KeyboardsSubCategoryView
 from products.views import ProductView
-from users.views import RegistrationView
+from users.views import RegistrationView, LoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
     path('product/<int:product_id>/', ProductView.as_view()),
     path('category/<int:category_id>/', CategoryDetailsView.as_view()),
     path('category/<int:category_id>/<int:subcategory_id>/', KeyboardsSubCategoryView.as_view()),
-    path('users/registration/', RegistrationView.as_view())
+    path('users/register/', RegistrationView.as_view()),
+    path('users/login/', LoginView.as_view())
 ]
