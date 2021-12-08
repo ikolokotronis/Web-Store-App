@@ -22,10 +22,12 @@
     </div>
 
     <div class="userManagement">
-
         <div class="userManagementBox"><a href="/">Home</a></div>
-
-        <div class="userManagementBox"><a href="/users/register/">User</a></div>
+{%if user.is_authenticated%}
+<div class="userManagementBox"><a href="/users/panel/{{user.id}}/">User</a></div>
+    {%else%}
+<div class="userManagementBox"><a href="/users/register/">User</a></div>
+    {%endif%}
 
         <div class="userManagementBox"><a href="/">Contact</a></div>
 
