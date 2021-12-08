@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import User
+from users.models import WebsiteUser
 from products.models import Product
 
 
@@ -25,5 +25,5 @@ class SubCategory(models.Model):
 
 class ShoppingCart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     quantity = models.IntegerField()

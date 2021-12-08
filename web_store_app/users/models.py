@@ -1,13 +1,11 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
-class User(models.Model):
+class WebsiteUser(AbstractUser):
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
-    phone_number = models.IntegerField()
-    address = models.TextField()
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+    email = models.CharField(max_length=250, null=True)
+    phone_number = models.IntegerField(null=True)
+    address = models.TextField(null=True)
