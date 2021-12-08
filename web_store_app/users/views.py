@@ -80,3 +80,19 @@ class UserPanelView(View):
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
                                                                  'user':user})
+
+
+class UserPanelEditView(View):
+    def get(self, request, user_id):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        user = WebsiteUser.objects.get(id=user_id)
+        return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
+                                                                 'keyboard_instruments': keyboard_instruments,
+                                                                 'drums': drums,
+                                                                 'sound_system': sound_system,
+                                                                 'user': user})
+    def post(self, request):
+        pass #DO UZUPEŁNIENIA

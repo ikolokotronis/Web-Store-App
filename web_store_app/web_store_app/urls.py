@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from main.views import HomePageView, CategoryDetailsView, SubCategoryView
 from products.views import ProductView
-from users.views import RegistrationView, LoginView, LogoutView, UserPanelView
+from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, UserPanelEditView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
@@ -27,5 +27,6 @@ urlpatterns = [
     path('users/register/', RegistrationView.as_view()),
     path('users/login/', LoginView.as_view()),  #do zmiany na user tak jak pozostałe
     path('users/logout/', LogoutView.as_view()),
-    path('users/panel/<int:user_id>/', UserPanelView.as_view())
+    path('users/panel/<int:user_id>/', UserPanelView.as_view()),
+    path('users/edit/<int:user_id>/', UserPanelEditView.as_view())
 ]
