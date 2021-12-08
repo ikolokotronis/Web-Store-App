@@ -94,5 +94,35 @@ class UserPanelEditView(View):
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
                                                                  'user': user})
-    def post(self, request):
-        pass #DO UZUPEŁNIENIA
+    def post(self, request, user_id):
+        try:
+            username = request.POST.get('username')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            password = request.POST.get('password')
+            email = request.POST.get('email')
+            phone_number = request.POST.get('phone_number')
+            address = request.POST.get('address')
+            user = WebsiteUser.objects.get(id=user_id)
+            user.username = username
+            user.first_name = first_name
+            user.last_name = last_name
+            user.set_password(password)
+            user.email = email
+            user.phone_number = phone_number
+            user.address = address
+            user.save()
+        except Exception:
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            user = WebsiteUser.objects.get(id=user_id)
+            return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
+                                                                 'keyboard_instruments': keyboard_instruments,
+                                                                 'drums': drums,
+                                                                 'sound_system': sound_system,
+                                                                 'user': user,
+                                                                 'error_text': "Something went wrong"})
+
+        return redirect(f'/users/edit/{user_id}')
