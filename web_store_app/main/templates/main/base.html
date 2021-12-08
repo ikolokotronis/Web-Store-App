@@ -70,7 +70,8 @@
 
         <div class="search">
             <form method="post">
-                Search here: <input type="text"><input type="submit" value="Search">
+                {%csrf_token%}
+                Search here: <input type="text" name="key_word"><input type="submit" value="Search">
             </form>
         </div>
 

@@ -25,6 +25,31 @@ class HomePageView(View):
                                                   'all_categories': all_categories}
                       )
 
+    def post(self, request):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        all_categories = SubCategory.objects.all()
+        bestsellers = Product.objects.filter(is_bestseller=True)[0:3]
+        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                                date_added__lte=date.today())[0:3]
+        key_word = request.POST.get('key_word')
+        product_results = Product.objects.filter(name__contains=key_word)
+        category_results = Category.objects.filter(name__contains=key_word)
+        subcategory_results = SubCategory.objects.filter(name__contains=key_word)
+        return render(request, 'main/search_results.html', {'stringed_instruments': stringed_instruments,
+                                                  'keyboard_instruments': keyboard_instruments,
+                                                  'drums': drums,
+                                                  'sound_system': sound_system,
+                                                  'bestsellers': bestsellers,
+                                                  'added_recently': added_recently,
+                                                  'all_categories': all_categories,
+                                                  'product_results': product_results,
+                                                  'category_results': category_results,
+                                                  'subcategory_results': subcategory_results}
+                      )
+
 
 class CategoryDetailsView(View):
     def get(self, request, category_id):
