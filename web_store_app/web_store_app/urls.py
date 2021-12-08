@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from main.views import HomePageView, CategoryDetailsView, KeyboardsSubCategoryView
 from products.views import ProductView
-from users.views import RegistrationView, LoginView
+from users.views import RegistrationView, LoginView, LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
@@ -25,5 +25,6 @@ urlpatterns = [
     path('category/<int:category_id>/', CategoryDetailsView.as_view()),
     path('category/<int:category_id>/<int:subcategory_id>/', KeyboardsSubCategoryView.as_view()),
     path('users/register/', RegistrationView.as_view()),
-    path('users/login/', LoginView.as_view())
+    path('users/login/', LoginView.as_view()),
+    path('users/logout/', LogoutView.as_view())
 ]

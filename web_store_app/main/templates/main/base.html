@@ -8,11 +8,15 @@
 </head>
 <body>
 <div id="main">
+    <div id="user_banner">
     {%if user.is_authenticated%}
     <i>Logged in as {{user}}</i>
+    <a href="/users/logout/">Logout</a>
     {%else%}
-    <i>Hello user</i>
+    <i>Hello stranger</i>
+    <a href="/users/register/">Register/Login</a>
     {%endif%}
+    </div>
     <div class="header">
         <h1><a href="/">Music store</a></h1>
     </div>

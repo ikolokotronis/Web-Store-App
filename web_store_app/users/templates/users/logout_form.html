@@ -1,0 +1,11 @@
+{%extends 'main/base.html'%}
+{%block content%}
+
+<form method="post">
+    {%csrf_token%}
+<p>
+    <b>Are you sure you want to log out?</b>
+    <input type="submit" value="Logout">
+</p>
+</form>
+{%endblock%}
