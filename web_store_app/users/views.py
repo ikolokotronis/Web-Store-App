@@ -49,7 +49,15 @@ class LoginView(View):
             login(request, user)
             return redirect('/')
         else:
-            return HttpResponse('Something went wrong!!')
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            return render(request, 'users/login_form.html', {'stringed_instruments': stringed_instruments,
+                                                             'keyboard_instruments': keyboard_instruments,
+                                                             'drums': drums,
+                                                             'sound_system': sound_system,
+                                                             'error_text': 'Wrong username or password, try again'})
 
 
 class LogoutView(View):
@@ -123,6 +131,38 @@ class UserPanelEditView(View):
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
                                                                  'user': user,
+                                                                 'error_text': "Something went wrong"})
+
+        return redirect(f'/users/edit/{user_id}')
+
+
+class PasswordResetView(View):
+    def get(self, request):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        return render(request, 'users/password_reset.html', {'stringed_instruments': stringed_instruments,
+                                                                 'keyboard_instruments': keyboard_instruments,
+                                                                 'drums': drums,
+                                                                 'sound_system': sound_system})
+    def post(self, request):
+        try:
+            password = request.POST.get('password')
+            email = request.POST.get('email')
+            user = WebsiteUser.objects.get(email=email)
+            user.set_password(password)
+            user.save()
+            return redirect('/')
+        except ZeroDivisionError:
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            return render(request, 'users/password_reset.html', {'stringed_instruments': stringed_instruments,
+                                                                 'keyboard_instruments': keyboard_instruments,
+                                                                 'drums': drums,
+                                                                 'sound_system': sound_system,
                                                                  'error_text': "Something went wrong"})
 
         return redirect(f'/users/edit/{user_id}')

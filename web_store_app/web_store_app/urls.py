@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from main.views import HomePageView, CategoryDetailsView, SubCategoryView, ContactView, ShoppingCartView
 from products.views import ProductView
-from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, UserPanelEditView
+from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, UserPanelEditView, PasswordResetView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
@@ -30,5 +30,6 @@ urlpatterns = [
     path('users/panel/<int:user_id>/', UserPanelView.as_view()),
     path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),
     path('contact/', ContactView.as_view()),
-    path('shopping_cart/', ShoppingCartView.as_view())
+    path('shopping_cart/', ShoppingCartView.as_view()),
+    path('users/password_reset/', PasswordResetView.as_view())
 ]

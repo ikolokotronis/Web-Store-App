@@ -106,3 +106,5 @@ class ShoppingCartView(View):
                                                      'keyboard_instruments': keyboard_instruments,
                                                      'drums': drums,
                                                      'sound_system': sound_system})
+    def post(self, request):
+        pass
