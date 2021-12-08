@@ -12,7 +12,7 @@ class HomePageView(View):
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
-        all_categories = Category.objects.all()
+        all_categories = SubCategory.objects.all()
         bestsellers = Product.objects.filter(is_bestseller=True)
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3), date_added__lte=date.today())
         return render(request, 'main/base.html', {'stringed_instruments': stringed_instruments,
@@ -38,3 +38,17 @@ class CategoryDetailsView(View):
                                                                 'sound_system': sound_system,
                                                                 'subcategories': subcategories}
                       )
+
+
+class SubCategoryView(View):
+    def get(self, request,subcategory_id):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        products = Product.objects.filter(subcategory_id=subcategory_id)
+        return render(request, 'main/subcategory_details.html', {'stringed_instruments': stringed_instruments,
+                                                              'keyboard_instruments': keyboard_instruments,
+                                                              'drums': drums,
+                                                              'sound_system': sound_system,
+                                                              'products': products})
