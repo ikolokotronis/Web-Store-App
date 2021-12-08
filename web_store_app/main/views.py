@@ -13,8 +13,9 @@ class HomePageView(View):
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
         all_categories = SubCategory.objects.all()
-        bestsellers = Product.objects.filter(is_bestseller=True)
-        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3), date_added__lte=date.today())
+        bestsellers = Product.objects.filter(is_bestseller=True)[0:3]
+        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                                date_added__lte=date.today())[0:3]
         return render(request, 'main/base.html', {'stringed_instruments': stringed_instruments,
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
