@@ -75,11 +75,12 @@
         <div class="categoriesUl">
 
             <ul>
-                <li><a href="/category/{{stringed_instruments.id}}">{{stringed_instruments}}</a></li>
-                <li><a href="/category/{{keyboard_instruments.id}}">{{keyboard_instruments}}</a></li>
-                <li><a href="/category/{{drums.id}}">{{drums}}</a></li>
-                <li><a href="/category/{{sound_system.id}}">{{sound_system}}</a></li>
-
+                {%for category in all_categories%}
+                <li><a href="/category/{{stringed_instruments.id}}">{{category}}</a></li>
+<!--                <li><a href="/category/{{keyboard_instruments.id}}">{{keyboard_instruments}}</a></li>-->
+<!--                <li><a href="/category/{{drums.id}}">{{drums}}</a></li>-->
+<!--                <li><a href="/category/{{sound_system.id}}">{{sound_system}}</a></li>-->
+                {%endfor%}
             </ul>
 
         </div>
