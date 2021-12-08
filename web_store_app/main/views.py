@@ -94,3 +94,15 @@ class ContactView(View):
                                                                  'keyboard_instruments': keyboard_instruments,
                                                                  'drums': drums,
                                                                  'sound_system': sound_system})
+
+
+class ShoppingCartView(View):
+    def get(self, request):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        return render(request, 'main/shoppingCart.html', {'stringed_instruments': stringed_instruments,
+                                                     'keyboard_instruments': keyboard_instruments,
+                                                     'drums': drums,
+                                                     'sound_system': sound_system})
