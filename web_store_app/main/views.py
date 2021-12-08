@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from .models import Category, SubCategory
+from .models import Category, SubCategory, CategorySubCategory
 from products.models import Product
 from datetime import date, timedelta
 # Create your views here.
@@ -58,23 +58,27 @@ class CategoryDetailsView(View):
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
         subcategories = SubCategory.objects.filter(category_id=category_id)
+        parent_category = CategorySubCategory.objects.filter(category_id=category_id)[0]
         return render(request, 'main/category_details.html', {'stringed_instruments': stringed_instruments,
                                                                 'keyboard_instruments': keyboard_instruments,
                                                                 'drums': drums,
                                                                 'sound_system': sound_system,
-                                                                'subcategories': subcategories}
+                                                                'subcategories': subcategories,
+                                                                'parent_category': parent_category}
                       )
 
 
 class SubCategoryView(View):
-    def get(self, request,subcategory_id):
+    def get(self, request, subcategory_id):
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
         products = Product.objects.filter(subcategory_id=subcategory_id)
+        parent_category = CategorySubCategory.objects.filter(subcategory_id=subcategory_id)[0]
         return render(request, 'main/subcategory_details.html', {'stringed_instruments': stringed_instruments,
                                                               'keyboard_instruments': keyboard_instruments,
                                                               'drums': drums,
                                                               'sound_system': sound_system,
-                                                              'products': products})
+                                                              'products': products,
+                                                              'parent_category': parent_category})
