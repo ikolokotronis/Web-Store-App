@@ -11,6 +11,8 @@ class Product(models.Model):
 
     price = models.IntegerField()
 
+    description = models.TextField(null=True)
+
     star_choices = (
         ('1', '*'),
         ('2', '**'),

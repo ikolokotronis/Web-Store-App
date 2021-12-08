@@ -35,3 +35,6 @@ class ShoppingCart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.user}, {self.product}, {self.quantity}'

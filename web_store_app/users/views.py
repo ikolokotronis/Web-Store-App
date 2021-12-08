@@ -75,7 +75,7 @@ class UserPanelView(View):
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
         user = WebsiteUser.objects.get(id=user_id)
-        return render(request, 'users/userpanel_form.html', {'stringed_instruments': stringed_instruments,
+        return render(request, 'users/userpanel.html', {'stringed_instruments': stringed_instruments,
                                                                  'keyboard_instruments': keyboard_instruments,
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
