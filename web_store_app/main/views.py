@@ -35,9 +35,9 @@ class HomePageView(View):
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                                 date_added__lte=date.today())[0:3]
         key_word = request.POST.get('key_word')
-        product_results = Product.objects.filter(name__contains=key_word)
-        category_results = Category.objects.filter(name__contains=key_word)
-        subcategory_results = SubCategory.objects.filter(name__contains=key_word)
+        product_results = Product.objects.filter(name__icontains=key_word)
+        category_results = Category.objects.filter(name__icontains=key_word)
+        subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
         return render(request, 'main/search_results.html', {'stringed_instruments': stringed_instruments,
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
