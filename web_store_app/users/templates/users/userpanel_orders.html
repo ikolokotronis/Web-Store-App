@@ -1,0 +1,15 @@
+{%extends 'main/base.html'%}
+{%block content%}
+<h3>My orders</h3><br>
+{%for order in orders%}
+&nbsp;- Order nr <b>{{order.id}}</b><br><br>
+{%for product_order in product_orders%}
+ {%if product_order.order.id == order.id%}Product bought: <a href="/product/{{product_order.product.id}}/">{{product_order.product}}</a>{%endif%}
+{%endfor%}<br><br>
+Shipping: {{order.get_shipping_type_display}}<br><br>
+Address: {{order.address}}<br><br>
+Phone number: {{order.phone_number}}<br><br>
+Payment method: {{order.get_payment_type_display}}<br><br><br>--------<br><br><br>
+{%endfor%}<br><br>
+<div class="userPanel_button"><a href="/users/panel/{{user.id}}/">Go back</a></div>
+{%endblock%}

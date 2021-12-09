@@ -45,10 +45,8 @@
             <div class="categoryBox"><a href="/category/{{sound_system.id}}">{{sound_system}}</a></div>
         </div>
 {%block content%}
-        <div class="ads">Ads</div>
 
         <div class="bestSellers">
-            <b>Bestsellers</b>
             {%for bestseller in bestsellers%}
             <div class="bestSellerBox"><a href="product/{{bestseller.id}}/">{{bestseller}}</a></div>
             {%endfor%}
@@ -56,7 +54,6 @@
 
         <div class="newProducts">
 
-            <b>New products</b>
             {%for product in added_recently%}
             <div class="newProductBox"><a href="product/{{product.id}}/">{{product}}</a></div>
             {%endfor%}
@@ -87,7 +84,6 @@
 
     </div>
 {%endblock%}
-<div class="footer">Footer</div>
 
 </div>
 </body>

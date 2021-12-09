@@ -65,6 +65,8 @@ class Order(models.Model):
         (3, 'Bank transfer')
     )
     payment_type = models.IntegerField(choices=payment_choices, null=True)
+    address = models.CharField(max_length=250, null=True)
+    phone_number = models.IntegerField(null=True)
 
     def __str__(self):
         return f'{self.user}, {self.datetime_ordered}'

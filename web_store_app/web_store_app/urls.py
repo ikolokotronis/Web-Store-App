@@ -20,7 +20,8 @@ from main.views import HomePageView, CategoryDetailsView, SubCategoryView, \
     ShoppingCartRemoveProductView, ShoppingCartPaymentView, ShoppingCartSummaryView, \
     ShoppingCartSuccessView
 from products.views import ProductView
-from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, UserPanelEditView, PasswordResetView
+from users.views import RegistrationView, LoginView, LogoutView, \
+    UserPanelView, UserPanelEditView, PasswordResetView, UserPanelOrdersView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
@@ -32,7 +33,8 @@ urlpatterns = [
     path('users/login/', LoginView.as_view()),  #do zmiany na user
     path('users/logout/', LogoutView.as_view()), #do zmiany na user
     path('users/panel/<int:user_id>/', UserPanelView.as_view()), #do zmiany na user
-    path('users/edit/<int:user_id>/', UserPanelEditView.as_view()), #do zmiany na user
+    path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),#do zmiany na user
+    path('users/panel/orders/<int:user_id>/', UserPanelOrdersView.as_view()),
     path('users/password_reset/', PasswordResetView.as_view()), #do zmiany na user
     path('shopping_cart/<int:user_id>/', ShoppingCartView.as_view()),
     path('shopping_cart/<int:user_id>/checkout/', ShoppingCartCheckoutView.as_view()),

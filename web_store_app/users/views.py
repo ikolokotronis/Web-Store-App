@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from main.models import Category
+from main.models import Category, Order, ProductOrder
 from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
@@ -23,8 +23,15 @@ class RegistrationView(View):
         last_name = request.POST.get('last_name')
         password = request.POST.get('password')
         email = request.POST.get('email')
+        address = ""
+        if request.POST.get('address'):
+            address = request.POST.get('address')
+        phone_number = 0
+        if request.POST.get('phone_number'):
+            phone_number = request.POST.get('phone_number')
         user = WebsiteUser.objects.create(username=username, first_name=first_name,
-                            last_name=last_name, email=email)
+                            last_name=last_name, email=email,
+                                          phone_number=phone_number, address=address)
         user.set_password(password)
         user.save()
         return redirect('/users/login/')
@@ -178,3 +185,21 @@ class PasswordResetView(View):
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
                                                                  'error_text': "Something went wrong"})
+
+
+class UserPanelOrdersView(View):
+    def get(self, request, user_id):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        user = WebsiteUser.objects.get(id=user_id)
+        orders = Order.objects.filter(user_id=user_id)
+        product_orders = ProductOrder.objects.filter(user_id=user_id)
+        return render(request, 'users/userpanel_orders.html', {'stringed_instruments': stringed_instruments,
+                                                                 'keyboard_instruments': keyboard_instruments,
+                                                                 'drums': drums,
+                                                                 'sound_system': sound_system,
+                                                                 'user': user,
+                                                                 'orders': orders,
+                                                                 'product_orders': product_orders})

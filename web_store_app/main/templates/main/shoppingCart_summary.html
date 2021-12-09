@@ -8,9 +8,11 @@
     {%endfor%}
 </ul>
 
-Summary: <b>{{products_summary}}$</b><br><br>
-Shipping type: <b>{{order.get_shipping_type_display}}</b><br><br>
+Shipping type: <b>{{order.get_shipping_type_display}}{%if order.shipping_type == 2%}(+15$){%endif%}</b><br><br>
+Address: <b>{{order.address}}</b><br><br>
+Phone number: <b>{{order.phone_number}}</b><br><br>
 Payment type: <b>{{order.get_payment_type_display}}</b><br><br>
+Summary: <b>{{products_summary}}$</b><br><br>
 <form method="post">
     {%csrf_token%}
     <input type="submit" value="Finish order & buy">

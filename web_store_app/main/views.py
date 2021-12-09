@@ -14,9 +14,10 @@ class HomePageView(View):
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
         all_categories = SubCategory.objects.all()
-        bestsellers = Product.objects.filter(is_bestseller=True)[0:3]
+        bestsellers_len = len(Product.objects.filter(is_bestseller=True))
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating').order_by('-rating')[0:3]
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today())[0:3]
+                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
         return render(request, 'main/base.html', {'stringed_instruments': stringed_instruments,
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
@@ -32,9 +33,9 @@ class HomePageView(View):
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
         all_categories = SubCategory.objects.all()
-        bestsellers = Product.objects.filter(is_bestseller=True)[0:3]
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today())[0:3]
+                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
@@ -132,6 +133,8 @@ class ShoppingCartCheckoutView(View):
                                                           'products_summary': products_summary})
     def post(self, request, user_id):
         post_shipping_type = request.POST.get('shipping_type')
+        phone_number = request.POST.get('phone_number')
+        address = request.POST.get('address')
         shipping_type = 1
         if post_shipping_type == 'pickup_in_person':
             shipping_type = 1
@@ -148,7 +151,7 @@ class ShoppingCartCheckoutView(View):
             quantity = product_quantity.quantity
         product = Product.objects.get(id=product_id)
         user = WebsiteUser.objects.get(id=user_id)
-        order = Order.objects.create(shipping_type=shipping_type, user=user)
+        order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number, address=address)
 
         ProductOrder.objects.create(order=order, product=product, quantity=quantity, user_id=user_id)
 
@@ -171,6 +174,11 @@ class ShoppingCartPaymentView(View):
         shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
         products_summary = sum(product.product.price*product.quantity for product in shopping_cart_list)
         order = Order.objects.get(id=order_id)
+        if order.shipping_type == 2:
+            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)-15
+        else:
+            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+
         return render(request, 'main/shoppingCart_payment.html', {'stringed_instruments': stringed_instruments,
                                                           'keyboard_instruments': keyboard_instruments,
                                                           'drums': drums,
@@ -204,6 +212,10 @@ class ShoppingCartSummaryView(View):
         shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
         products_summary = sum(product.product.price*product.quantity for product in shopping_cart_list)
         order = Order.objects.get(id=order_id)
+        if order.shipping_type == 2:
+            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)+15
+        else:
+            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
         return render(request, 'main/shoppingCart_summary.html', {'stringed_instruments': stringed_instruments,
                                                           'keyboard_instruments': keyboard_instruments,
                                                           'drums': drums,
