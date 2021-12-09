@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main.views import HomePageView, CategoryDetailsView, SubCategoryView, ContactView, ShoppingCartView
+from main.views import HomePageView, CategoryDetailsView, SubCategoryView, \
+    ContactView, ShoppingCartView, ShoppingCartCheckoutView, ShoppingCartRemoveProductView
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, UserPanelEditView, PasswordResetView
 urlpatterns = [
@@ -30,6 +31,8 @@ urlpatterns = [
     path('users/panel/<int:user_id>/', UserPanelView.as_view()),
     path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),
     path('contact/', ContactView.as_view()),
-    path('shopping_cart/', ShoppingCartView.as_view()),
-    path('users/password_reset/', PasswordResetView.as_view())
+    path('shopping_cart/<int:user_id>/', ShoppingCartView.as_view()),
+    path('shopping_cart/<int:user_id>/checkout/', ShoppingCartCheckoutView.as_view()),
+    path('users/password_reset/', PasswordResetView.as_view()),
+    path('shopping_cart/remove/<int:user_id>/<int:product_id>/', ShoppingCartRemoveProductView.as_view())
 ]

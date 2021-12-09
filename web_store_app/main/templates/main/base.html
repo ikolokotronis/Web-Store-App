@@ -13,7 +13,7 @@
     <i>Logged in as {{user}}</i>
     <a href="/users/logout/">Logout</a>
     {%else%}
-    <i>Hello stranger</i>
+    <i>You're not logged in</i>
     <a href="/users/register/">Register/Login</a>
     {%endif%}
     </div>
@@ -31,7 +31,7 @@
 
         <div class="userManagementBox"><a href="/contact/">Contact</a></div>
 
-        <div class="userManagementBox"><a href="/shopping_cart/">Shopping Cart</a></div>
+        <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/">Shopping Cart</a></div>
 
 
     </div>

@@ -1,4 +1,15 @@
 {%extends 'main/base.html'%}
 {%block content%}
 <h3>Shopping cart</h3>
+<ul>
+    {%for product in shopping_cart_list%}
+    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x <b><a href="/shopping_cart/remove/{{user.id}}/{{product.product.id}}/">Remove product</a> </b></li>
+    {%endfor%}
+</ul>
+<form method="post">
+    {%csrf_token%}
+    <input type="submit" value="Clear cart">
+</form>
+Summary: <b>{{products_summary}}$</b><br><br>
+<a href="checkout/">Proceed to checkout</a>
 {%endblock%}

@@ -5,6 +5,13 @@ Product name: {{product}}<br>
 Price: {{product.price}}$<br>
 Rating: {{product.get_rating_display}}<br>
 Description: {{product.description}}<br>
-<br><br>
-<b><a href="">Add to shopping cart</a> </b>
+<br>
+
+<form method="post">
+{%csrf_token%}
+<input type="submit" value="Add to shopping cart">
+    <input type="number" name="quantity" value="1">
+    <input type="hidden" value="{{user.id}}" name="user_id">
+
+</form>
 {%endblock%}

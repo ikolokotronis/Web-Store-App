@@ -38,3 +38,21 @@ class ShoppingCart(models.Model):
 
     def __str__(self):
         return f'{self.user}, {self.product}, {self.quantity}'
+
+
+class Order(models.Model):
+    user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    datetime_ordered = models.DateTimeField()
+    delivery_choices = (
+        ('1', 'Pickup in person'),
+        ('2', 'Home shipping')
+    )
+    shipping_type = models.TextField(choices=delivery_choices)
+    payment_choices = (
+        ('1', 'Cash'),
+        ('2', 'Credit card'),
+        ('3', 'Bank transfer')
+    )
+    payment_type = models.TextField(choices=payment_choices, null=True)

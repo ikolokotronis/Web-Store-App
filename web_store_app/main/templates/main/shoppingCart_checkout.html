@@ -1,0 +1,21 @@
+{%extends 'main/base.html'%}
+{%block content%}
+<h3>Shopping cart</h3>
+<h4>Your chose these products: </h4>
+<ul>
+    {%for product in shopping_cart_list%}
+    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x</li>
+    {%endfor%}
+</ul>
+
+Summary: <b>{{products_summary}}$</b><br><br>
+
+<form method="post">
+    {%csrf_token%}
+    Delivery type:<br>
+    Pickup in person <input type="radio" value="pickup_in_person" name="shipping_type"><br>
+    Home shipping <input type="radio" value="home_shipping" name="shipping_type"><br><br>
+    <input type="submit" value="Proceed to payment information">
+</form>
+<br>
+{%endblock%}
