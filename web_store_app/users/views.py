@@ -164,5 +164,3 @@ class PasswordResetView(View):
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
                                                                  'error_text': "Something went wrong"})
-
-        return redirect(f'/users/edit/{user_id}')
