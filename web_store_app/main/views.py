@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order
+from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order, ProductOrder
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
@@ -132,7 +132,7 @@ class ShoppingCartCheckoutView(View):
                                                           'products_summary': products_summary})
     def post(self, request, user_id):
         post_shipping_type = request.POST.get('shipping_type')
-        shipping_type = 0
+        shipping_type = 1
         if post_shipping_type == 'pickup_in_person':
             shipping_type = 1
         elif post_shipping_type == 'home_shipping':
@@ -140,12 +140,18 @@ class ShoppingCartCheckoutView(View):
 
         shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
 
-        products = [product.product for product in shopping_cart_list]
-        quantity = [product.quantity for product in shopping_cart_list]
-        product = Product.objects.get(id=products.id)
+        product_id = 0
+        for product in shopping_cart_list:
+            product_id = product.product.id
+        quantity = 0
+        for product_quantity in shopping_cart_list:
+            quantity = product_quantity.quantity
+        product = Product.objects.get(id=product_id)
         user = WebsiteUser.objects.get(id=user_id)
-        Order.objects.create(quantity=quantity, shipping_type=shipping_type,
-                             product=product, user=user)
+        order = Order.objects.create(shipping_type=shipping_type, user=user)
+
+        ProductOrder.objects.create(order=order, product=product, quantity=quantity, user_id=user_id)
+
         return redirect('/')
 
 

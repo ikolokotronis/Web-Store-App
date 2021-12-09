@@ -40,19 +40,31 @@ class ShoppingCart(models.Model):
         return f'{self.user}, {self.product}, {self.quantity}'
 
 
-class Order(models.Model):
+class ProductOrder(models.Model):
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    datetime_ordered = models.DateTimeField()
+
+    def __str__(self):
+        return f'{self.user}, {self.product}, {self.order}'
+
+
+class Order(models.Model):
+    user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
+    product_ordered = models.ManyToManyField(Product, through=ProductOrder)
+    datetime_ordered = models.DateTimeField(auto_now_add=True)
     delivery_choices = (
-        ('1', 'Pickup in person'),
-        ('2', 'Home shipping')
+        (1, 'Pickup in person'),
+        (2, 'Home shipping')
     )
-    shipping_type = models.TextField(choices=delivery_choices)
+    shipping_type = models.IntegerField(choices=delivery_choices, default='1')
     payment_choices = (
-        ('1', 'Cash'),
-        ('2', 'Credit card'),
-        ('3', 'Bank transfer')
+        (1, 'Cash'),
+        (2, 'Credit card'),
+        (3, 'Bank transfer')
     )
-    payment_type = models.TextField(choices=payment_choices, null=True)
+    payment_type = models.IntegerField(choices=payment_choices, null=True)
+
+    def __str__(self):
+        return f'{self.user}, {self.datetime_ordered}'
