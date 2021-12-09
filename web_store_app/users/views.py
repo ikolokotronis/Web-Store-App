@@ -112,14 +112,28 @@ class UserPanelEditView(View):
             phone_number = request.POST.get('phone_number')
             address = request.POST.get('address')
             user = WebsiteUser.objects.get(id=user_id)
+            if password is not "":
+                user.set_password(password)
+            else:
+                stringed_instruments = Category.objects.get(id=1)
+                keyboard_instruments = Category.objects.get(id=2)
+                drums = Category.objects.get(id=3)
+                sound_system = Category.objects.get(id=4)
+                user = WebsiteUser.objects.get(id=user_id)
+                return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
+                                                                     'keyboard_instruments': keyboard_instruments,
+                                                                     'drums': drums,
+                                                                     'sound_system': sound_system,
+                                                                     'user': user,
+                                                                     'error_text': 'You have to type a password'})
             user.username = username
             user.first_name = first_name
             user.last_name = last_name
-            user.set_password(password)
             user.email = email
             user.phone_number = phone_number
             user.address = address
             user.save()
+            return redirect('/users/login/')
         except Exception:
             stringed_instruments = Category.objects.get(id=1)
             keyboard_instruments = Category.objects.get(id=2)
@@ -153,7 +167,7 @@ class PasswordResetView(View):
             user = WebsiteUser.objects.get(email=email)
             user.set_password(password)
             user.save()
-            return redirect('/')
+            return redirect('/users/login/')
         except Exception:
             stringed_instruments = Category.objects.get(id=1)
             keyboard_instruments = Category.objects.get(id=2)
