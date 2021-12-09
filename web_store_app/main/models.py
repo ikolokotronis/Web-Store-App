@@ -54,6 +54,13 @@ class Order(models.Model):
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     product_ordered = models.ManyToManyField(Product, through=ProductOrder)
     datetime_ordered = models.DateTimeField(auto_now_add=True)
+    status_choices = (
+        (1, 'Information about the order received'),
+        (2, 'Order packaging in progress'),
+        (3, 'Order sent to customer'),
+        (4, "Order finished")
+    )
+    status = models.IntegerField(choices=status_choices, null=True, default=1)
     delivery_choices = (
         (1, 'Pickup in person'),
         (2, 'Home shipping')
