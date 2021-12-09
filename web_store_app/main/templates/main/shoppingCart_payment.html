@@ -1,0 +1,22 @@
+{%extends 'main/base.html'%}
+{%block content%}
+<h3>Shopping cart</h3>
+<!--<h4>Your chose these products: </h4>-->
+<!--<ul>-->
+<!--    {%for product in shopping_cart_list%}-->
+<!--    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x</li>-->
+<!--    {%endfor%}-->
+<!--</ul>-->
+
+<!--Summary: <b>{{products_summary}}$</b><br><br>-->
+Shipping type: <b>{{order.get_shipping_type_display}}</b><br><br>
+<form method="post">
+    {%csrf_token%}
+    Payment type:<br>
+    Cash <input type="radio" value="cash" name="payment_type"><br>
+    Credit card <input type="radio" value="credit_card" name="payment_type"><br>
+    Bank transfer <input type="radio" value="bank_transfer" name="payment_type"><br><br>
+    <input type="submit" value="Proceed to order summary">
+</form>
+<br>
+{%endblock%}

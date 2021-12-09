@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from main.views import HomePageView, CategoryDetailsView, SubCategoryView, \
-    ContactView, ShoppingCartView, ShoppingCartCheckoutView, ShoppingCartRemoveProductView
+    ContactView, ShoppingCartView, ShoppingCartCheckoutView, ShoppingCartRemoveProductView, ShoppingCartPaymentView
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, UserPanelEditView, PasswordResetView
 urlpatterns = [
@@ -34,5 +34,6 @@ urlpatterns = [
     path('shopping_cart/<int:user_id>/', ShoppingCartView.as_view()),
     path('shopping_cart/<int:user_id>/checkout/', ShoppingCartCheckoutView.as_view()),
     path('users/password_reset/', PasswordResetView.as_view()),
-    path('shopping_cart/remove/<int:user_id>/<int:product_id>/', ShoppingCartRemoveProductView.as_view())
+    path('shopping_cart/remove/<int:user_id>/<int:product_id>/', ShoppingCartRemoveProductView.as_view()),
+    path('shopping_cart/<int:user_id>/<int:order_id>/payment/', ShoppingCartPaymentView.as_view())
 ]
