@@ -13,11 +13,13 @@ class ProductView(View):
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
         product = Product.objects.get(id=product_id)
+        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'product/product_details.html', {'stringed_instruments': stringed_instruments,
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
                                                   'sound_system': sound_system,
-                                                  'product': product}
+                                                  'product': product,
+                                                                'shopping_cart_list': shopping_cart}
                       )
 
     def post(self, request, product_id):
@@ -29,11 +31,13 @@ class ProductView(View):
         quantity = request.POST.get('quantity')
         product = Product.objects.get(id=product_id)
         user = WebsiteUser.objects.get(id=user_id)
-
+        shopping_cart = ShoppingCart.objects.all()
         ShoppingCart.objects.create(product=product, user=user, quantity=quantity)
         return render(request, 'product/product_details.html', {'stringed_instruments': stringed_instruments,
                                                                 'keyboard_instruments': keyboard_instruments,
                                                                 'drums': drums,
                                                                 'sound_system': sound_system,
-                                                                'product': product}
+                                                                'product': product,
+                                                                'success_text': 'Product added to cart',
+                                                                'shopping_cart_list': shopping_cart}
                       )

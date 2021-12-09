@@ -6,10 +6,14 @@
     <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x <b><a href="/shopping_cart/remove/{{user.id}}/{{product.product.id}}/">Remove product</a> </b></li>
     {%endfor%}
 </ul>
+{%if shopping_cart_list|length is not 0%}
 <form method="post">
     {%csrf_token%}
     <input type="submit" value="Clear cart">
 </form>
 Summary: <b>{{products_summary}}$</b><br><br>
 <a href="checkout/">Proceed to checkout</a>
+{%else%}
+<b>Add products to your cart!</b>
+{%endif%}
 {%endblock%}

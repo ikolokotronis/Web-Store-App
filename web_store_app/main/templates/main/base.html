@@ -31,7 +31,10 @@
 
         <div class="userManagementBox"><a href="/contact/">Contact</a></div>
 
-        <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/">Shopping Cart</a></div>
+        <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/">Shopping Cart</a>
+            {%if shopping_cart_list|length is not 0%}
+            <span style="color: darkolivegreen">{{shopping_cart_list|length}}</span>
+            {%endif%}</div>
 
 
     </div>
