@@ -154,7 +154,7 @@ class PasswordResetView(View):
             user.set_password(password)
             user.save()
             return redirect('/')
-        except ZeroDivisionError:
+        except Exception:
             stringed_instruments = Category.objects.get(id=1)
             keyboard_instruments = Category.objects.get(id=2)
             drums = Category.objects.get(id=3)

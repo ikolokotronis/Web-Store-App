@@ -24,18 +24,18 @@ from users.views import RegistrationView, LoginView, LogoutView, UserPanelView, 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
+    path('contact/', ContactView.as_view()),
     path('product/<int:product_id>/', ProductView.as_view()),
     path('category/<int:category_id>/', CategoryDetailsView.as_view()),
     path('subcategory/<int:subcategory_id>/', SubCategoryView.as_view()),
     path('users/register/', RegistrationView.as_view()),
-    path('users/login/', LoginView.as_view()),  #do zmiany na user tak jak pozostałe
-    path('users/logout/', LogoutView.as_view()),
-    path('users/panel/<int:user_id>/', UserPanelView.as_view()),
-    path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),
-    path('contact/', ContactView.as_view()),
+    path('users/login/', LoginView.as_view()),  #do zmiany na user
+    path('users/logout/', LogoutView.as_view()), #do zmiany na user
+    path('users/panel/<int:user_id>/', UserPanelView.as_view()), #do zmiany na user
+    path('users/edit/<int:user_id>/', UserPanelEditView.as_view()), #do zmiany na user
+    path('users/password_reset/', PasswordResetView.as_view()), #do zmiany na user
     path('shopping_cart/<int:user_id>/', ShoppingCartView.as_view()),
     path('shopping_cart/<int:user_id>/checkout/', ShoppingCartCheckoutView.as_view()),
-    path('users/password_reset/', PasswordResetView.as_view()),
     path('shopping_cart/remove/<int:user_id>/<int:product_id>/', ShoppingCartRemoveProductView.as_view()),
     path('shopping_cart/<int:user_id>/<int:order_id>/payment/', ShoppingCartPaymentView.as_view()),
     path('shopping_cart/<int:user_id>/<int:order_id>/summary/', ShoppingCartSummaryView.as_view()),
