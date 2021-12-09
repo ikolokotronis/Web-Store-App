@@ -157,7 +157,7 @@ class ShoppingCartCheckoutView(View):
 
 class ShoppingCartRemoveProductView(View):
     def get(self, request, user_id, product_id):
-        cart_item = ShoppingCart.objects.get(user_id=user_id, product_id=product_id)
+        cart_item = ShoppingCart.objects.filter(user_id=user_id, product_id=product_id)[0]
         cart_item.delete()
         return redirect(f'/shopping_cart/{user_id}/')
 
@@ -193,3 +193,37 @@ class ShoppingCartPaymentView(View):
         order.payment_type = payment_type
         order.save()
         return redirect(f'/shopping_cart/{user_id}/{order_id}/summary/')
+
+
+class ShoppingCartSummaryView(View):
+    def get(self, request, user_id, order_id):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
+        products_summary = sum(product.product.price*product.quantity for product in shopping_cart_list)
+        order = Order.objects.get(id=order_id)
+        return render(request, 'main/shoppingCart_summary.html', {'stringed_instruments': stringed_instruments,
+                                                          'keyboard_instruments': keyboard_instruments,
+                                                          'drums': drums,
+                                                          'sound_system': sound_system,
+                                                          'shopping_cart_list': shopping_cart_list,
+                                                          'products_summary': products_summary,
+                                                          'order': order})
+    def post(self, request, user_id, order_id):
+        return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')
+
+
+class ShoppingCartSuccessView(View):
+    def get(self, request, user_id, order_id):
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        shopping_cart = ShoppingCart.objects.filter(user_id=user_id)
+        shopping_cart.delete()
+        return render(request, 'main/shoppingCart_success.html', {'stringed_instruments': stringed_instruments,
+                                                          'keyboard_instruments': keyboard_instruments,
+                                                          'drums': drums,
+                                                          'sound_system': sound_system})

@@ -1,0 +1,19 @@
+{%extends 'main/base.html'%}
+{%block content%}
+<h3>Shopping cart</h3>
+<h4>You are buying these products: </h4>
+<ul>
+    {%for product in shopping_cart_list%}
+    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x</li>
+    {%endfor%}
+</ul>
+
+Summary: <b>{{products_summary}}$</b><br><br>
+Shipping type: <b>{{order.get_shipping_type_display}}</b><br><br>
+Payment type: <b>{{order.get_payment_type_display}}</b><br><br>
+<form method="post">
+    {%csrf_token%}
+    <input type="submit" value="Finish order & buy">
+</form>
+<br>
+{%endblock%}
