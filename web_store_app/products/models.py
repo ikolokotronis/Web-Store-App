@@ -1,8 +1,14 @@
 from django.db import models
 
-import main.models
-
 # Create your models here.
+
+
+class SubCategoryProduct(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    subcategory = models.ForeignKey('main.SubCategory', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{str(self.subcategory)} --> {self.product}'
 
 
 class Product(models.Model):
@@ -26,7 +32,7 @@ class Product(models.Model):
 
     date_added = models.DateField(auto_now_add=True)
 
-    subcategory_id = models.ForeignKey("main.SubCategory", on_delete=models.CASCADE, null=True)
+    subcategory_id = models.ManyToManyField('main.SubCategory', through=SubCategoryProduct)
 
     def __str__(self):
         return self.name

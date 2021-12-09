@@ -1,12 +1,13 @@
 {%extends 'main/base.html'%}
 {%block content%}
-<b>{{product.subcategory_id}}</b><br><br>
+<b>{{subcategory.subcategory.name}}</b><br><br>
 Product name: {{product}}<br>
 Price: {{product.price}}$<br>
 Rating: {{product.get_rating_display}}<br>
 Description: {{product.description}}<br>
 <br>
 <b>{{success_text}}</b><br>
+{%if user.is_authenticated%}
 <form method="post">
 {%csrf_token%}
 <input type="submit" value="Add to cart">
@@ -14,4 +15,7 @@ Description: {{product.description}}<br>
     <input type="hidden" value="{{user.id}}" name="user_id">
 
 </form>
+{%else%}
+<a href="/users/login/">Login to add this product to cart</a>
+{%endif%}
 {%endblock%}
