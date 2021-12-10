@@ -33,7 +33,7 @@ class HomePageView(View):
         if request.COOKIES.get(f'welcome{request.user.id}'):
             welcome_text = ', welcome back!'
         else:
-            response.set_cookie(key=f'welcome{request.user.id}', value='Welcome', max_age=36000)
+            response.set_cookie(key=f'welcome{request.user.id}', value='Welcome', max_age=86400)
             return response
         return render(request, 'main/base.html', {'stringed_instruments': stringed_instruments,
                                                   'keyboard_instruments': keyboard_instruments,
