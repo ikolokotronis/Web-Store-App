@@ -15,7 +15,8 @@ Shipping type: <b>{{order.get_shipping_type_display}}</b><br><br>
     Payment type:<br>
     Cash <input type="radio" value="cash" name="payment_type"><br>
     Credit card <input type="radio" value="credit_card" name="payment_type"><br>
-    Bank transfer <input type="radio" value="bank_transfer" name="payment_type"><br><br>
+    Bank transfer <input type="radio" value="bank_transfer" name="payment_type"><br>
+    Wallet ({%if user.wallet > 0%}{{user.wallet}}${%else%}Your wallet is empty!{%endif%}) <input type="radio" value="wallet" name="payment_type"><br><br>
     <input type="submit" value="Proceed to order summary">
 </form>
 <br>

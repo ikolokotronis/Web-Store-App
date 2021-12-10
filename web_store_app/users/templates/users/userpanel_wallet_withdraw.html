@@ -1,0 +1,10 @@
+{%extends 'main/base.html'%}
+{%block content%}
+<h3>Withdraw from your wallet {{user}}</h3> <h4>{{error_text}}</h4>
+Current amount: <b>{{wallet}}$</b>
+<form method="post">
+    {%csrf_token%}<br>
+    Amount: <input type="number" name="amount"><br><br>
+    <input type="submit" value="Withdraw">
+</form>
+{%endblock%}

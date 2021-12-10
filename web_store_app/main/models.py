@@ -70,7 +70,8 @@ class Order(models.Model):
     payment_choices = (
         (1, 'Cash'),
         (2, 'Credit card'),
-        (3, 'Bank transfer')
+        (3, 'Bank transfer'),
+        (4, 'Wallet')
     )
     payment_type = models.IntegerField(choices=payment_choices, null=True)
     address = models.CharField(max_length=250, null=True)

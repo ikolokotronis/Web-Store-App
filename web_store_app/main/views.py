@@ -241,6 +241,8 @@ class ShoppingCartPaymentView(View):
             payment_type = 2
         elif post_payment_type == 'bank_transfer':
             payment_type = 3
+        elif post_payment_type == 'wallet':
+            payment_type = 4
 
         order = Order.objects.get(id=order_id)
         order.payment_type = payment_type
@@ -272,7 +274,35 @@ class ShoppingCartSummaryView(View):
         order = Order.objects.get(id=order_id)
         order.amount_paid = request.POST.get('amount_paid')
         order.save()
-        return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')
+        if order.payment_type == 4:
+            user = WebsiteUser.objects.get(id=user_id)
+            user.wallet -= int(request.POST.get('amount_paid'))
+            if user.wallet < 0:
+                stringed_instruments = Category.objects.get(id=1)
+                keyboard_instruments = Category.objects.get(id=2)
+                drums = Category.objects.get(id=3)
+                sound_system = Category.objects.get(id=4)
+                shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
+                products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+                order = Order.objects.get(id=order_id)
+                if order.shipping_type == 2:
+                    products_summary = sum(
+                        product.product.price * product.quantity for product in shopping_cart_list) + 15
+                else:
+                    products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+                return render(request, 'main/shoppingCart_summary.html', {'stringed_instruments': stringed_instruments,
+                                                                          'keyboard_instruments': keyboard_instruments,
+                                                                          'drums': drums,
+                                                                          'sound_system': sound_system,
+                                                                          'shopping_cart_list': shopping_cart_list,
+                                                                          'products_summary': products_summary,
+                                                                          'order': order,
+                                                                          'error_text': 'You dont have enough money in your wallet to buy this product!'})
+            else:
+                user.save()
+                return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')
+        else:
+            return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')
 
 
 class ShoppingCartSuccessView(View):

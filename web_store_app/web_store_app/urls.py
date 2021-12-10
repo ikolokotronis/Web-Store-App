@@ -21,7 +21,8 @@ from main.views import HomePageView, CategoryDetailsView, SubCategoryView, \
     ShoppingCartSuccessView
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, \
-    UserPanelView, UserPanelEditView, PasswordResetView, UserPanelOrdersView
+    UserPanelView, UserPanelEditView, PasswordResetView, UserPanelOrdersView, \
+    UserPanelWalletRefillView, UserPanelWalletWithdrawView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
@@ -36,10 +37,12 @@ urlpatterns = [
     path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),#do zmiany na user
     path('users/panel/orders/<int:user_id>/', UserPanelOrdersView.as_view()),
     path('users/password_reset/', PasswordResetView.as_view()), #do zmiany na user
+    path('users/wallet/<int:user_id>/refill/', UserPanelWalletRefillView.as_view()),
+    path('users/wallet/<int:user_id>/withdraw/', UserPanelWalletWithdrawView.as_view()),
     path('shopping_cart/<int:user_id>/', ShoppingCartView.as_view()),
     path('shopping_cart/<int:user_id>/checkout/', ShoppingCartCheckoutView.as_view()),
     path('shopping_cart/remove/<int:user_id>/<int:product_id>/', ShoppingCartRemoveProductView.as_view()),
     path('shopping_cart/<int:user_id>/<int:order_id>/payment/', ShoppingCartPaymentView.as_view()),
     path('shopping_cart/<int:user_id>/<int:order_id>/summary/', ShoppingCartSummaryView.as_view()),
-    path('shopping_cart/<int:user_id>/<int:order_id>/success/', ShoppingCartSuccessView.as_view())
+    path('shopping_cart/<int:user_id>/<int:order_id>/success/', ShoppingCartSuccessView.as_view()),
 ]
