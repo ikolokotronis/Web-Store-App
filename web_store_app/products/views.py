@@ -34,7 +34,7 @@ class ProductView(View):
         if request.COOKIES.get('last_viewed_product_id'):
             last_viewed_product = request.COOKIES.get('last_viewed_product_id')
         else:
-            response.set_cookie(key='last_viewed_product_id', value=product_id, max_age=10)
+            response.set_cookie(key='last_viewed_product_id', value=product_id, max_age=30)
             last_viewed_product = request.COOKIES.get('last_viewed_product_id')
             return response
         return render(request, 'product/product_details.html', {'stringed_instruments': stringed_instruments,
