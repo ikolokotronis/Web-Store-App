@@ -9,6 +9,7 @@ from users.models import WebsiteUser
 
 class HomePageView(View):
     def get(self, request):
+        welcome_text = ', welcome!'
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
@@ -19,6 +20,21 @@ class HomePageView(View):
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                                 date_added__lte=date.today()).order_by('-date_added')[0:3]
         shopping_cart = ShoppingCart.objects.all()
+        response = render(request, 'main/base.html', {'stringed_instruments': stringed_instruments,
+                                                  'keyboard_instruments': keyboard_instruments,
+                                                  'drums': drums,
+                                                  'sound_system': sound_system,
+                                                  'bestsellers': bestsellers,
+                                                  'added_recently': added_recently,
+                                                  'all_categories': all_categories,
+                                                  'shopping_cart_list': shopping_cart,
+                                                      'welcome_text': welcome_text}
+                      )
+        if request.COOKIES.get(f'welcome{request.user.id}'):
+            welcome_text = ', welcome back!'
+        else:
+            response.set_cookie(key=f'welcome{request.user.id}', value='Welcome', max_age=36000)
+            return response
         return render(request, 'main/base.html', {'stringed_instruments': stringed_instruments,
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
@@ -26,7 +42,8 @@ class HomePageView(View):
                                                   'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
-                                                  'shopping_cart_list': shopping_cart}
+                                                  'shopping_cart_list': shopping_cart,
+                                                  'welcome_text': welcome_text}
                       )
 
     def post(self, request):

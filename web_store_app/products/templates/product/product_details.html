@@ -14,7 +14,10 @@ Description: {{product.description}}<br>
     <input style="width: 25px" type="number" name="quantity" value="1">
     <input type="hidden" value="{{user.id}}" name="user_id">
 
-</form>
+</form><br>
+{%if last_viewed_product_id%}
+<a href="/product/{{last_viewed_product_id}}/">Last viewed product</a>
+{%endif%}
 {%else%}
 <a href="/users/login/">Login to add this product to cart</a>
 {%endif%}

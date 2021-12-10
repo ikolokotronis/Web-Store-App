@@ -10,7 +10,7 @@
 <div id="main">
     <div id="user_banner">
     {%if user.is_authenticated%}
-    <i>Logged in as {{user}}</i>
+    <i>Logged in as {{user}}{{welcome_text}}</i>
     <a href="/users/logout/">Logout</a>
     {%else%}
     <i>You're not logged in</i>
