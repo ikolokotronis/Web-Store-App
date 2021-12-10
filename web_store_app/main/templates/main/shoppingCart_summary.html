@@ -20,6 +20,7 @@ Summary: <b>{{products_summary}}$</b><br><br>
 <form method="post">
     {%csrf_token%}
     <input type="submit" value="Finish order & buy">
+    <input type="hidden" value="{{products_summary}}" name="amount_paid">
 </form>
 <br>
 {%endblock%}

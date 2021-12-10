@@ -10,7 +10,8 @@ Status: {{order.get_status_display}}<br><br>
 Shipping: {{order.get_shipping_type_display}}<br><br>
 Address: {{order.address}}<br><br>
 Phone number: {{order.phone_number}}<br><br>
-Payment method: {{order.get_payment_type_display}}<br><br><br>--------<br><br><br>
+Payment method: {{order.get_payment_type_display}}<br><br>
+Amount paid: {{order.amount_paid}}$<br><br><br>--------<br><br><br>
 {%endfor%}<br><br>
 <div class="userPanel_button"><a href="/users/panel/{{user.id}}/">Go back</a></div>
 {%endblock%}

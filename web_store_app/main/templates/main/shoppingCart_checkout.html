@@ -16,7 +16,6 @@
     {%endfor%}
 </ul>
 Summary: <b>{{products_summary}}$</b><br><br>
-
 <form method="post">
     {%csrf_token%}
     Delivery type*:<br>
@@ -26,5 +25,6 @@ Summary: <b>{{products_summary}}$</b><br><br>
     Phone number*: <input type="text" value="{{user.phone_number}}" name="phone_number"><br><br>
     <input type="submit" value="Proceed to payment information">
 </form>
+<b>{{error_text}}</b>
 <br>
 {%endblock%}

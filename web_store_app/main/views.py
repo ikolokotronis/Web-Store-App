@@ -165,6 +165,20 @@ class ShoppingCartCheckoutView(View):
     def post(self, request, user_id):
         post_shipping_type = request.POST.get('shipping_type')
         phone_number = request.POST.get('phone_number')
+        if len(phone_number) > 9:
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
+            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+            return render(request, 'main/shoppingCart_checkout.html', {'stringed_instruments': stringed_instruments,
+                                                                       'keyboard_instruments': keyboard_instruments,
+                                                                       'drums': drums,
+                                                                       'sound_system': sound_system,
+                                                                       'shopping_cart_list': shopping_cart_list,
+                                                                       'products_summary': products_summary,
+                                                                       'error_text': 'Phone number can not have more than 9 digits'})
         address = request.POST.get('address')
         shipping_type = 1
         if post_shipping_type == 'pickup_in_person':
@@ -255,6 +269,9 @@ class ShoppingCartSummaryView(View):
                                                           'products_summary': products_summary,
                                                           'order': order})
     def post(self, request, user_id, order_id):
+        order = Order.objects.get(id=order_id)
+        order.amount_paid = request.POST.get('amount_paid')
+        order.save()
         return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')
 
 
