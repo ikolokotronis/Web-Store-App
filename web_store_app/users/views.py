@@ -85,26 +85,34 @@ class LogoutView(View):
 
 class UserPanelView(View):
     def get(self, request, user_id):
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        user = WebsiteUser.objects.get(id=user_id)
-        return render(request, 'users/userpanel.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                                 'user':user})
+        logged_user_id = request.user.id
+        if user_id != logged_user_id:
+             return redirect(f'/users/panel/{request.user.id}/')
+        else:
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            user = WebsiteUser.objects.get(id=user_id)
+            return render(request, 'users/userpanel.html', {'stringed_instruments': stringed_instruments,
+                                                        'keyboard_instruments': keyboard_instruments,
+                                                        'drums': drums,
+                                                        'sound_system': sound_system,
+                                                        'user': user})
 
 
 class UserPanelEditView(View):
     def get(self, request, user_id):
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        user = WebsiteUser.objects.get(id=user_id)
-        return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
+        logged_user_id = request.user.id
+        if user_id != logged_user_id:
+            return redirect(f'/users/edit/{request.user.id}/')
+        else:
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            user = WebsiteUser.objects.get(id=user_id)
+            return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
                                                                  'keyboard_instruments': keyboard_instruments,
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
@@ -189,17 +197,21 @@ class PasswordResetView(View):
 
 class UserPanelOrdersView(View):
     def get(self, request, user_id):
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        user = WebsiteUser.objects.get(id=user_id)
-        orders = Order.objects.filter(user_id=user_id)
-        product_orders = ProductOrder.objects.filter(user_id=user_id)
-        return render(request, 'users/userpanel_orders.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                                 'user': user,
-                                                                 'orders': orders,
-                                                                 'product_orders': product_orders})
+        logged_user_id = request.user.id
+        if user_id != logged_user_id:
+            return redirect(f'/users/panel/orders/{request.user.id}/')
+        else:
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            user = WebsiteUser.objects.get(id=user_id)
+            orders = Order.objects.filter(user_id=user_id)
+            product_orders = ProductOrder.objects.filter(user_id=user_id)
+            return render(request, 'users/userpanel_orders.html', {'stringed_instruments': stringed_instruments,
+                                                                   'keyboard_instruments': keyboard_instruments,
+                                                                   'drums': drums,
+                                                                   'sound_system': sound_system,
+                                                                   'user': user,
+                                                                   'orders': orders,
+                                                                   'product_orders': product_orders})
