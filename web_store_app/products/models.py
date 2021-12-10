@@ -34,5 +34,7 @@ class Product(models.Model):
 
     subcategory_id = models.ManyToManyField('main.SubCategory', through=SubCategoryProduct)
 
+    image = models.ImageField(upload_to='img', null=True)
+
     def __str__(self):
         return self.name

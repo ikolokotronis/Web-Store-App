@@ -8,7 +8,29 @@
 </head>
 <body>
 <div id="main">
-    <div id="user_banner">
+    <div class="header">
+        <h1><a href="/"><img src="{% static 'main/img/logo.jpg'%}"></a></h1>
+    </div>
+
+    <div class="userManagement">
+        <div class="userManagementBox"><a href="/"><img style="width: 32px; height: 32px" src="{% static 'main/img/home.png'%}"></a></div>
+{%if user.is_authenticated%}
+<div class="userManagementBox"><a href="/users/panel/{{user.id}}/"><img style="width: 32px; height: 30px" src="{% static 'main/img/user.png'%}"></a></div>
+    {%else%}
+<div class="userManagementBox"><a href="/users/register/"><img style="width: 32px; height: 30px" src="{% static 'main/img/user.png'%}"></a></div>
+    {%endif%}
+
+        <div class="userManagementBox"><a href="/contact/"><img style="width: 32px; height: 34px" src="{% static 'main/img/email.png'%}"></a></div>
+        {%if user.is_authenticated%}
+        <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/"><img style="width: 32px; height: 31px" src="{% static 'main/img/shopping-cart.png'%}"></a>
+            {%if shopping_cart_list|length is not 0%}
+            <span style="color: darkolivegreen">{{shopping_cart_list|length}}</span>
+            {%endif%}</div>
+        {%else%}
+        <div class="userManagementBox"><a href="/users/login/"><img style="width: 32px; height: 31px" src="{% static 'main/img/shopping-cart.png'%}"> </a></div>
+        {%endif%}
+
+<div id="user_banner">
     {%if user.is_authenticated%}
     <i>Logged in as {{user}}{{welcome_text}}</i>
     <a href="/users/logout/">Logout</a>
@@ -17,36 +39,14 @@
     <a href="/users/register/">Register/Login</a>
     {%endif%}
     </div>
-    <div class="header">
-        <h1><a href="/">Music store</a></h1>
-    </div>
-
-    <div class="userManagement">
-        <div class="userManagementBox"><a href="/">Home</a></div>
-{%if user.is_authenticated%}
-<div class="userManagementBox"><a href="/users/panel/{{user.id}}/">User</a></div>
-    {%else%}
-<div class="userManagementBox"><a href="/users/register/">User</a></div>
-    {%endif%}
-
-        <div class="userManagementBox"><a href="/contact/">Contact</a></div>
-        {%if user.is_authenticated%}
-        <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/">Shopping Cart</a>
-            {%if shopping_cart_list|length is not 0%}
-            <span style="color: darkolivegreen">{{shopping_cart_list|length}}</span>
-            {%endif%}</div>
-        {%else%}
-        <div class="userManagementBox"><a href="/users/login/">Shopping Cart</a></div>
-        {%endif%}
-
     </div>
 
     <div id="leftContainer">
         <div class="categories">
-            <div class="categoryBox"><a href="/category/{{stringed_instruments.id}}">{{stringed_instruments}}</a></div>
-            <div class="categoryBox"><a href="/category/{{keyboard_instruments.id}}">{{keyboard_instruments}}</a></div>
-            <div class="categoryBox"><a href="/category/{{drums.id}}">{{drums}}</a></div>
-            <div class="categoryBox"><a href="/category/{{sound_system.id}}">{{sound_system}}</a></div>
+            <div class="categoryBox"><a class="categoryLink" href="/category/{{stringed_instruments.id}}">{{stringed_instruments}}</a></div>
+            <div class="categoryBox"><a class="categoryLink" href="/category/{{keyboard_instruments.id}}">{{keyboard_instruments}}</a></div>
+            <div class="categoryBox"><a class="categoryLink" href="/category/{{drums.id}}">{{drums}}</a></div>
+            <div class="categoryBox"><a class="categoryLink" href="/category/{{sound_system.id}}">{{sound_system}}</a></div>
         </div>
 {%block content%}
 
@@ -62,7 +62,6 @@
             <div class="newProductBox"><a href="product/{{product.id}}/">{{product}}</a></div>
             {%endfor%}
 
-
         </div>
 
     </div>
@@ -72,7 +71,7 @@
         <div class="search">
             <form method="post">
                 {%csrf_token%}
-                Search here: <input type="text" name="key_word"><input type="submit" value="Search">
+                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
             </form>
         </div>
 

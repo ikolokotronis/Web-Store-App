@@ -1,5 +1,6 @@
 {%extends 'main/base.html'%}
 {%block content%}
+<img src="{{product.image.url}}">
 <b>{{subcategory.subcategory.name}}</b><br><br>
 Product name: {{product}}<br>
 Price: {{product.price}}$<br>
@@ -16,7 +17,7 @@ Description: {{product.description}}<br>
 
 </form><br>
 {%if last_viewed_product_id%}
-<a href="/product/{{last_viewed_product_id}}/">You recently viewed this product</a>
+<a href="/product/{{last_viewed_product_id}}/">You recently viewed <b>this</b> product</a>
 {%endif%}
 {%else%}
 <a href="/users/login/">Login to add this product to cart</a>
