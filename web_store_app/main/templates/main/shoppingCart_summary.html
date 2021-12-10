@@ -1,7 +1,11 @@
 {%extends 'main/base.html'%}
 {%block content%}
 <h3>Shopping cart</h3>
+{%if shopping_cart_list|length is 1%}
+<h4>You are buying this product: </h4>
+{%else%}
 <h4>You are buying these products: </h4>
+{%endif%}
 <ul>
     {%for product in shopping_cart_list%}
     <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x</li>

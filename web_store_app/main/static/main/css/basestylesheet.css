@@ -1,3 +1,8 @@
+html,body{
+  margin:0;
+  padding:0;
+}
+
 body{
     background-color: rgb(231, 228, 228);
 }
@@ -18,13 +23,12 @@ body{
 }
 
 .footer{
-    position:absolute;
-    bottom:0;
-    width:1300px;
-    height:120px;
-    background:#b5fbbd;
-    text-align: center;
-    border-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height:100px;
+    background:#ccc;
 }
 
 .userManagement{
