@@ -270,5 +270,27 @@ class UserPanelWalletWithdrawView(View):
         amount = request.POST.get('amount')
         user = WebsiteUser.objects.get(id=user_id)
         user.wallet -= int(amount)
-        user.save()
+        if user.wallet < 0:
+            stringed_instruments = Category.objects.get(id=1)
+            keyboard_instruments = Category.objects.get(id=2)
+            drums = Category.objects.get(id=3)
+            sound_system = Category.objects.get(id=4)
+            user = WebsiteUser.objects.get(id=user_id)
+            orders = Order.objects.filter(user_id=user_id)
+            product_orders = ProductOrder.objects.filter(user_id=user_id)
+            user = WebsiteUser.objects.get(id=user_id)
+            wallet = user.wallet
+
+            return render(request, 'users/userpanel_wallet_withdraw.html',
+                          {'stringed_instruments': stringed_instruments,
+                           'keyboard_instruments': keyboard_instruments,
+                           'drums': drums,
+                           'sound_system': sound_system,
+                           'user': user,
+                           'orders': orders,
+                           'product_orders': product_orders,
+                           'wallet': wallet,
+                           'error_text': f'You can only withdraw {user.wallet}$'})
+        else:
+            user.save()
         return redirect(f'/users/panel/{user_id}/')

@@ -297,7 +297,7 @@ class ShoppingCartSummaryView(View):
                                                                           'shopping_cart_list': shopping_cart_list,
                                                                           'products_summary': products_summary,
                                                                           'order': order,
-                                                                          'error_text': 'You dont have enough money in your wallet to buy this product!'})
+                                                                          'error_text': 'You dont have enough money in your wallet!'})
             else:
                 user.save()
                 return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')
