@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome!</title>
-    <link rel="stylesheet" href="{% static 'main/css/basestylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/base2stylesheet.css' %}">
 </head>
 <body>
 <div id="backgroundContainer">  </div>
@@ -29,8 +29,8 @@
             {%endif%}</div><br><br><br>
         {%else%}
         <div class="userManagementBox"><a href="/users/login/"><img style="width: 32px; height: 31px" src="{% static 'main/img/shopping-cart.png'%}"> </a></div><br><br><br>
-
         {%endif%}
+
 <div id="user_banner">
     {%if user.is_authenticated%}
     <i>Logged in as {{user}}{{welcome_text}}</i>
@@ -48,37 +48,15 @@
             <div class="categoryBox"><a class="categoryLink" href="/category/{{keyboard_instruments.id}}">{{keyboard_instruments}}</a></div>
             <div class="categoryBox"><a class="categoryLink" href="/category/{{drums.id}}">{{drums}}</a></div>
             <div class="categoryBox"><a class="categoryLink" href="/category/{{sound_system.id}}">{{sound_system}}</a></div>
-        </div>
-{%block content%}
-        <div class="ads"></div>
-        <div class="bestSellers">
-            {%for product in bestsellers%}
-            <div class="bestSellerBox">
-                <a href="product/{{product.id}}/">
-                <img class="bestsellerImg" height="150px" src="{{product.image.url}}"></a>
-                <div class="bestSellerInnerBox">
-                <a href="product/{{product.id}}/"><b>{{product}}</b></a>
-                </div>
-            </div>
-            {%endfor%}
-        </div>
-
-        <div class="newProducts">
-
-            {%for product in added_recently%}
-            <div class="newProductBox">
-                <a href="product/{{product.id}}/">
-                <img class="newProductImg" height="150px" src="{{product.image.url}}"></a>
-                <div class="newProductInnerBox">
-                <a href="product/{{product.id}}/"><b>{{product}}</b></a>
-                </div>
-            </div>
-            {%endfor%}
 
         </div>
+      <div class="detailsBox">
 
-    </div>
+        {%block content%}
 
+        {%endblock%}
+      </div>
+  </div>
     <div id="rightContainer">
 
         <div class="search">
@@ -88,20 +66,8 @@
             </form>
         </div>
 
-        <div class="categoriesUl">
-
-            <ul>
-                {%for category in all_categories%}
-                <li><a href="/subcategory/{{category.id}}">{{category}}</a></li>
-                {%endfor%}
-            </ul>
-
-        </div>
-
     </div>
-{%endblock%}
 </div>
 <div id="backgroundRightContainer">  </div>
-<div class="footer"></div>
 </body>
 </html>

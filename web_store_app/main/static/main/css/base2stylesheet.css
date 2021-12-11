@@ -24,11 +24,12 @@ body{
     position: absolute;
     left: 1645px;
 }
-#main{
+
+#main {
     width: 1300px;
     margin-left: auto;
     margin-right: auto;
-    background-color: white;
+    background-color: rgb(231, 228, 228);
 }
 
 .header{
@@ -41,11 +42,11 @@ body{
 
 .footer{
     position: absolute;
-    bottom: -4100px;
+    bottom: 0;
     left: 0;
     right: 0;
-    height:150px;
-    background-color: #EEECDE;
+    height:100px;
+    background:#ccc;
 }
 
 .userManagement{
@@ -100,8 +101,8 @@ a{
 }
 
 .ads{
-    background-color: white;
-    height: 300px;
+    background-color: skyblue;
+    height: 150px;
     text-align: center;
 }
 
@@ -115,55 +116,26 @@ a{
 .bestSellerBox{
     float: left;
     background-color: white;
-    width: 290px;
+    width: 222.5px;
     height: 250px;
     margin: 2px;
     border-radius: 15px;
-    border: 2px solid #ccc;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-.bestsellerImg{
-    top: 45px;
-    position: relative;
-}
-
-.bestSellerInnerBox{
-    position: relative;
-    top: 55px;
-}
-
-.newProductImg{
-    top: 45px;
-    position: relative;
-}
-
-.newProductInnerBox{
-    top: 55px;
-    position: relative;
 }
 
 .newProducts{
-    height: 250px;
+    height: 150px;
     background-color: white;
-    padding: 5px;
     text-align: center;
+    padding: 5px;
 }
 
 .newProductBox{
     float: left;
     background-color: white;
-    width: 290px;
-    height: 250px;
+    width: 222.5px;
+    height: 150px;
     margin: 2px;
-    border-radius: 15px;
-    border: 2px solid #ccc;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    border-radius: 20px;
 }
 #rightContainer{
     background-color: white;
