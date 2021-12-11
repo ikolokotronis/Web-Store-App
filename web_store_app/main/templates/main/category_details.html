@@ -1,11 +1,17 @@
 {%extends 'main/base2.html'%}
 {%block content%}
+<div class="detailsBox">
 <h3>{{parent_category.category}}</h3>
-<ul>
-    {%for subcategory in subcategories%}
+{%for subcategory in subcategories%}
+    <div class="subCategoryBox">
+                <a href="/subcategory/{{subcategory.id}}/">
+                    <img class="subCategoryImg" height="150px" src="{{subcategory.image.url}}">
+                </a>
+                <div class="subCategoryInnerBox">
+                <a href="/subcategory/{{subcategory.id}}/"><b>{{subcategory}}</b></a>
+                </div>
+            </div>
 
-    <li><a href="/subcategory/{{subcategory.id}}/">{{subcategory.name}}</a></li>
-
-    {%endfor%}
-</ul>
+{%endfor%}
+</div>
 {%endblock%}

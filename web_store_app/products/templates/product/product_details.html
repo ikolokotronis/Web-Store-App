@@ -1,13 +1,33 @@
 {%extends 'main/base2.html'%}
 {%block content%}
-<img src="{{product.image.url}}">
-<b>{{subcategory.subcategory.name}}</b><br><br>
-Product name: {{product}}<br>
-Price: {{product.price}}$<br>
-Rating: {{product.get_rating_display}}<br>
-Description: {{product.description}}<br>
-<br>
-<b>{{success_text}}</b><br>
+{%load static%}
+<div class="productDetailsBox">
+    <b>{{success_text}}</b><br>
+    <img src="{{product.image.url}}">
+    <div class="productInformationBox">
+        <span style="font-size: 30px"><b>{{product.producent_name|upper}}</b></span><br><br>
+        <span style="font-size: 50px"> {{product}}</span><br><br>
+        <div class="productDescriptionBox">
+            {{product.description}}
+        </div>
+        <span style="position: relative; top: 180px; right: 290px">
+            <span style="position: relative; top: 55px">
+                {%if product.rating == '1'%}
+                <img src="{% static 'products/img/1rating.png'%}">
+                {%elif product.rating == '2'%}
+                <img src="{% static 'products/img/2rating.png'%}">
+                {%elif product.rating == '3'%}
+                <img src="{% static 'products/img/3rating.png'%}">
+                {%elif product.rating == '4'%}
+                <img src="{% static 'products/img/4rating.png'%}">
+                {%elif product.rating == '5'%}
+                <img src="{% static 'products/img/5rating.png'%}">
+                {%endif%}
+            </span>
+        </span>
+        <br><br><br><br>
+<div class="productShoppingDetails">
+    <span style="font-size: 30px">Price: {{product.price}}$</span><br>
 {%if user.is_authenticated%}
 <form method="post">
 {%csrf_token%}
@@ -16,10 +36,14 @@ Description: {{product.description}}<br>
     <input type="hidden" value="{{user.id}}" name="user_id">
 
 </form><br>
-{%if last_viewed_product_id%}
-<a href="/product/{{last_viewed_product_id}}/">You recently viewed <b>this</b> product</a>
-{%endif%}
+
 {%else%}
 <a href="/users/login/">Login to add this product to cart</a>
 {%endif%}
+    </div>
+        </div>
+<!--    {%if last_viewed_product_id%}-->
+<!--    <a href="/product/{{last_viewed_product_id}}/">You recently viewed <b>this</b> product</a>-->
+<!--    {%endif%}-->
+    </div>
 {%endblock%}

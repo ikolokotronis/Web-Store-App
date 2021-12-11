@@ -171,3 +171,59 @@ a{
     -webkit-transition: width .4s ease-in-out;
     transition: width .4s ease-in-out;
 }
+
+.subCategoryBox{
+    float: left;
+    background-color: white;
+    width: 290px;
+    height: 250px;
+    margin: 2px;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.subCategoryImg{
+    top: 45px;
+    position: relative;
+}
+
+.subCategoryInnerBox{
+    position: relative;
+    top: 55px;
+}
+
+.detailsBox{
+    height: 250px;
+    background-color: white;
+    padding: 5px;
+    text-align: center;
+}
+
+
+.productInformationBox{
+    position: relative;
+    left: 350px;
+    bottom: 175px;
+}
+
+.productDescriptionBox{
+    float: left;
+    background-color: white;
+    width: 290px;
+    height: 250px;
+    margin: 2px;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.productShoppingDetails{
+    position: relative;
+    top: 230px;
+    left: 50px;
+}
