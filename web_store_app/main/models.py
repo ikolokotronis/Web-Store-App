@@ -26,6 +26,7 @@ class SubCategory(models.Model):
     name = models.CharField(max_length=500)
     description = models.TextField()
     category_id = models.ManyToManyField(Category, through=CategorySubCategory)
+    image = models.ImageField(upload_to='img', null=True)
 
     def __str__(self):
         return self.name

@@ -15,6 +15,8 @@ class Product(models.Model):
 
     name = models.CharField(max_length=500)
 
+    producent_name = models.CharField(max_length=250, null=True)
+
     price = models.IntegerField()
 
     description = models.TextField(null=True)
