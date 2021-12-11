@@ -22,7 +22,7 @@ body{
     height: 5000px;
     width: 275px;
     position: absolute;
-    left: 1645px;
+    left: 1630px;
 }
 
 #main {
@@ -42,11 +42,11 @@ body{
 
 .footer{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height:100px;
-    background:#ccc;
+    bottom: -4100px;
+    left: 275px;
+    right: 275px;
+    height:150px;
+    background-color: #EEECDE;
 }
 
 .userManagement{
