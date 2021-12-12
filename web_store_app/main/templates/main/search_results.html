@@ -1,5 +1,6 @@
 {%extends 'main/base.html'%}
 {%block content%}
+{%if product_results and category_results and subcategory_results%}
 <h4>Products found: </h4>
 <ul>
     {%for product in product_results%}
@@ -26,4 +27,38 @@
 
     {%endfor%}
 </ul>
+
+{%elif product_results%}
+<h4>Products found: </h4>
+<ul>
+    {%for product in product_results%}
+
+    <li><a href="/product/{{product.id}}/">{{product}}</a></li>
+
+    {%endfor%}
+</ul>
+
+{%elif category_results%}
+<h4>Categories found: </h4>
+<ul>
+    {%for category in category_results%}
+
+    <li><a href="/category/{{category.id}}/">{{category}}</a></li>
+
+    {%endfor%}
+</ul>
+
+{%elif subcategory_results%}
+<h4>Subcategories found: </h4>
+<ul>
+    {%for subcategory in subcategory_results%}
+
+    <li><a href="/subcategory/{{subcategory.id}}/">{{subcategory}}</a></li>
+
+    {%endfor%}
+</ul>
+
+{%else%}
+<h4>No results found</h4>
+{%endif%}
 {%endblock%}

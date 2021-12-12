@@ -3,8 +3,8 @@
 <h3>My orders</h3><br>
 {%for order in orders%}
 &nbsp;- Order nr <b>{{order.id}}</b><br><br>
-{%for product_order in product_orders%}
- {%if product_order.order.id == order.id%}Product bought: <a href="/product/{{product_order.product.id}}/">{{product_order.product}}</a>{%endif%}
+Products bought: {%for product_order in product_orders%}
+ {%if product_order.order.id == order.id%}<a href="/product/{{product_order.product.id}}/">{{product_order.product}}, </a>{%endif%}
 {%endfor%}<br><br>
 Status: {{order.get_status_display}}<br><br>
 Shipping: {{order.get_shipping_type_display}}<br><br>
