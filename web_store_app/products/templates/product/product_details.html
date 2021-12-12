@@ -5,7 +5,7 @@
     <b>{{success_text}}</b><br>
     <img src="{{product.image.url}}">
     <div class="productInformationBox">
-        <span style="font-size: 30px"><b>{{product.producent_name|upper}}</b></span><br><br>
+        <span style="font-size: 30px"><b><i>{{product.producent_name|upper}}</i></b></span><br><br>
         <span style="font-size: 50px"> {{product}}</span><br><br>
         <div class="productDescriptionBox">
             {{product.description}}
@@ -32,11 +32,9 @@
 <form method="post">
 {%csrf_token%}
 <input type="submit" value="Add to cart">
-    <input style="width: 25px" type="number" name="quantity" value="1">
+    <input style="width: 25px" type="number" name="quantity" value="1"><br>
     <input type="hidden" value="{{user.id}}" name="user_id">
-
 </form><br>
-
 {%else%}
 <a href="/users/login/">Login to add this product to cart</a>
 {%endif%}

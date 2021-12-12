@@ -9,6 +9,7 @@
 <body>
 <div id="backgroundContainer">  </div>
 <div id="main">
+
     <div class="header">
         <h1><a href="/"><img src="{% static 'main/img/logo.jpg'%}"></a></h1>
     </div>
@@ -44,14 +45,21 @@
 
     <div id="leftContainer">
         <div class="categories">
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{stringed_instruments.id}}">{{stringed_instruments}}</a></div>
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{keyboard_instruments.id}}">{{keyboard_instruments}}</a></div>
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{drums.id}}">{{drums}}</a></div>
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{sound_system.id}}">{{sound_system}}</a></div>
+            {%for category in all_categories%}
+            <div class="categoryBox"><a class="categoryLink" href="/category/{{category.id}}">{{category}}</a></div>
+            {%endfor%}
+
         </div>
+                <div class="search">
+            <form method="post">
+                {%csrf_token%}
+                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
+            </form>
+        </div><br>
 {%block content%}
         <div class="ads"></div>
         <div class="bestSellers">
+            <h1>BESTSELLERS</h1>
             {%for product in bestsellers%}
             <div class="bestSellerBox">
                 <a href="product/{{product.id}}/">
@@ -62,9 +70,8 @@
             </div>
             {%endfor%}
         </div>
-
-        <div class="newProducts">
-
+        <div class="newProducts"><br><br><br><br>
+            <h1>NEW PRODUCTS</h1>
             {%for product in added_recently%}
             <div class="newProductBox">
                 <a href="product/{{product.id}}/">
@@ -81,17 +88,17 @@
 
     <div id="rightContainer">
 
-        <div class="search">
-            <form method="post">
-                {%csrf_token%}
-                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
-            </form>
-        </div>
+<!--        <div class="search">-->
+<!--            <form method="post">-->
+<!--                {%csrf_token%}-->
+<!--                <input class="searchInput" placeholder="Search..." type="text" name="key_word">-->
+<!--            </form>-->
+<!--        </div>-->
 
         <div class="categoriesUl">
 
             <ul>
-                {%for category in all_categories%}
+                {%for category in all_subcategories%}
                 <li><a href="/subcategory/{{category.id}}">{{category}}</a></li>
                 {%endfor%}
             </ul>

@@ -44,12 +44,25 @@
 
     <div id="leftContainer">
         <div class="categories">
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{stringed_instruments.id}}">{{stringed_instruments}}</a></div>
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{keyboard_instruments.id}}">{{keyboard_instruments}}</a></div>
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{drums.id}}">{{drums}}</a></div>
-            <div class="categoryBox"><a class="categoryLink" href="/category/{{sound_system.id}}">{{sound_system}}</a></div>
-
+            {%for category in all_categories%}
+            <div class="categoryBox"><a class="categoryLink" href="/category/{{category.id}}">{{category}}</a></div>
+            {%endfor%}
         </div>
+        {%if product%}
+        <div style="display: none" class="search">
+            <form method="post">
+                {%csrf_token%}
+                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
+            </form>
+        </div>
+        {%else%}
+        <div class="search">
+            <form method="post">
+                {%csrf_token%}
+                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
+            </form>
+        </div>
+        {%endif%}
       <div class="detailsContainer">
 
         {%block content%}
@@ -58,12 +71,21 @@
       </div>
   </div>
     <div id="rightContainer">
-
-        <div class="search">
-            <form method="post">
-                {%csrf_token%}
-                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
-            </form>
+<!--        {%if product%}-->
+<!--        <div style="display: none" class="search">-->
+<!--            <form method="post">-->
+<!--                {%csrf_token%}-->
+<!--                <input class="searchInput" placeholder="Search..." type="text" name="key_word">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        {%else%}-->
+<!--        <div class="search">-->
+<!--            <form method="post">-->
+<!--                {%csrf_token%}-->
+<!--                <input class="searchInput" placeholder="Search..." type="text" name="key_word">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        {%endif%}-->
         </div>
 
     </div>

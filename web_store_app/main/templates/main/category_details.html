@@ -3,11 +3,11 @@
 <div class="detailsBox">
 <h3>{{parent_category.category}}</h3>
 {%for subcategory in subcategories%}
-    <div class="subCategoryBox">
+    <div class="borderBox">
                 <a href="/subcategory/{{subcategory.id}}/">
-                    <img class="subCategoryImg" height="150px" src="{{subcategory.image.url}}">
+                    <img class="borderImg" height="150px" src="{{subcategory.image.url}}">
                 </a>
-                <div class="subCategoryInnerBox">
+                <div class="borderInnerBox">
                 <a href="/subcategory/{{subcategory.id}}/"><b>{{subcategory}}</b></a>
                 </div>
             </div>

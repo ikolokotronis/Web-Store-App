@@ -2,12 +2,17 @@
 {%block content%}
 <div class="detailsBox">
 <h3>{{parent_category.subcategory}}</h3>
-<ul>
+
     {%for product in products%}
-
-    <li><a href="/product/{{product.id}}/">{{product}}</a></li>
-
+    <div class="borderBox">
+    <a href="/product/{{product.id}}/">
+                    <img class="borderImg" height="150px" src="{{product.image.url}}">
+                </a>
+                <div class="borderInnerBox">
+                <a href="/product/{{product.id}}/"><b>{{product}}</b></a>
+                </div>
+    </div>
     {%endfor%}
-</ul>
+
 </div>
 {%endblock%}

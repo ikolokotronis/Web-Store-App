@@ -67,7 +67,7 @@ body{
 
 #leftContainer{
     background-color: white;
-    width: 900px;
+    width: 950px;
     float: left;
     border-radius: 15px;
 }
@@ -141,15 +141,11 @@ a{
     background-color: white;
     width: 400px;
     float: left;
-    left: 5px;
+    left: 920px;
+    bottom: 324px;
     position: relative;
 }
 
-.search{
-    position: relative;
-    left: 245px;
-    background-color: white;
-}
 
 .categoriesUl{
     position: relative;
@@ -157,8 +153,15 @@ a{
     background-color: white;
 }
 
+.search{
+    position: relative;
+    top: 5px;
+    left: 30px;
+    background-color: white;
+}
+
 .searchInput{
-    width: 150px;
+    width: 890px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
@@ -172,7 +175,7 @@ a{
     transition: width .4s ease-in-out;
 }
 
-.subCategoryBox{
+.borderBox{
     float: left;
     background-color: white;
     width: 290px;
@@ -185,12 +188,12 @@ a{
     margin-right: auto;
 }
 
-.subCategoryImg{
+.borderImg{
     top: 45px;
     position: relative;
 }
 
-.subCategoryInnerBox{
+.borderInnerBox{
     position: relative;
     top: 55px;
 }

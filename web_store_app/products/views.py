@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from main.models import Category, ShoppingCart
+from main.models import Category, ShoppingCart, SubCategory
 from products.models import Product, SubCategoryProduct
 from users.models import WebsiteUser
 from django.http import HttpResponse
@@ -10,15 +10,12 @@ from django.http import HttpResponse
 class ProductView(View):
     def get(self, request, product_id):
         last_viewed_product = ""
-        # if request.session.get('last_viewed_product_id', False):
-        #     last_viewed_product = request.session.get('last_viewed_product_id')
-        # else:
-        #     request.session['last_viewed_product_id'] = product_id
-        #     last_viewed_product = request.session.get('last_viewed_product_id')
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         product = Product.objects.get(id=product_id)
         shopping_cart = ShoppingCart.objects.all()
         subcategory = SubCategoryProduct.objects.filter(product_id=product_id)[0]
@@ -29,7 +26,10 @@ class ProductView(View):
                                                   'product': product,
                                                                 'shopping_cart_list': shopping_cart,
                                                                 'subcategory': subcategory,
-                                                                'last_viewed_product_id': last_viewed_product}
+                                                                'last_viewed_product_id': last_viewed_product,
+                                                                    'all_categories': all_categories,
+                                                                    'all_subcategories': all_subcategories,
+                                                                    }
                       )
         if request.COOKIES.get('last_viewed_product_id'):
             last_viewed_product = request.COOKIES.get('last_viewed_product_id')
@@ -41,6 +41,8 @@ class ProductView(View):
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
                                                   'sound_system': sound_system,
+                                                                'all_categories': all_categories,
+                                                                'all_subcategories': all_subcategories,
                                                   'product': product,
                                                                 'shopping_cart_list': shopping_cart,
                                                                 'subcategory': subcategory,

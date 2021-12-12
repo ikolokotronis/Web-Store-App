@@ -14,7 +14,9 @@ class HomePageView(View):
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
-        all_categories = SubCategory.objects.all()
+        other = Category.objects.get(id=6)
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         bestsellers_len = len(Product.objects.filter(is_bestseller=True))
         bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating').order_by('-rating')[0:3]
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
@@ -24,11 +26,13 @@ class HomePageView(View):
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
                                                   'sound_system': sound_system,
+                                                  'other': other,
                                                   'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
                                                   'shopping_cart_list': shopping_cart,
-                                                      'welcome_text': welcome_text}
+                                                      'welcome_text': welcome_text,
+                                                      'all_subcategories': all_subcategories}
                       )
         if request.COOKIES.get(f'welcome{request.user.id}'):
             welcome_text = ', welcome back!'
@@ -39,19 +43,22 @@ class HomePageView(View):
                                                   'keyboard_instruments': keyboard_instruments,
                                                   'drums': drums,
                                                   'sound_system': sound_system,
+                                                  'other': other,
                                                   'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
+                                                  'all_subcategories': all_subcategories,
                                                   'shopping_cart_list': shopping_cart,
                                                   'welcome_text': welcome_text}
                       )
 
     def post(self, request):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
-        all_categories = SubCategory.objects.all()
         bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                                 date_added__lte=date.today()).order_by('-date_added')[0:3]
@@ -67,6 +74,7 @@ class HomePageView(View):
                                                   'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
+                                                  'all_subcategories': all_subcategories,
                                                   'product_results': product_results,
                                                   'category_results': category_results,
                                                   'subcategory_results': subcategory_results,
@@ -80,6 +88,8 @@ class CategoryDetailsView(View):
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         subcategories = SubCategory.objects.filter(category_id=category_id)
         parent_category = CategorySubCategory.objects.filter(category_id=category_id)[0]
         shopping_cart = ShoppingCart.objects.all()
@@ -87,9 +97,40 @@ class CategoryDetailsView(View):
                                                                 'keyboard_instruments': keyboard_instruments,
                                                                 'drums': drums,
                                                                 'sound_system': sound_system,
+                                                              'all_categories': all_categories,
+                                                              'all_subcategories': all_subcategories,
                                                                 'subcategories': subcategories,
                                                                 'parent_category': parent_category,
                                                                 'shopping_cart_list': shopping_cart}
+                      )
+
+    def post(self, request, category_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
+        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
+        key_word = request.POST.get('key_word')
+        product_results = Product.objects.filter(name__icontains=key_word)
+        category_results = Category.objects.filter(name__icontains=key_word)
+        subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
+        shopping_cart = ShoppingCart.objects.all()
+        return render(request, 'main/search_results.html', {'stringed_instruments': stringed_instruments,
+                                                            'keyboard_instruments': keyboard_instruments,
+                                                            'drums': drums,
+                                                            'sound_system': sound_system,
+                                                            'bestsellers': bestsellers,
+                                                            'added_recently': added_recently,
+                                                            'all_categories': all_categories,
+                                                            'all_subcategories': all_subcategories,
+                                                            'product_results': product_results,
+                                                            'category_results': category_results,
+                                                            'subcategory_results': subcategory_results,
+                                                            'shopping_cart_list': shopping_cart}
                       )
 
 
@@ -99,6 +140,8 @@ class SubCategoryView(View):
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
         sound_system = Category.objects.get(id=4)
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         products = Product.objects.filter(subcategory_id=subcategory_id)
         parent_category = CategorySubCategory.objects.filter(subcategory_id=subcategory_id)[0]
         shopping_cart = ShoppingCart.objects.all()
@@ -106,13 +149,46 @@ class SubCategoryView(View):
                                                               'keyboard_instruments': keyboard_instruments,
                                                               'drums': drums,
                                                               'sound_system': sound_system,
+                                                                 'all_categories': all_categories,
+                                                                 'all_subcategories': all_subcategories,
                                                               'products': products,
                                                               'parent_category': parent_category,
                                                               'shopping_cart_list': shopping_cart})
 
+    def post(self, request, subcategory_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        stringed_instruments = Category.objects.get(id=1)
+        keyboard_instruments = Category.objects.get(id=2)
+        drums = Category.objects.get(id=3)
+        sound_system = Category.objects.get(id=4)
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
+        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
+        key_word = request.POST.get('key_word')
+        product_results = Product.objects.filter(name__icontains=key_word)
+        category_results = Category.objects.filter(name__icontains=key_word)
+        subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
+        shopping_cart = ShoppingCart.objects.all()
+        return render(request, 'main/search_results.html', {'stringed_instruments': stringed_instruments,
+                                                            'keyboard_instruments': keyboard_instruments,
+                                                            'drums': drums,
+                                                            'sound_system': sound_system,
+                                                            'bestsellers': bestsellers,
+                                                            'added_recently': added_recently,
+                                                            'all_categories': all_categories,
+                                                            'all_subcategories': all_subcategories,
+                                                            'product_results': product_results,
+                                                            'category_results': category_results,
+                                                            'subcategory_results': subcategory_results,
+                                                            'shopping_cart_list': shopping_cart}
+                      )
+
 
 class ContactView(View):
     def get(self, request):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
@@ -122,6 +198,8 @@ class ContactView(View):
                                                                  'keyboard_instruments': keyboard_instruments,
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
+                                                     'all_categories': all_categories,
+                                                     'all_subcategories': all_subcategories,
                                                                  'shopping_cart_list': shopping_cart})
 
 
@@ -131,6 +209,8 @@ class ShoppingCartView(View):
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/')
         else:
+            all_categories = Category.objects.all()
+            all_subcategories = SubCategory.objects.all().order_by('name')
             stringed_instruments = Category.objects.get(id=1)
             keyboard_instruments = Category.objects.get(id=2)
             drums = Category.objects.get(id=3)
@@ -141,6 +221,8 @@ class ShoppingCartView(View):
                                                               'keyboard_instruments': keyboard_instruments,
                                                               'drums': drums,
                                                               'sound_system': sound_system,
+                                                              'all_categories': all_categories,
+                                                              'all_subcategories': all_subcategories,
                                                               'shopping_cart_list': shopping_cart_list,
                                                               'products_summary': products_summary})
     def post(self, request, user_id):
@@ -150,6 +232,8 @@ class ShoppingCartView(View):
 
 class ShoppingCartCheckoutView(View):
     def get(self, request, user_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
@@ -160,6 +244,8 @@ class ShoppingCartCheckoutView(View):
                                                           'keyboard_instruments': keyboard_instruments,
                                                           'drums': drums,
                                                           'sound_system': sound_system,
+                                                                   'all_categories': all_categories,
+                                                                   'all_subcategories': all_subcategories,
                                                           'shopping_cart_list': shopping_cart_list,
                                                           'products_summary': products_summary})
     def post(self, request, user_id):
@@ -209,6 +295,8 @@ class ShoppingCartRemoveProductView(View):
 
 class ShoppingCartPaymentView(View):
     def get(self, request, user_id, order_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
@@ -225,6 +313,8 @@ class ShoppingCartPaymentView(View):
                                                           'keyboard_instruments': keyboard_instruments,
                                                           'drums': drums,
                                                           'sound_system': sound_system,
+                                                                  'all_categories': all_categories,
+                                                                  'all_subcategories': all_subcategories,
                                                           'shopping_cart_list': shopping_cart_list,
                                                           'products_summary': products_summary,
                                                           'order': order})
@@ -249,6 +339,8 @@ class ShoppingCartPaymentView(View):
 
 class ShoppingCartSummaryView(View):
     def get(self, request, user_id, order_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
@@ -264,6 +356,8 @@ class ShoppingCartSummaryView(View):
                                                           'keyboard_instruments': keyboard_instruments,
                                                           'drums': drums,
                                                           'sound_system': sound_system,
+                                                                  'all_categories': all_categories,
+                                                                  'all_subcategories': all_subcategories,
                                                           'shopping_cart_list': shopping_cart_list,
                                                           'products_summary': products_summary,
                                                           'order': order})
@@ -304,6 +398,8 @@ class ShoppingCartSummaryView(View):
 
 class ShoppingCartSuccessView(View):
     def get(self, request, user_id, order_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         stringed_instruments = Category.objects.get(id=1)
         keyboard_instruments = Category.objects.get(id=2)
         drums = Category.objects.get(id=3)
@@ -313,4 +409,7 @@ class ShoppingCartSuccessView(View):
         return render(request, 'main/shoppingCart_success.html', {'stringed_instruments': stringed_instruments,
                                                           'keyboard_instruments': keyboard_instruments,
                                                           'drums': drums,
-                                                          'sound_system': sound_system})
+                                                          'sound_system': sound_system,
+                                                                  'all_categories': all_categories,
+                                                                  'all_subcategories': all_subcategories,
+                                                                  })
