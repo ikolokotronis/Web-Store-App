@@ -144,7 +144,7 @@ class ShoppingCartView(View):
                                                               'shopping_cart_list': shopping_cart_list,
                                                               'products_summary': products_summary})
     def post(self, request, user_id):
-        ShoppingCart.objects.all().delete()
+        ShoppingCart.objects.filter(user_id=user_id).delete()
         return redirect(f'/shopping_cart/{user_id}/')
 
 
