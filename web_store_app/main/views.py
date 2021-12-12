@@ -188,17 +188,14 @@ class ShoppingCartCheckoutView(View):
 
         shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
 
-        for shopping_cart_item in shopping_cart_list:
-            product_id = shopping_cart_item.product.id
-            product = shopping_cart_item.product # ProductOrder create tutaj, aby każdy produkt się dodał nie tylko jeden
-        quantity = 0
-        for shopping_cart_item in shopping_cart_list:
-            quantity = shopping_cart_item.quantity
-        product = Product.objects.get(id=product_id)
         user = WebsiteUser.objects.get(id=user_id)
         order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number, address=address)
 
-        ProductOrder.objects.create(order=order, product=product, quantity=quantity, user_id=user_id)
+        for shopping_cart_item in shopping_cart_list:
+            product_id = shopping_cart_item.product.id
+            product = Product.objects.get(id=product_id)
+            ProductOrder.objects.create(order=order, product=product, quantity=shopping_cart_item.quantity, user=user)
+
 
         return redirect(f'/shopping_cart/{user_id}/{order.id}/payment/')
 
