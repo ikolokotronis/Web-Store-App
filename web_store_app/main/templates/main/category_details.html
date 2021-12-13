@@ -1,7 +1,7 @@
 {%extends 'main/base2.html'%}
 {%block content%}
 <div class="detailsBox">
-<h3>{{parent_category.category}}</h3>
+<h3>{{category.name}}</h3>
 {%for subcategory in subcategories%}
     <div class="borderBox">
                 <a href="/subcategory/{{subcategory.id}}/">

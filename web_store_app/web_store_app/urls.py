@@ -17,10 +17,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from main.views import HomePageView, CategoryDetailsView, SubCategoryView, \
-    ContactView, ShoppingCartView, ShoppingCartCheckoutView, \
-    ShoppingCartRemoveProductView, ShoppingCartPaymentView, ShoppingCartSummaryView, \
-    ShoppingCartSuccessView
+from main.views import HomePageView, CategoryDetailsView, SubCategoryView,\
+    ShoppingCartView, ShoppingCartCheckoutView, \
+    ShoppingCartRemoveProductView, ShoppingCartPaymentView, \
+    ShoppingCartSummaryView, ShoppingCartSuccessView
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, \
     UserPanelView, UserPanelEditView, PasswordResetView, UserPanelOrdersView, \
@@ -29,7 +29,6 @@ from users.views import RegistrationView, LoginView, LogoutView, \
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
-    path('contact/', ContactView.as_view()),
     path('product/<int:product_id>/', ProductView.as_view()),
     path('category/<int:category_id>/', CategoryDetailsView.as_view()),
     path('subcategory/<int:subcategory_id>/', SubCategoryView.as_view()),

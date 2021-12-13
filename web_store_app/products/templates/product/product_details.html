@@ -5,7 +5,11 @@
 <!--    {%for product in last_viewed_products%}-->
 <!--    -{{product}}-->
 <!--    {%endfor%}-->
+    {%if product.image%}
     <span style="position: absolute"><img src="{{product.image.url}}"></span>
+    {%else%}
+    <span style="position: absolute">This product has no image</span>
+    {%endif%}
     <div class="productInformationContainer">
     <div class="productInformationBox">
         <span style="font-size: 15px">
@@ -48,8 +52,7 @@
 <form method="post">
 {%csrf_token%}
 <input type="submit" value="Add to cart">
-    <input style="width: 25px" type="number" name="quantity" value="1"><br>
-    <input type="hidden" value="{{user.id}}" name="user_id">
+    <input style="width: 25px" type="number" name="quantity" value="1">
 </form><br><br>
             </div>
     <b>{{success_text}}</b><br>

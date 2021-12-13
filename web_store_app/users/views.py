@@ -11,15 +11,7 @@ class RegistrationView(View):
     def get(self, request):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        return render(request, 'users/registration_form.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                                'all_categories': all_categories,
+        return render(request, 'users/registration_form.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories
                                                                 })
     def post(self, request):
@@ -46,15 +38,7 @@ class LoginView(View):
     def get(self, request):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        return render(request, 'users/login_form.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                         'all_categories': all_categories,
+        return render(request, 'users/login_form.html', {'all_categories': all_categories,
                                                          'all_subcategories': all_subcategories,
                                                          })
 
@@ -68,15 +52,7 @@ class LoginView(View):
             login(request, user)
             return redirect('/')
         else:
-            stringed_instruments = Category.objects.get(id=1)
-            keyboard_instruments = Category.objects.get(id=2)
-            drums = Category.objects.get(id=3)
-            sound_system = Category.objects.get(id=4)
-            return render(request, 'users/login_form.html', {'stringed_instruments': stringed_instruments,
-                                                             'keyboard_instruments': keyboard_instruments,
-                                                             'drums': drums,
-                                                             'sound_system': sound_system,
-                                                             'all_categories': all_categories,
+            return render(request, 'users/login_form.html', {'all_categories': all_categories,
                                                              'all_subcategories': all_subcategories,
                                                              'error_text': 'Wrong username or password, try again'})
 
@@ -85,15 +61,7 @@ class LogoutView(View):
     def get(self, request):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        return render(request, 'users/logout_form.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                          'all_categories': all_categories,
+        return render(request, 'users/logout_form.html', {'all_categories': all_categories,
                                                           'all_subcategories': all_subcategories,
                                                           })
 
@@ -104,22 +72,11 @@ class LogoutView(View):
 
 class UserPanelView(View):
     def get(self, request, user_id):
-        logged_user_id = request.user.id
-        if user_id != logged_user_id:
-             return redirect(f'/users/panel/{request.user.id}/')
-        else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
-            stringed_instruments = Category.objects.get(id=1)
-            keyboard_instruments = Category.objects.get(id=2)
-            drums = Category.objects.get(id=3)
-            sound_system = Category.objects.get(id=4)
-            user = WebsiteUser.objects.get(id=user_id)
-            return render(request, 'users/userpanel.html', {'stringed_instruments': stringed_instruments,
-                                                        'keyboard_instruments': keyboard_instruments,
-                                                        'drums': drums,
-                                                        'sound_system': sound_system,
-                                                            'all_categories': all_categories,
+        # logged_user_id = request.user.id
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        user = WebsiteUser.objects.get(id=user_id)
+        return render(request, 'users/userpanel.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                         'user': user,
                                                             })
@@ -133,16 +90,8 @@ class UserPanelEditView(View):
         else:
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
-            stringed_instruments = Category.objects.get(id=1)
-            keyboard_instruments = Category.objects.get(id=2)
-            drums = Category.objects.get(id=3)
-            sound_system = Category.objects.get(id=4)
             user = WebsiteUser.objects.get(id=user_id)
-            return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                                 'all_categories': all_categories,
+            return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'user': user})
     def post(self, request, user_id):
@@ -160,16 +109,8 @@ class UserPanelEditView(View):
             else:
                 all_categories = Category.objects.all()
                 all_subcategories = SubCategory.objects.all().order_by('name')
-                stringed_instruments = Category.objects.get(id=1)
-                keyboard_instruments = Category.objects.get(id=2)
-                drums = Category.objects.get(id=3)
-                sound_system = Category.objects.get(id=4)
                 user = WebsiteUser.objects.get(id=user_id)
-                return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
-                                                                     'keyboard_instruments': keyboard_instruments,
-                                                                     'drums': drums,
-                                                                     'sound_system': sound_system,
-                                                                     'all_categories': all_categories,
+                return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                      'all_subcategories': all_subcategories,
                                                                      'user': user,
                                                                      'error_text': 'You have to type a password'})
@@ -184,16 +125,8 @@ class UserPanelEditView(View):
         except Exception:
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
-            stringed_instruments = Category.objects.get(id=1)
-            keyboard_instruments = Category.objects.get(id=2)
-            drums = Category.objects.get(id=3)
-            sound_system = Category.objects.get(id=4)
             user = WebsiteUser.objects.get(id=user_id)
-            return render(request, 'users/userpanel_edit.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                                 'all_categories': all_categories,
+            return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'user': user,
                                                                  'error_text': "Something went wrong"})
@@ -204,15 +137,7 @@ class PasswordResetView(View):
     def get(self, request):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        return render(request, 'users/password_reset.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                             'all_categories': all_categories,
+        return render(request, 'users/password_reset.html', {'all_categories': all_categories,
                                                              'all_subcategories': all_subcategories,
                                                              })
     def post(self, request):
@@ -226,15 +151,7 @@ class PasswordResetView(View):
         except Exception:
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
-            stringed_instruments = Category.objects.get(id=1)
-            keyboard_instruments = Category.objects.get(id=2)
-            drums = Category.objects.get(id=3)
-            sound_system = Category.objects.get(id=4)
-            return render(request, 'users/password_reset.html', {'stringed_instruments': stringed_instruments,
-                                                                 'keyboard_instruments': keyboard_instruments,
-                                                                 'drums': drums,
-                                                                 'sound_system': sound_system,
-                                                                 'all_categories': all_categories,
+            return render(request, 'users/password_reset.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'error_text': "Something went wrong"})
 
@@ -247,47 +164,36 @@ class UserPanelOrdersView(View):
         else:
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
-            stringed_instruments = Category.objects.get(id=1)
-            keyboard_instruments = Category.objects.get(id=2)
-            drums = Category.objects.get(id=3)
-            sound_system = Category.objects.get(id=4)
             user = WebsiteUser.objects.get(id=user_id)
-            orders = Order.objects.filter(user_id=user_id)
+            orders = Order.objects.filter(user_id=user_id).order_by('-id')
             product_orders = ProductOrder.objects.filter(user_id=user_id)
-            return render(request, 'users/userpanel_orders.html', {'stringed_instruments': stringed_instruments,
-                                                                   'keyboard_instruments': keyboard_instruments,
-                                                                   'drums': drums,
-                                                                   'sound_system': sound_system,
-                                                                   'user': user,
+            return render(request, 'users/userpanel_orders.html', {'user': user,
                                                                    'orders': orders,
                                                                    'all_categories': all_categories,
                                                                    'all_subcategories': all_subcategories,
                                                                    'product_orders': product_orders})
 
+
 class UserPanelWalletRefillView(View):
     def get(self, request, user_id):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        user = WebsiteUser.objects.get(id=user_id)
-        orders = Order.objects.filter(user_id=user_id)
-        product_orders = ProductOrder.objects.filter(user_id=user_id)
-        user = WebsiteUser.objects.get(id=user_id)
-        wallet = user.wallet
+        logged_user_id = request.user.id
+        if user_id != logged_user_id:
+            return redirect(f'/users/wallet/{request.user.id}/refill/')
+        else:
+            all_categories = Category.objects.all()
+            all_subcategories = SubCategory.objects.all().order_by('name')
+            user = WebsiteUser.objects.get(id=user_id)
+            orders = Order.objects.filter(user_id=user_id)
+            product_orders = ProductOrder.objects.filter(user_id=user_id)
+            user = WebsiteUser.objects.get(id=user_id)
+            wallet = user.wallet
 
-        return render(request, 'users/userpanel_wallet_refill.html', {'stringed_instruments': stringed_instruments,
-                                                               'keyboard_instruments': keyboard_instruments,
-                                                               'drums': drums,
-                                                               'sound_system': sound_system,
-                                                                      'all_categories': all_categories,
-                                                                      'all_subcategories': all_subcategories,
-                                                               'user': user,
-                                                               'orders': orders,
-                                                               'product_orders': product_orders,
-                                                               'wallet': wallet})
+            return render(request, 'users/userpanel_wallet_refill.html', {'all_categories': all_categories,
+                                                                          'all_subcategories': all_subcategories,
+                                                                          'user': user,
+                                                                          'orders': orders,
+                                                                          'product_orders': product_orders,
+                                                                          'wallet': wallet})
 
     def post(self, request, user_id):
         amount = request.POST.get('amount')
@@ -299,28 +205,24 @@ class UserPanelWalletRefillView(View):
 
 class UserPanelWalletWithdrawView(View):
     def get(self, request, user_id):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        stringed_instruments = Category.objects.get(id=1)
-        keyboard_instruments = Category.objects.get(id=2)
-        drums = Category.objects.get(id=3)
-        sound_system = Category.objects.get(id=4)
-        user = WebsiteUser.objects.get(id=user_id)
-        orders = Order.objects.filter(user_id=user_id)
-        product_orders = ProductOrder.objects.filter(user_id=user_id)
-        user = WebsiteUser.objects.get(id=user_id)
-        wallet = user.wallet
+        logged_user_id = request.user.id
+        if user_id != logged_user_id:
+            return redirect(f'/users/wallet/{request.user.id}/withdraw/')
+        else:
+            all_categories = Category.objects.all()
+            all_subcategories = SubCategory.objects.all().order_by('name')
+            user = WebsiteUser.objects.get(id=user_id)
+            orders = Order.objects.filter(user_id=user_id)
+            product_orders = ProductOrder.objects.filter(user_id=user_id)
+            user = WebsiteUser.objects.get(id=user_id)
+            wallet = user.wallet
 
-        return render(request, 'users/userpanel_wallet_withdraw.html', {'stringed_instruments': stringed_instruments,
-                                                               'keyboard_instruments': keyboard_instruments,
-                                                               'drums': drums,
-                                                               'sound_system': sound_system,
-                                                                        'all_categories': all_categories,
-                                                                        'all_subcategories': all_subcategories,
-                                                               'user': user,
-                                                               'orders': orders,
-                                                               'product_orders': product_orders,
-                                                               'wallet': wallet})
+            return render(request, 'users/userpanel_wallet_withdraw.html', {'all_categories': all_categories,
+                                                                            'all_subcategories': all_subcategories,
+                                                                            'user': user,
+                                                                            'orders': orders,
+                                                                            'product_orders': product_orders,
+                                                                            'wallet': wallet})
 
     def post(self, request, user_id):
         amount = request.POST.get('amount')
@@ -329,10 +231,6 @@ class UserPanelWalletWithdrawView(View):
         if user.wallet < 0:
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
-            stringed_instruments = Category.objects.get(id=1)
-            keyboard_instruments = Category.objects.get(id=2)
-            drums = Category.objects.get(id=3)
-            sound_system = Category.objects.get(id=4)
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id)
             product_orders = ProductOrder.objects.filter(user_id=user_id)
@@ -340,11 +238,7 @@ class UserPanelWalletWithdrawView(View):
             wallet = user.wallet
 
             return render(request, 'users/userpanel_wallet_withdraw.html',
-                          {'stringed_instruments': stringed_instruments,
-                           'keyboard_instruments': keyboard_instruments,
-                           'drums': drums,
-                           'sound_system': sound_system,
-                           'all_categories': all_categories,
+                          {'all_categories': all_categories,
                            'all_subcategories': all_subcategories,
                            'user': user,
                            'orders': orders,

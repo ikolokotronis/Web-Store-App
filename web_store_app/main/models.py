@@ -35,7 +35,7 @@ class SubCategory(models.Model):
 class ShoppingCart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
         return f'{self.user}, {self.product}, {self.quantity}'
@@ -67,7 +67,7 @@ class Order(models.Model):
         (1, 'Pickup in person'),
         (2, 'Home shipping')
     )
-    shipping_type = models.IntegerField(choices=delivery_choices, default='1')
+    shipping_type = models.IntegerField(choices=delivery_choices, default=1)
     payment_choices = (
         (1, 'Cash'),
         (2, 'Credit card'),
