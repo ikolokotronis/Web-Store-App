@@ -41,16 +41,6 @@ body{
     border-radius: 10px;
 }
 
-.footer{
-    position: absolute;
-    top: 183.5%;
-    left: 275px;
-    right: 275px;
-    height:150px;
-    background-color: #F9F6E8;
-    box-shadow: 0 1px 8px 1px #888888;
-}
-
 .userManagement{
     float: left;
     background-color: white;
@@ -270,4 +260,37 @@ a{
     background-color: white;
     border: 0 none;
     cursor: pointer;
+}
+
+.footer{
+    position: absolute;
+    top: 183.5%;
+    left: 275px;
+    right: 275px;
+    height:150px;
+    background-color: #F9F6E8;
+    box-shadow: 0 1px 8px 1px #888888;
+}
+
+.footerHeader{
+    position: absolute;
+    width: 341px;
+    height: 150px;
+    padding: 5px;
+}
+
+.footerBox{
+    position: relative;
+    width: 338px;
+    height: 150px;
+    float: left;
+    left: 341px;
+}
+
+.footerInfoBox {
+    color: #403e3e;
+}
+
+a.footerLink{
+    color: #403e3e;
 }

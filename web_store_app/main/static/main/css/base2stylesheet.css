@@ -310,3 +310,26 @@ input[type=submit] {
     border: 2px dashed #ccc;
     padding: 15px;
 }
+
+.footerHeader{
+    position: absolute;
+    width: 341px;
+    height: 150px;
+    padding: 5px;
+}
+
+.footerBox{
+    position: relative;
+    width: 338px;
+    height: 150px;
+    float: left;
+    left: 341px;
+}
+
+.footerInfoBox {
+    color: #403e3e;
+}
+
+a.footerLink{
+    color: #403e3e;
+}

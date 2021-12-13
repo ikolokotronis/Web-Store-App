@@ -23,7 +23,7 @@
 <div class="userManagementBox"><a href="/users/register/"><img style="width: 24px; height: 24px" src="{% static 'main/img/user2.png'%}"></a></div>
     {%endif%}
 
-        <div class="userManagementBox"><a href="/contact/"><img style="width: 24px; height: 26px" src="{% static 'main/img/email2.png'%}"></a></div>
+        <div class="userManagementBox"><a href="#contacta"><img style="width: 24px; height: 26px" src="{% static 'main/img/email2.png'%}"></a></div>
         {%if user.is_authenticated%}
         <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"></a>
             {%if shopping_cart_list|length is not 0%}
@@ -122,6 +122,48 @@
     </div>
 </div>
 <div id="backgroundRightContainer">  </div>
-<div class="footer"></div>
+<div class="footer">
+    <div class="footerHeader">
+        <img src="{%static 'main/img/storefooter.png'%}">
+        <div class="footerInfoBox" style="padding-left: 10px">
+            805 Sound Avenue<br>
+            75220, Dallas<br>
+            United States<br>
+            musicstore@contact.com<br>
+            +1-900-920-0700
+
+        </div>
+    </div>
+    <div class="footerBox">
+        <img src="{%static 'main/img/aboutfooter.png'%}">
+        <div class="footerInfoBox">
+            <a class="footerLink" href="">Contact</a><br>
+            <a class="footerLink" href="">Our company</a><br>
+            <a class="footerLink" href="">Privacy Policy</a><br>
+            <a class="footerLink" href="">Terms of Use</a><br>
+        </div>
+    </div>
+    <div id="contact" class="footerBox">
+        <img src="{%static 'main/img/supportfooter2.png'%}">
+        <div class="footerInfoBox">
+            <a class="footerLink" href="">Help</a><br>
+            <a class="footerLink" href="">Shipping</a><br>
+            <a class="footerLink" href="">Returns</a><br>
+            <a class="footerLink" href="">Payments</a><br>
+        </div>
+    </div>
+    <div class="footerBox">
+        <img src="{%static 'main/img/myaccfooter.png'%}">
+        <div class="footerInfoBox">
+            {%if user.is_authenticated%}
+            <a class="footerLink" href="/users/panel/{{user.id}}/">My profile</a><br>
+            <a class="footerLink" href="/users/panel/orders/{{user.id}}/">Order status</a>
+            {%else%}
+            <a class="footerLink" href="/users/login/">My profile</a><br>
+            <a class="footerLink" href="/users/login/">Order status</a>
+            {%endif%}
+        </div>
+    </div>
+</div>
 </body>
 </html>
