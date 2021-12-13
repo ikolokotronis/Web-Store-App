@@ -63,7 +63,7 @@
 {%block content%}
         <div class="ads"><img width="880px" src="{% static 'main/img/adsgif5.gif'%}"></a></div><br><br>
         <div class="bestSellers">
-            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/newproducts.png'%}"></span>
+            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/bestsellers2.png'%}"></span>
             {%for product in bestsellers%}
             <div class="bestSellerBox">
                 <a href="product/{{product.id}}/">
@@ -75,7 +75,7 @@
             {%endfor%}
         </div>
         <div class="newProducts">
-            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/bestsellers.png'%}"></span>
+            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/newproducts2.png'%}"></span>
             {%for product in added_recently%}
             <div class="newProductBox">
                 <a href="product/{{product.id}}/">
