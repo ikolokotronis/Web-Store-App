@@ -1,19 +1,24 @@
 {%extends 'main/base.html'%}
 {%block content%}
-<h3>Shopping cart</h3>
+<div class="shoppingCartContainer">
+    <div class="cartHeader">
+        <h3 class="Heading">Shopping cart</h3>
+        {%if shopping_cart_list|length is not 0%}
+        <form method="post">
+    {%csrf_token%}
+    <input style="position: relative; left: 33px" class="Action input_decoration" type="submit" value="Remove all">
+</form>
+    </div>
 <ul>
     {%for product in shopping_cart_list%}
-    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x <b><a href="/shopping_cart/remove/{{user.id}}/{{product.product.id}}/">Remove product</a> </b></li>
+    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x <b><a class="Action" href="/shopping_cart/remove/{{user.id}}/{{product.product.id}}/">Remove</a> </b></li>
     {%endfor%}
 </ul>
-{%if shopping_cart_list|length is not 0%}
-<form method="post">
-    {%csrf_token%}
-    <input type="submit" value="Clear cart">
-</form>
+
 Summary: <b>{{products_summary}}$</b><br><br>
 <a href="checkout/">Proceed to checkout</a>
 {%else%}
 <b>Add products to your cart!</b>
 {%endif%}
+    </div>
 {%endblock%}

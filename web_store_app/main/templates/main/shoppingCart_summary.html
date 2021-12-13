@@ -1,5 +1,6 @@
 {%extends 'main/base.html'%}
 {%block content%}
+<div class="shoppingCartContainer">
 <h3>Shopping cart</h3>
 {%if shopping_cart_list|length is 1%}
 <h4>You are buying this product: </h4>
@@ -24,4 +25,5 @@ Summary: <b>{{products_summary}}$</b><br><br>
 </form>
 {{error_text}}
 <br>
+</div>
 {%endblock%}

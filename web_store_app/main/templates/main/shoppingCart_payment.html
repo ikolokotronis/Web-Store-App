@@ -1,5 +1,6 @@
 {%extends 'main/base.html'%}
 {%block content%}
+<div class="shoppingCartContainer">
 <h3>Shopping cart</h3>
 <!--<h4>Your chose these products: </h4>-->
 <!--<ul>-->
@@ -20,4 +21,5 @@ Shipping type: <b>{{order.get_shipping_type_display}}</b><br><br>
     <input type="submit" value="Proceed to order summary">
 </form>
 <br>
+    </div>
 {%endblock%}
