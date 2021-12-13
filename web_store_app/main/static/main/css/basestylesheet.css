@@ -7,22 +7,24 @@ body{
     background-color: white;
 }
 #backgroundContainer{
-    background-color: #EEECDE;
+    background-color: #F9F6E8;
     margin-left: auto;
     margin-right: auto;
-    height: 5000px;
+    height: 200%;
     width: 275px;
     position: absolute;
+    box-shadow: -10px 8px 10px 10px #888888;
 }
 
 #backgroundRightContainer{
-    background-color: #EEECDE;
+    background-color: #F9F6E8;
     margin-left: auto;
     margin-right: auto;
-    height: 5000px;
+    height: 200%;
     width: 275px;
     position: absolute;
     left: 1630px;
+    box-shadow: 10px 10px 8px 10px #888888;
 }
 #main{
     width: 1300px;
@@ -41,25 +43,27 @@ body{
 
 .footer{
     position: absolute;
-    bottom: -4100px;
+    top: 183.5%;
     left: 275px;
     right: 275px;
     height:150px;
-    background-color: #EEECDE;
+    background-color: #F9F6E8;
+    box-shadow: 0 1px 8px 1px #888888;
 }
 
 .userManagement{
     float: left;
     background-color: white;
-    width: 150px;
+    width: 175px;
     height: 80px;
     border-radius: 3px;
-    top: 20px;
-    position: relative;
+    left: 1425px;
+    top: 50px;
+    position: absolute;
 }
 
 .userManagementBox{
-    padding: 1px;
+    padding: 6px;
     float:left;
     border-radius: 5px;
 }
@@ -75,12 +79,14 @@ body{
 .categories{
     border: 3px;
     border-style: solid;
-    border-color: #339967;
+    border-color: #35acb2;
     border-radius: 50px;
     background-color: white;
     text-align: center;
     height: 75px;
     padding: -10px;
+    position: relative;
+    left: 95px;
 }
 
 a{
@@ -89,7 +95,7 @@ a{
 }
 
 .categoryLink{
-    color: #339967;
+    color: #35acb2;
 }
 
 .categoryBox{
@@ -100,9 +106,10 @@ a{
 }
 
 .ads{
-    background-color: white;
     height: 300px;
     text-align: center;
+    position: relative;
+    left: 90px;
 }
 
 .bestSellers{
@@ -110,6 +117,8 @@ a{
     background-color: white;
     padding: 5px;
     text-align: center;
+    position: relative;
+    left: 110px;
 }
 
 .bestSellerBox{
@@ -153,6 +162,9 @@ a{
     background-color: white;
     padding: 5px;
     text-align: center;
+    position: relative;
+    left: 110px;
+    top: 30px;
 }
 
 .newProductBox{
@@ -168,30 +180,31 @@ a{
     margin-right: auto;
 }
 #rightContainer{
-    background-color: white;
-    width: 400px;
-    float: left;
-    left: 920px;
-    bottom: 825px;
-    position: relative;
+    position: absolute;
+    left: 1370px;
+    top: 345px;
 }
 
 
 .categoriesUl{
     position: relative;
-    left: 223px;
     background-color: white;
+    border: 2px solid #ccc;
+     padding-right: 15px;
+    width: 265px;
+    right: 45px;
+    bottom: 60px;
 }
 
 .search{
     position: relative;
     top: 5px;
-    left: 30px;
+    left: 125px;
     background-color: white;
 }
 
 .searchInput{
-    width: 890px;
+    width: 885px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
@@ -203,4 +216,58 @@ a{
     padding: 12px 20px 12px 40px;
     -webkit-transition: width .4s ease-in-out;
     transition: width .4s ease-in-out;
+}
+
+.productAds{
+    float: left;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 880px;
+    left: 1325px;
+}
+
+.productAdsImg{
+    border: 2px dashed #ccc;
+    padding: 15px;
+}
+
+.shoppingCartContainer{
+    text-align: center;
+    width: 35%;
+ height: 45%;
+ background-color: #ffffff;
+ border-radius: 20px;
+ box-shadow: 0px 25px 40px #1687d933;
+    position: absolute;
+    left: 550px;
+    top: 375px;
+}
+
+.cartHeader{
+ margin: auto;
+ width: 90%;
+ height: 15%;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+.Heading{
+ font-size: 20px;
+ font-family: ‘Open Sans’;
+ font-weight: 700;
+ color: #2F3841;
+}
+.Action{
+ font-size: 14px;
+ font-family: ‘Open Sans’;
+ font-weight: 600;
+ color: #E44C4C;
+ cursor: pointer;
+}
+
+.input_decoration {
+    background-color: white;
+    border: 0 none;
+    cursor: pointer;
 }
