@@ -2,16 +2,20 @@
 {%block content%}
 {%load static%}
 <div class="productDetailsBox">
-    <b>{{success_text}}</b><br>
-    <img src="{{product.image.url}}">
+<!--    {%for product in last_viewed_products%}-->
+<!--    -{{product}}-->
+<!--    {%endfor%}-->
+    <span style="position: absolute"><img src="{{product.image.url}}"></span>
+    <div class="productInformationContainer">
     <div class="productInformationBox">
-        <span style="font-size: 30px"><b><i>{{product.producent_name|upper}}</i></b></span><br><br>
-        <span style="font-size: 50px"> {{product}}</span><br><br>
-        <div class="productDescriptionBox">
-            {{product.description}}
-        </div>
-        <span style="position: relative; top: 180px; right: 290px">
-            <span style="position: relative; top: 55px">
+        <span style="font-size: 15px">
+            <b><i>{{product.producent_name|upper}}</i></b>
+        </span><br>
+        <span style="font-size: 30px; font-family:URW Chancery L, cursive;">
+            {{product}}
+        </span><br><br>
+        <span style="position: relative;bottom: 110px ;right: 313px">
+            <span style="position: relative; top: 42px">
                 {%if product.rating == '1'%}
                 <img src="{% static 'products/img/1rating.png'%}">
                 {%elif product.rating == '2'%}
@@ -25,23 +29,36 @@
                 {%endif%}
             </span>
         </span>
+        <div class="productDescriptionBox">
+
+            {{product.description}}
+        </div>
         <br><br><br><br>
+        </div>
 <div class="productShoppingDetails">
-    <span style="font-size: 30px">Price: {{product.price}}$</span><br>
-{%if user.is_authenticated%}
-<form method="post">
-{%csrf_token%}
-<input type="submit" value="Add to cart">
-    <input style="width: 25px" type="number" name="quantity" value="1"><br>
-    <input type="hidden" value="{{user.id}}" name="user_id">
-</form><br>
-{%else%}
-<a href="/users/login/">Login to add this product to cart</a>
-{%endif%}
+    <span style="font-size: 25px">{{product.price}}$</span><br><br>
     </div>
         </div>
 <!--    {%if last_viewed_product_id%}-->
 <!--    <a href="/product/{{last_viewed_product_id}}/">You recently viewed <b>this</b> product</a>-->
 <!--    {%endif%}-->
+    <span style="position: absolute; top: 400px; left: 405px">
+        {%if user.is_authenticated%}
+        <div class="addToCartBox">
+<form method="post">
+{%csrf_token%}
+<input type="submit" value="Add to cart">
+    <input style="width: 25px" type="number" name="quantity" value="1"><br>
+    <input type="hidden" value="{{user.id}}" name="user_id">
+</form><br><br>
+            </div>
+    <b>{{success_text}}</b><br>
+{%else%}
+<span style="font-size: 16px"><a href="/users/login/"><b>Log in</b> to add this product to cart</a></span>
+{%endif%}
+    </span>
+    <div class="productSpecificationBox">
+
+    </div>
     </div>
 {%endblock%}
