@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from main.models import Category, Order, ProductOrder, SubCategory
+from products.models import Product
+from datetime import date, timedelta
+from main.models import Category, Order, ProductOrder, SubCategory, ShoppingCart
 from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
@@ -80,6 +82,27 @@ class UserPanelView(View):
                                                             'all_subcategories': all_subcategories,
                                                         'user': user,
                                                             })
+
+    def post(self, request, user_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
+        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
+        key_word = request.POST.get('key_word')
+        product_results = Product.objects.filter(name__icontains=key_word)
+        category_results = Category.objects.filter(name__icontains=key_word)
+        subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
+        shopping_cart = ShoppingCart.objects.all()
+        return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
+                                                            'added_recently': added_recently,
+                                                            'all_categories': all_categories,
+                                                            'all_subcategories': all_subcategories,
+                                                            'product_results': product_results,
+                                                            'category_results': category_results,
+                                                            'subcategory_results': subcategory_results,
+                                                            'shopping_cart_list': shopping_cart}
+                      )
 
 
 class UserPanelEditView(View):
@@ -172,6 +195,27 @@ class UserPanelOrdersView(View):
                                                                    'all_categories': all_categories,
                                                                    'all_subcategories': all_subcategories,
                                                                    'product_orders': product_orders})
+
+    def post(self, request, user_id):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
+        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
+        key_word = request.POST.get('key_word')
+        product_results = Product.objects.filter(name__icontains=key_word)
+        category_results = Category.objects.filter(name__icontains=key_word)
+        subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
+        shopping_cart = ShoppingCart.objects.all()
+        return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
+                                                            'added_recently': added_recently,
+                                                            'all_categories': all_categories,
+                                                            'all_subcategories': all_subcategories,
+                                                            'product_results': product_results,
+                                                            'category_results': category_results,
+                                                            'subcategory_results': subcategory_results,
+                                                            'shopping_cart_list': shopping_cart}
+                      )
 
 
 class UserPanelWalletRefillView(View):
