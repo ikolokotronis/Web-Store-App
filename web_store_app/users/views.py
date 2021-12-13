@@ -20,7 +20,7 @@ class RegistrationView(View):
                                                                  'drums': drums,
                                                                  'sound_system': sound_system,
                                                                 'all_categories': all_categories,
-                                                                'all_subcategories': all_subcategories,
+                                                                'all_subcategories': all_subcategories
                                                                 })
     def post(self, request):
         username = request.POST.get('username')
