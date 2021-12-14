@@ -95,13 +95,17 @@ class UserPanelView(View):
         :param user_id:
         :return user panel page:
         """
-        # logged_user_id = request.user.id
+        logged_user_id = request.user.id
+        if user_id != logged_user_id:
+            return redirect(f'/users/panel/{request.user.id}/')
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         user = WebsiteUser.objects.get(id=user_id)
+        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'users/userpanel.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                         'user': user,
+                                                        'shopping_cart_list':shopping_cart
                                                             })
 
     def post(self, request, user_id):
@@ -141,9 +145,11 @@ class UserPanelEditView(View):
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
             user = WebsiteUser.objects.get(id=user_id)
+            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
-                                                                 'user': user})
+                                                                 'user': user,
+                                                                 'shopping_cart_list':shopping_cart})
     def post(self, request, user_id):
         try:
             username = request.POST.get('username')
@@ -227,11 +233,13 @@ class UserPanelOrdersView(View):
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id).order_by('-id')
             product_orders = ProductOrder.objects.filter(user_id=user_id)
+            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_orders.html', {'user': user,
                                                                    'orders': orders,
                                                                    'all_categories': all_categories,
                                                                    'all_subcategories': all_subcategories,
-                                                                   'product_orders': product_orders})
+                                                                   'product_orders': product_orders,
+                                                                   'shopping_cart_list': shopping_cart})
 
     def post(self, request, user_id):
         all_categories = Category.objects.all()
@@ -274,13 +282,14 @@ class UserPanelWalletRefillView(View):
             product_orders = ProductOrder.objects.filter(user_id=user_id)
             user = WebsiteUser.objects.get(id=user_id)
             wallet = user.wallet
-
+            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_wallet_refill.html', {'all_categories': all_categories,
                                                                           'all_subcategories': all_subcategories,
                                                                           'user': user,
                                                                           'orders': orders,
                                                                           'product_orders': product_orders,
-                                                                          'wallet': wallet})
+                                                                          'wallet': wallet,
+                                                                          'shopping_cart_list': shopping_cart})
 
     def post(self, request, user_id):
         amount = request.POST.get('amount')
@@ -309,13 +318,14 @@ class UserPanelWalletWithdrawView(View):
             product_orders = ProductOrder.objects.filter(user_id=user_id)
             user = WebsiteUser.objects.get(id=user_id)
             wallet = user.wallet
-
+            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_wallet_withdraw.html', {'all_categories': all_categories,
                                                                             'all_subcategories': all_subcategories,
                                                                             'user': user,
                                                                             'orders': orders,
                                                                             'product_orders': product_orders,
-                                                                            'wallet': wallet})
+                                                                            'wallet': wallet,
+                                                                            'shopping_cart_list': shopping_cart})
 
     def post(self, request, user_id):
         amount = request.POST.get('amount')
