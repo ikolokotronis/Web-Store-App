@@ -83,12 +83,12 @@
         {%for product in shopping_cart_list%}
    	   <div class="Cart-Items">
    	   	  <div class="image-box">
-              <a href="/product/{{product.product.id}}/"><img src="{{product.product.image.url}}" style="height: 150px; width: 150px" /></a>
+              <a href="/product/{{product.product.id}}/"><img src="{{product.product.image.url}}" style="height: 100%; width: 100%" /></a>
    	   	  </div>
    	   	  <div class="about">
    	   	  	<h1 class="title"><a href="/product/{{product.product.id}}/">{{product.product}}</a></h1>
    	   	  	<h3 class="subtitle">{{product.product.producent_name|upper}}</h3>
-   	   	  	<img src="" style="height: 30px"/>
+<!--   	   	  	<img src="" style="height: 30px"/>-->
    	   	  </div>
    	   	  <div class="counter">
 <!--   	   	  	<div class="btn">+</div>-->
