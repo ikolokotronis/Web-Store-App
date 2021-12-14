@@ -294,3 +294,11 @@ a{
 a.footerLink {
     color: #403e3e;
 }
+
+.centerContainer{
+    border: 2px solid #ccc;
+    width: 30%;
+    padding: 15px;
+    position: relative;
+    left: 400px;
+}

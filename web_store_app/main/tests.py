@@ -14,6 +14,8 @@ def test_home_page_post():  #homepage test 2
     client = Client()
     response = client.post('/', {'key_word': 'a'})
     assert response.status_code == 200
+    for product in response.context['product_results']:
+        assert 'a' in product.name
 
 
 @pytest.mark.django_db
@@ -31,6 +33,8 @@ def test_category_page_post(client, example_category): #category page test 2
     client = Client()
     response = client.post(f'/category/{example_category.id}/', {'key_word': 'a'})
     assert response.status_code == 200
+    for product in response.context['product_results']:
+        assert 'a' in product.name
 
 
 @pytest.mark.django_db
@@ -48,6 +52,8 @@ def test_subcategory_page_post(client, example_subcategory): #subcategory page t
     client = Client()
     response = client.post(f'/subcategory/{example_subcategory.id}/', {'key_word': 'a'})
     assert response.status_code == 200
+    for product in response.context['product_results']:
+        assert 'a' in product.name
 
 
 @pytest.mark.django_db
@@ -62,7 +68,7 @@ def test_shopping_cart_page_get(client, example_website_user): #shopping cart te
 @pytest.mark.django_db
 def test_shopping_cart_page_post(client, example_website_user): #shopping cart test 2
     client = Client()
-    client.login(username='test_user', password='test_password')
+    client.login(username='test_user', password='test_password') # TEST, DODAJ PRODUKT DO KOSZYKA I POTEM SPRAWDZ CZY SIE USUNAL
     response = client.post(f'/shopping_cart/{example_website_user.id}/')
     assert response.status_code == 302
 
@@ -80,7 +86,8 @@ def test_shopping_cart_checkout_page_get(client, example_website_user): #shoppin
 def test_shopping_cart_checkout_page_post(client, example_website_user): #shopping cart checkout test 2
     client = Client()
     client.login(username='test_user', password='test_password')
-    response = client.post(f'/shopping_cart/{example_website_user.id}/checkout/', {'phone_number': 123456789})
+    response = client.post(f'/shopping_cart/{example_website_user.id}/checkout/', {'phone_number': 123456789,
+                                                                                   'address': 'test_address'})
     assert response.status_code == 302
 
 

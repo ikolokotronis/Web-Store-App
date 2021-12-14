@@ -1,12 +1,12 @@
 {%extends 'main/base.html'%}
 {%block content%}
-    <div class="loginContainer">
+    <div class="centerContainer">
 <h3>Login</h3>
 <form method="post">
     {%csrf_token%}
 <p>
-    Username: <input type="text" name="username"> <br><br>
-    Password: <input type="password" name="password"> <br><br>
+    Username:<br> <input type="text" name="username"> <br><br>
+    Password:<br> <input type="password" name="password"> <br><br>
     <input type="submit" value="Login">
 </p>
 </form>

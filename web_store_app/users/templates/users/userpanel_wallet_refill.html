@@ -1,5 +1,6 @@
 {%extends 'main/base2.html'%}
 {%block content%}
+<div class="centerContainer">
 <h3>Refill your wallet, {{user}}</h3> <h4>{{error_text}}</h4>
 Current amount: <b>{{wallet}}$</b>
 <form method="post">
@@ -7,4 +8,5 @@ Current amount: <b>{{wallet}}$</b>
     Amount: <input type="number" name="amount"><br><br>
     <input type="submit" value="Refill">
 </form>
+</div>
 {%endblock%}

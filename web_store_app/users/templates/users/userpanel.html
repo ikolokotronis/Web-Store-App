@@ -1,5 +1,6 @@
 {%extends 'main/base2.html'%}
 {%block content%}
+<div class="userPanelContainer">
 <h3>User panel</h3><br>
 Username: {{user}} <br><br>
 First name: {{user.first_name}}<br><br>
@@ -10,4 +11,5 @@ Address: {{user.address}}<br><br>
 Wallet: {{user.wallet}}$ <a href="/users/wallet/{{user.id}}/refill/">Refill wallet</a> <b>|</b> <a href="/users/wallet/{{user.id}}/withdraw/">Withdraw</a> <br><br>
 <div class="userPanel_button"><a href="/users/edit/{{user.id}}/">Edit</a></div>
 <div class="userPanel_button"><a href="/users/panel/orders/{{user.id}}/">My orders</a></div>
+</div>
 {%endblock%}

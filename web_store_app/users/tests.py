@@ -48,11 +48,21 @@ def test_logout_page_post(client): #logout page test 2
 
 
 @pytest.mark.django_db
-def test_user_panel_page(client, example_website_user): #user panel page test 1
+def test_user_panel_page_get(client, example_website_user): #user panel page test 1
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.get(f'/users/panel/{example_website_user.id}/')
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_user_panel_post(client, example_website_user): #user panel page test 2
+    client = Client()
+    client.login(username='test_user', password='test_password')
+    response = client.post(f'/users/panel/{example_website_user.id}/', {'key_word': 'a'})
+    assert response.status_code == 200
+    for product in response.context['product_results']:
+        assert 'a' in product.name
 
 
 @pytest.mark.django_db
@@ -75,11 +85,21 @@ def test_user_edit_page_post(client, example_website_user): #user edit page test
 
 
 @pytest.mark.django_db
-def test_user_orders_page(client, example_website_user): #user orders page test 1
+def test_user_orders_page_get(client, example_website_user): #user orders page test 1
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.get(f'/users/panel/orders/{example_website_user.id}/')
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_user_orders_page_post(client, example_website_user): #user orders page test 2
+    client = Client()
+    client.login(username='test_user', password='test_password')
+    response = client.post(f'/users/panel/orders/{example_website_user.id}/', {'key_word': 'a'})
+    assert response.status_code == 200
+    for product in response.context['product_results']:
+        assert 'a' in product.name
 
 
 @pytest.mark.django_db

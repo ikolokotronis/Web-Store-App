@@ -1,5 +1,6 @@
 {%extends 'main/base2.html'%}
 {%block content%}
+<div class="userPanelContainer">
 <h3>My orders</h3><br>
 {%for order in orders%}
 &nbsp;- Order nr <b>{{order.id}}</b><br><br>
@@ -14,4 +15,5 @@ Payment method: {{order.get_payment_type_display}}<br><br>
 Amount paid: {{order.amount_paid}}$<br><br><br>--------<br><br><br>
 {%endfor%}<br><br>
 <div class="userPanel_button"><a href="/users/panel/{{user.id}}/">Go back</a></div>
+</div>
 {%endblock%}

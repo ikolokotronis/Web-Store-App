@@ -22,3 +22,7 @@ def test_product_page_post(client, example_product,
     client.login(username='test_user', password='test_password')
     response = client.post(f'/product/{example_product.id}/', {'quantity': 1})
     assert response.status_code == 200
+    assert response.context['success_text'] == 'Product added to cart'
+    assert response.context['product'] == example_product
+    for shopping_cart in response.context['shopping_cart_list']:
+        assert shopping_cart.quantity == 1
