@@ -4,7 +4,6 @@ from main.models import Category, ShoppingCart, SubCategory
 from products.models import Product, SubCategoryProduct
 from users.models import WebsiteUser
 from django.http import HttpResponse
-# Create your views here.
 
 
 class ProductView(View):

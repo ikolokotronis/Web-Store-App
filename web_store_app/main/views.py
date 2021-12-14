@@ -4,7 +4,6 @@ from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Or
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
-# Create your views here.
 
 
 class HomePageView(View):

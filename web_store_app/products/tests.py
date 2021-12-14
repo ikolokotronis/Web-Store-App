@@ -1,6 +1,5 @@
 from django.test import TestCase, Client
 import pytest
-# Create your tests here.
 
 
 @pytest.mark.django_db

@@ -3,9 +3,6 @@ from users.models import WebsiteUser
 from products.models import Product
 
 
-# Create your models here.
-
-
 class Category(models.Model):
     """
     Stores information about categories

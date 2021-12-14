@@ -6,7 +6,6 @@ from main.models import Category, Order, ProductOrder, SubCategory, ShoppingCart
 from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-# Create your views here.
 
 
 class RegistrationView(View):
