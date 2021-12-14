@@ -1,7 +1,9 @@
 {%extends 'main/base.html'%}
 {%block content%}
 <div class="shoppingCartContainer">
-<h3>Shopping cart</h3>
+    <div class="cartHeader">
+<h3 class="Heading">Shopping cart</h3>
+        </div>
 {%if shopping_cart_list|length is 1%}
 
 <h4>You are buying this product: </h4>

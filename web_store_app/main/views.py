@@ -164,7 +164,7 @@ class ShoppingCartView(View):
             all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
-            return render(request, 'main/shoppingCart.html', {'all_categories': all_categories,
+            return render(request, 'main/shoppingCart2.html', {'all_categories': all_categories,
                                                               'all_subcategories': all_subcategories,
                                                               'shopping_cart_list': shopping_cart_list,
                                                               'products_summary': products_summary})

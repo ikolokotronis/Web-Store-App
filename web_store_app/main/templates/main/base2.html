@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'main/css/base2stylesheet.css' %}">
 </head>
 <body>
-<div id="backgroundContainer">  </div>
+<div id="backgroundLeftContainer">  </div>
 <div id="main">
     <div class="header">
         <h1><a href="/"><img width="860px" src="{% static 'main/img/logo2b.png'%}"></a></h1>
@@ -21,7 +21,7 @@
 <div class="userManagementBox"><a href="/users/register/"><img style="width: 24px; height: 24px" src="{% static 'main/img/user2.png'%}"></a></div>
     {%endif%}
 
-        <div class="userManagementBox"><a href="/contact/"><img style="width: 24px; height: 26px" src="{% static 'main/img/email2.png'%}"></a></div>
+        <div class="userManagementBox"><a href="#contact"><img style="width: 24px; height: 26px" src="{% static 'main/img/email2.png'%}"></a></div>
         {%if user.is_authenticated%}
         <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"></a>
             {%if shopping_cart_list|length is not 0%}
@@ -121,7 +121,7 @@
             <a class="footerLink" href="">Terms of Use</a><br>
         </div>
     </div>
-    <div class="footerBox">
+    <div id="contact" class="footerBox">
         <img src="{%static 'main/img/supportfooter2.png'%}">
         <div class="footerInfoBox">
             <a class="footerLink" href="">Help</a><br>

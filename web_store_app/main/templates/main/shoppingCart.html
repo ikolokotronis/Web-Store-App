@@ -1,4 +1,4 @@
-{%extends 'main/base.html'%}
+{%extends 'main/base2.html'%}
 {%block content%}
 <div class="shoppingCartContainer">
     <div class="cartHeader">
@@ -6,7 +6,7 @@
         {%if shopping_cart_list|length is not 0%}
         <form method="post">
     {%csrf_token%}
-    <input style="position: relative; left: 33px" class="Action input_decoration" type="submit" value="Remove all">
+    <input style="position: relative; left: 15px" class="Action input_decoration" type="submit" value="Remove all">
 </form>
     </div>
 <ul>
@@ -18,7 +18,7 @@
 Summary: <b>{{products_summary}}$</b><br><br>
 <a href="checkout/">Proceed to checkout</a>
 {%else%}
-<b>Add products to your cart!</b>
+<a href="/"><b>Add products to your cart!</b></a>
 {%endif%}
     </div>
 {%endblock%}

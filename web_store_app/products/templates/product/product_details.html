@@ -51,7 +51,7 @@
         <div class="addToCartBox">
 <form method="post">
 {%csrf_token%}
-<input type="submit" value="Add to cart">
+<input class="addToCart" type="submit" value="Add to cart">
     <input style="width: 25px" type="number" name="quantity" value="1">
 </form><br><br>
             </div>
@@ -60,8 +60,8 @@
 <span style="font-size: 16px"><a href="/users/login/"><b>Log in</b> to add this product to cart</a></span>
 {%endif%}
     </span>
-    <div class="productSpecificationBox">
+<!--    <div class="productSpecificationBox">-->
 
-    </div>
+<!--    </div>-->
     </div>
 {%endblock%}
