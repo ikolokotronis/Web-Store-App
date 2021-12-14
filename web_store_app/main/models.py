@@ -7,6 +7,9 @@ from products.models import Product
 
 
 class Category(models.Model):
+    """
+    Stores information about categories
+    """
     name = models.CharField(max_length=500)
     description = models.TextField()
 
@@ -15,6 +18,11 @@ class Category(models.Model):
 
 
 class CategorySubCategory(models.Model):
+    """
+    Creates a relation between categories and subcategories, allowing a subcategory to belong to a category
+    :model Category:
+    :model SubCategory:
+    """
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE)
 
@@ -23,6 +31,9 @@ class CategorySubCategory(models.Model):
 
 
 class SubCategory(models.Model):
+    """
+    Stores information about subcategories
+    """
     name = models.CharField(max_length=500)
     description = models.TextField()
     category_id = models.ManyToManyField(Category, through=CategorySubCategory)
@@ -33,6 +44,9 @@ class SubCategory(models.Model):
 
 
 class ShoppingCart(models.Model):
+    """
+    Stores information about shopping carts(each user has his own shopping cart)
+    """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
@@ -42,6 +56,12 @@ class ShoppingCart(models.Model):
 
 
 class ProductOrder(models.Model):
+    """
+    Creates a relation between products and orders,
+    allowing to store information about which products were chosen in a specific order
+    :model Product:
+    :model Order:
+    """
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey('Order', on_delete=models.CASCADE)
@@ -52,6 +72,9 @@ class ProductOrder(models.Model):
 
 
 class Order(models.Model):
+    """
+    Stores information about orders(each user has his own orders)
+    """
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     product_ordered = models.ManyToManyField(Product, through=ProductOrder)
     datetime_ordered = models.DateTimeField(auto_now_add=True)

@@ -4,6 +4,12 @@ from django.db import models
 
 
 class SubCategoryProduct(models.Model):
+    """
+    Creates a relation between subcategories and products,
+    allowing products to belong to a specific subcategory
+    :model SubCategory:
+    :model Order:
+    """
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     subcategory = models.ForeignKey('main.SubCategory', on_delete=models.CASCADE)
 
@@ -12,7 +18,9 @@ class SubCategoryProduct(models.Model):
 
 
 class Product(models.Model):
-
+    """
+    Stores information about products.
+    """
     name = models.CharField(max_length=500)
 
     producent_name = models.CharField(max_length=250, null=True)
