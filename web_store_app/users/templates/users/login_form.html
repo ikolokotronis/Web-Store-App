@@ -1,5 +1,6 @@
 {%extends 'main/base.html'%}
 {%block content%}
+    <div class="loginContainer">
 <h3>Login</h3>
 <form method="post">
     {%csrf_token%}
@@ -11,4 +12,5 @@
 </form>
 {{error_text}}<br><a href="/users/password_reset/">Forgot your password?</a><br>
 <a href="/users/register/">Don't have an account yet?</a>
+    </div>
 {%endblock%}
