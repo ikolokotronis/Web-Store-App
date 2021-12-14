@@ -9,12 +9,12 @@ from users.models import WebsiteUser
 
 class HomePageView(View):
     def get(self, request):
+        """
+        Displays the application's home page
+        :param request:
+        :return home page html:
+        """
         welcome_text = ', welcome!'
-        # stringed_instruments = Category.objects.get(id=1)
-        # keyboard_instruments = Category.objects.get(id=2)
-        # drums = Category.objects.get(id=3)
-        # sound_system = Category.objects.get(id=4)
-        # other = Category.objects.get(id=6)
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating').order_by('-rating')[0:3]
@@ -65,6 +65,12 @@ class HomePageView(View):
 
 class CategoryDetailsView(View):
     def get(self, request, category_id):
+        """
+        Displays a specific category with it's details
+        :param request:
+        :param category_id:
+        :return category details page:
+        """
         category = Category.objects.get(id=category_id)
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
@@ -101,6 +107,12 @@ class CategoryDetailsView(View):
 
 class SubCategoryView(View):
     def get(self, request, subcategory_id):
+        """
+        Displays a specific sub category with it's details
+        :param request:
+        :param subcategory_id:
+        :return sub category details page:
+        """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         products = Product.objects.filter(subcategory_id=subcategory_id)
@@ -136,26 +148,14 @@ class SubCategoryView(View):
                       )
 
 
-# class ContactView(View):
-#     def get(self, request):
-#         all_categories = Category.objects.all()
-#         all_subcategories = SubCategory.objects.all().order_by('name')
-#         stringed_instruments = Category.objects.get(id=1)
-#         keyboard_instruments = Category.objects.get(id=2)
-#         drums = Category.objects.get(id=3)
-#         sound_system = Category.objects.get(id=4)
-#         shopping_cart = ShoppingCart.objects.all()
-#         return render(request, 'main/contact.html', {'stringed_instruments': stringed_instruments,
-#                                                                  'keyboard_instruments': keyboard_instruments,
-#                                                                  'drums': drums,
-#                                                                  'sound_system': sound_system,
-#                                                      'all_categories': all_categories,
-#                                                      'all_subcategories': all_subcategories,
-#                                                                  'shopping_cart_list': shopping_cart})
-
-
 class ShoppingCartView(View):
     def get(self, request, user_id):
+        """
+        Displays user's shopping cart
+        :param request:
+        :param user_id:
+        :return shopping cart page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/')
@@ -175,6 +175,12 @@ class ShoppingCartView(View):
 
 class ShoppingCartCheckoutView(View):
     def get(self, request, user_id):
+        """
+        Displays user's shopping cart checkout page. (with information about the chosen products and price amount)
+        :param request:
+        :param user_id:
+        :return shopping cart checkout page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/checkout/')
@@ -219,6 +225,13 @@ class ShoppingCartCheckoutView(View):
 
 class ShoppingCartRemoveProductView(View):
     def get(self, request, user_id, product_id):
+        """
+        A blank page for the purpose of removing a product from the shopping cart
+        :param request:
+        :param user_id:
+        :param product_id:
+        :return redirect to shopping cart page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/remove/{request.user.id}/{product_id}/')
@@ -230,6 +243,13 @@ class ShoppingCartRemoveProductView(View):
 
 class ShoppingCartPaymentView(View):
     def get(self, request, user_id, order_id):
+        """
+        Displays information about the payment options from which user has to choose
+        :param request:
+        :param user_id:
+        :param order_id:
+        :return shopping cart payment page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/{order_id}/payment/')
@@ -270,6 +290,13 @@ class ShoppingCartPaymentView(View):
 
 class ShoppingCartSummaryView(View):
     def get(self, request, user_id, order_id):
+        """
+        Displays a list of information about the products chosen by user
+        :param request:
+        :param user_id:
+        :param order_id:
+        :return shopping cart summary page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/{order_id}/summary/')
@@ -317,6 +344,13 @@ class ShoppingCartSummaryView(View):
 
 class ShoppingCartSuccessView(View):
     def get(self, request, user_id, order_id):
+        """
+        Displays information, that user has successfully finished the order and bought the chosen products
+        :param request:
+        :param user_id:
+        :param order_id:
+        :return shopping cart success page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/{order_id}/success/')

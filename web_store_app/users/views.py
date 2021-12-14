@@ -11,6 +11,11 @@ from django.http import HttpResponse
 
 class RegistrationView(View):
     def get(self, request):
+        """
+        Displays a registration form, allowing a new user to make an account
+        :param request:
+        :return registration form page:
+        """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/registration_form.html', {'all_categories': all_categories,
@@ -38,6 +43,11 @@ class RegistrationView(View):
 
 class LoginView(View):
     def get(self, request):
+        """
+        Displays a login form, allowing a user that already has an account to log in
+        :param request:
+        :return login form page:
+        """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/login_form.html', {'all_categories': all_categories,
@@ -61,6 +71,11 @@ class LoginView(View):
 
 class LogoutView(View):
     def get(self, request):
+        """
+        Displays a prompt to make sure that user want's to log out
+        :param request:
+        :return logout form page:
+        """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/logout_form.html', {'all_categories': all_categories,
@@ -74,6 +89,12 @@ class LogoutView(View):
 
 class UserPanelView(View):
     def get(self, request, user_id):
+        """
+        Displays information about the logged user credentials, including the address, phone number etc.
+        :param request:
+        :param user_id:
+        :return user panel page:
+        """
         # logged_user_id = request.user.id
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
@@ -107,6 +128,12 @@ class UserPanelView(View):
 
 class UserPanelEditView(View):
     def get(self, request, user_id):
+        """
+        Displays a form allowing the logged user to change his credentials
+        :param request:
+        :param user_id:
+        :return user panel edit page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/edit/{request.user.id}/')
@@ -155,9 +182,13 @@ class UserPanelEditView(View):
                                                                  'error_text': "Something went wrong"})
 
 
-
 class PasswordResetView(View):
     def get(self, request):
+        """
+        Displays a password reset form, allowing a user that has forgotten his password, to set a  new one
+        :param request:
+        :return password reset page:
+        """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/password_reset.html', {'all_categories': all_categories,
@@ -181,6 +212,12 @@ class PasswordResetView(View):
 
 class UserPanelOrdersView(View):
     def get(self, request, user_id):
+        """
+        Displays a list of orders made by the logged user
+        :param request:
+        :param user_id:
+        :return user panel orders page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/panel/orders/{request.user.id}/')
@@ -220,6 +257,12 @@ class UserPanelOrdersView(View):
 
 class UserPanelWalletRefillView(View):
     def get(self, request, user_id):
+        """
+        Displays a form allowing the logged user to refill his wallet
+        :param request:
+        :param user_id:
+        :return user panel wallet refill page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/wallet/{request.user.id}/refill/')
@@ -249,6 +292,12 @@ class UserPanelWalletRefillView(View):
 
 class UserPanelWalletWithdrawView(View):
     def get(self, request, user_id):
+        """
+        Displays a form allowing the logged user to withdraw from his wallet
+        :param request:
+        :param user_id:
+        :return user panel withdraw page:
+        """
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/wallet/{request.user.id}/withdraw/')

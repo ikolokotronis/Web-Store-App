@@ -9,6 +9,12 @@ from django.http import HttpResponse
 
 class ProductView(View):
     def get(self, request, product_id):
+        """
+        Displays information about a specific product, with the option to add it to the shopping cart
+        :param request:
+        :param product_id:
+        :return product details page:
+        """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         product = Product.objects.get(id=product_id)
