@@ -16,7 +16,7 @@ class HomePageView(View):
         welcome_text = ', welcome!'
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
-        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating').order_by('-rating')[0:3]
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
         added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                                 date_added__lte=date.today()).order_by('-date_added')[0:3]
         shopping_cart = ShoppingCart.objects.all()

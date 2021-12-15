@@ -392,3 +392,7 @@ a.footerLink{
     position: absolute;
     left: 15px;
 }
+
+.productImage{
+    position: absolute;
+}

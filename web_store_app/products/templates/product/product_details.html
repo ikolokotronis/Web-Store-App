@@ -5,11 +5,17 @@
 <!--    {%for product in last_viewed_products%}-->
 <!--    -{{product}}-->
 <!--    {%endfor%}-->
+    <div class="productImage">
     {%if product.image%}
-    <span style="position: absolute"><img src="{{product.image.url}}"></span>
+        {%if product.name == 'Gio GRX70QA-TRB' or product.name == 'SE Series ST Special' or product.name == 'PA300E'%}
+    <img style="width: 50%" src="{{product.image.url}}">
+        {%else%}
+        <img src="{{product.image.url}}">
+        {%endif%}
     {%else%}
-    <span style="position: absolute">This product has no image</span>
+    This product has no image
     {%endif%}
+        </div>
     <div class="productInformationContainer">
     <div class="productInformationBox">
         <span style="font-size: 15px">
