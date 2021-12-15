@@ -216,7 +216,13 @@ class ShoppingCartCheckoutView(View):
         shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
 
         user = WebsiteUser.objects.get(id=user_id)
-        order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number, address=address)
+        order = ""
+        if request.GET.get('discount_code'):
+            order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
+                                         address=address, discount_code=request.GET.get('discount_code'))
+        else:
+            order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
+                                         address=address)
 
         for shopping_cart_item in shopping_cart_list:
             product_id = shopping_cart_item.product.id
@@ -260,17 +266,7 @@ class ShoppingCartPaymentView(View):
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
-            # shopping_cart_length = 0
-            # for cart in shopping_cart_list:
-            #     quantity = []
-            #     quantity.append(cart.quantity)
-            #     shopping_cart_length = len(quantity)
-            # products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             order = Order.objects.get(id=order_id)
-            # if order.shipping_type == 2 and shopping_cart_length < 3:
-            #     products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list) + 15
-            # else:
-            #     products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
 
             return render(request, 'main/shoppingCart_payment.html', {'all_categories': all_categories,
                                                                       'all_subcategories': all_subcategories,
@@ -314,17 +310,22 @@ class ShoppingCartSummaryView(View):
             order = Order.objects.get(id=order_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             if order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) < 3:
-                products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list) + 15
-                order.amount_paid = products_summary
-                order.save()
+                if order.discount_code == 'NEWSLETTER':
+                    final_summary = products_summary - (products_summary * 0.15) + 15
+                    order.amount_paid = final_summary
+                    order.save()
+                else:
+                    final_summary = products_summary + 15
+                    order.amount_paid = final_summary
+                    order.save()
             else:
-                products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
-                order.amount_paid = products_summary
+                order.amount_paid = sum(product.product.price * product.quantity for product in shopping_cart_list)
                 order.save()
+
             return render(request, 'main/shoppingCart_summary.html', {'all_categories': all_categories,
                                                                       'all_subcategories': all_subcategories,
                                                                       'shopping_cart_list': shopping_cart_list,
-                                                                      'products_summary': products_summary,
+                                                                      'products_summary': final_summary,
                                                                       'order': order})
 
     def post(self, request, user_id, order_id):
