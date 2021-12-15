@@ -4,8 +4,7 @@ from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Or
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
-
-
+from django.core.mail import send_mail
 class HomePageView(View):
     def get(self, request):
         """
@@ -188,10 +187,15 @@ class ShoppingCartCheckoutView(View):
             all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+            if request.GET.get('discount_code'):
+                discount_code = request.GET.get('discount_code')
+                if discount_code == 'NEWSLETTER':
+                    products_summary = int(products_summary - products_summary*0.15)
             return render(request, 'main/shoppingCart_checkout.html', {'all_categories': all_categories,
                                                                        'all_subcategories': all_subcategories,
                                                                        'shopping_cart_list': shopping_cart_list,
                                                                        'products_summary': products_summary})
+
     def post(self, request, user_id):
         post_shipping_type = request.POST.get('shipping_type')
         phone_number = request.POST.get('phone_number')
@@ -255,17 +259,21 @@ class ShoppingCartPaymentView(View):
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
-            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+            # shopping_cart_length = 0
+            # for cart in shopping_cart_list:
+            #     quantity = []
+            #     quantity.append(cart.quantity)
+            #     shopping_cart_length = len(quantity)
+            # products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             order = Order.objects.get(id=order_id)
-            if order.shipping_type == 2:
-                products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list) - 15
-            else:
-                products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+            # if order.shipping_type == 2 and shopping_cart_length < 3:
+            #     products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list) + 15
+            # else:
+            #     products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
 
             return render(request, 'main/shoppingCart_payment.html', {'all_categories': all_categories,
                                                                       'all_subcategories': all_subcategories,
                                                                       'shopping_cart_list': shopping_cart_list,
-                                                                      'products_summary': products_summary,
                                                                       'order': order})
 
     def post(self, request, user_id, order_id):
@@ -302,9 +310,9 @@ class ShoppingCartSummaryView(View):
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
-            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             order = Order.objects.get(id=order_id)
-            if order.shipping_type == 2:
+            products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+            if order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) < 3:
                 products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list) + 15
                 order.amount_paid = products_summary
                 order.save()
@@ -363,3 +371,33 @@ class ShoppingCartSuccessView(View):
             return render(request, 'main/shoppingCart_success.html', {'all_categories': all_categories,
                                                                       'all_subcategories': all_subcategories})
 
+
+class NewsletterView(View):
+    def get(self, request):
+        """
+        Displays a form allowing user to sign in to newsletter
+        :param request:
+        :param subcategory_id:
+        :return sub category details page:
+        """
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        shopping_cart = ShoppingCart.objects.all()
+        return render(request, 'main/newsletter.html', {'all_categories': all_categories,
+                                                        'all_subcategories': all_subcategories,
+                                                        'shopping_cart_list': shopping_cart})
+
+    def post(self, request):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        shopping_cart = ShoppingCart.objects.all()
+        email = request.POST.get('email')
+        send_mail(subject='Music Store Newsletter',
+                  message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
+                  from_email='hillchar77@gmail.com',
+                  recipient_list=[email])
+        return render(request, 'main/newsletter.html', {'all_categories': all_categories,
+                                                        'all_subcategories': all_subcategories,
+                                                        'shopping_cart_list': shopping_cart,
+                                                        'success_text': 'Email sent.'
+                                                                        ' Check your inbox for further details'})

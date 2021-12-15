@@ -5,7 +5,8 @@ from datetime import date, timedelta
 from main.models import Category, Order, ProductOrder, SubCategory, ShoppingCart
 from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.core.mail import send_mail
+from random import randint
 
 
 class RegistrationView(View):
@@ -190,7 +191,7 @@ class UserPanelEditView(View):
 class PasswordResetView(View):
     def get(self, request):
         """
-        Displays a password reset form, allowing a user that has forgotten his password, to set a  new one
+        Displays a password reset form, allowing a user that has forgotten his password, to make a request for a new one
         :param request:
         :return password reset page:
         """
@@ -199,20 +200,61 @@ class PasswordResetView(View):
         return render(request, 'users/password_reset.html', {'all_categories': all_categories,
                                                              'all_subcategories': all_subcategories,
                                                              })
+
     def post(self, request):
-        try:
-            password = request.POST.get('password')
+            # def random_password_reset_code():
+            #     random_code = f'R{randint(1, 1000)}C{randint(1, 1000)}G{randint(1, 1000)}{randint(1, 100)}'
+            #     return random_code
+            all_categories = Category.objects.all()
+            all_subcategories = SubCategory.objects.all().order_by('name')
             email = request.POST.get('email')
-            user = WebsiteUser.objects.get(email=email)
+            send_mail(subject='Password reset',
+                      message=f'Password reset code: KFY53NB, link: 127.0.0.1:8000/users/password_reset/form/',
+                      from_email='hillchar77@gmail.com',
+                      recipient_list=[email])
+            return render(request, 'users/password_reset.html', {'all_categories': all_categories,
+                                                                 'all_subcategories': all_subcategories,
+                                                                 'success_text': 'Check your inbox for further details.'
+                                                             })
+        # except Exception:
+        #     all_categories = Category.objects.all()
+        #     all_subcategories = SubCategory.objects.all().order_by('name')
+        #     return render(request, 'users/password_reset.html', {'all_categories': all_categories,
+        #                                                          'all_subcategories': all_subcategories,
+        #                                                          'error_text': "Something went wrong"})
+
+
+class PasswordResetFormView(View):
+    def get(self, request):
+        """
+        Displays a password reset form, allowing a user that has forgotten his password, to set a new one after
+        confirming his authenticity by entering the code from his e-mail inbox
+        :param request:
+        :return password reset page:
+        """
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        return render(request, 'users/password_reset_form.html', {'all_categories': all_categories,
+                                                             'all_subcategories': all_subcategories,
+                                                             })
+
+    def post(self, request):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        secret_code = request.POST.get('secret_code')
+        user = WebsiteUser.objects.get(email=email)
+        if password == password2 and secret_code == 'KFY53NB':
             user.set_password(password)
             user.save()
             return redirect('/users/login/')
-        except Exception:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
-            return render(request, 'users/password_reset.html', {'all_categories': all_categories,
-                                                                 'all_subcategories': all_subcategories,
-                                                                 'error_text': "Something went wrong"})
+        else:
+            return render(request, 'users/password_reset_form.html', {'all_categories': all_categories,
+                                                                      'all_subcategories': all_subcategories,
+                                                                      'error_text': "Passwords don't match"
+                                                                      })
 
 
 class UserPanelOrdersView(View):

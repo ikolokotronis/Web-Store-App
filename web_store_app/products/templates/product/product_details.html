@@ -46,7 +46,7 @@
         <br><br><br><br>
         </div>
 <div class="productShoppingDetails">
-    <span style="font-size: 25px">{{product.price}}$</span><br><br>
+    <span style="font-size: 25px">${{product.price}}</span><br><br>
     </div>
         </div>
 <!--    {%if last_viewed_product_id%}-->
@@ -66,8 +66,11 @@
 <span style="font-size: 16px"><a href="/users/login/"><b>Log in</b> to add this product to cart</a></span>
 {%endif%}
     </span>
-<!--    <div class="productSpecificationBox">-->
-
-<!--    </div>-->
+    <div class="productSpecificationBox">
+        {%for product in last_viewed_products%}
+        - {{product}}<br>
+        {%endfor%}
+        {{result}}
+    </div>
     </div>
 {%endblock%}

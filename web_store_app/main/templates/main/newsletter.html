@@ -1,0 +1,12 @@
+{%extends 'main/base2.html'%}
+{%block content%}
+<div class="detailsBox">
+<h4>Join to our newsletter</h4>
+    <form method="post">
+        {%csrf_token%}
+        Your email: <input name="email" type="text" value="{{user.email}}"><br><br>
+        <input type="submit" value="Send">
+    </form>
+{{success_text}}
+</div>
+{%endblock%}

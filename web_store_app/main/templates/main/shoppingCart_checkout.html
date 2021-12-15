@@ -15,15 +15,18 @@
 {%endif%}
 <ul>
     {%for product in shopping_cart_list%}
-    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x</li>
+    <li>{{product.product}} <b>${{product.product.price}}</b> {{product.quantity}}x</li>
     {%endfor%}
 </ul>
-Summary: <b>{{products_summary}}$</b><br><br>
+Summary: <b>${{products_summary}}</b><br><br>
+    <form method="get">
+        Discount code: <input type="text" name="discount_code"> <input type="submit" value="Activate">
+    </form><br>
 <form method="post">
     {%csrf_token%}
     Delivery type*:<br>
     Pickup in person <input type="radio" value="pickup_in_person" name="shipping_type"><br>
-    Home shipping(+15$) <input type="radio" value="home_shipping" name="shipping_type"><br><br>
+    Home shipping(+$15) <input type="radio" value="home_shipping" name="shipping_type"><br><br>
     Address*: <input type="text" value="{{user.address}}" name="address"><br><br>
     Phone number*: <input type="text" value="{{user.phone_number}}" name="phone_number"><br><br>
     <input type="submit" value="Proceed to payment method">

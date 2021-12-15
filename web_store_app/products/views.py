@@ -3,7 +3,6 @@ from django.views import View
 from main.models import Category, ShoppingCart, SubCategory
 from products.models import Product, SubCategoryProduct
 from users.models import WebsiteUser
-from django.http import HttpResponse
 
 
 class ProductView(View):
@@ -19,7 +18,7 @@ class ProductView(View):
         product = Product.objects.get(id=product_id)
         shopping_cart = ShoppingCart.objects.all()
         subcategory = SubCategoryProduct.objects.filter(product_id=product_id)[0]
-        last_viewed_products = []
+        last_viewed_products = ""
         response = render(request, 'product/product_details.html', {'product': product,
                                                                 'shopping_cart_list': shopping_cart,
                                                                 'subcategory': subcategory,
@@ -28,18 +27,30 @@ class ProductView(View):
                                                                     'all_subcategories': all_subcategories,
                                                                     }
                       )
-        if request.COOKIES.get('last_viewed_product'):
-            last_viewed_products.append(request.COOKIES.get('last_viewed_product'))
+        result = []
+        result2 = ""
+        if request.session.get('last_viewed_products'):
+            last_viewed_products = request.session.get('last_viewed_products').split(',')
+            request.session['last_viewed_products'] += f'{product.name},'
+            for p in last_viewed_products:
+                result2 = p
+
         else:
-            response.set_cookie(key='last_viewed_product', value=product, max_age=3600)
-            last_viewed_products.append(request.COOKIES.get('last_viewed_product'))
-            return response
+            request.session['last_viewed_products'] = f'{product.name},'
+        # if request.COOKIES.get('last_viewed_product'):
+        #     last_viewed_products.append(request.COOKIES.get('last_viewed_product'))
+        #     response.set_cookie(key='last_viewed_product', value=product, max_age=3600)
+        # else:
+        #     response.set_cookie(key='last_viewed_product', value=product, max_age=3600)
+        #     last_viewed_products.append(request.COOKIES.get('last_viewed_product'))
+        #     return response
         return render(request, 'product/product_details.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories,
                                                   'product': product,
                                                                 'shopping_cart_list': shopping_cart,
                                                                 'subcategory': subcategory,
-                                                                'last_viewed_products': last_viewed_products}
+                                                                'last_viewed_products': last_viewed_products,
+                                                                'result': result2}
                       )
 
     def post(self, request, product_id):

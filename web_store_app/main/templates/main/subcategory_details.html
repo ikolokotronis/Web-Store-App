@@ -6,7 +6,11 @@
     {%for product in products%}
     <div class="borderBox">
     <a href="/product/{{product.id}}/">
+        {%if product.name == 'KeyLab Essential 61'%}
+                    <img class="borderImg" width="85%" height="150px" src="{{product.image.url}}">
+        {%else%}
                     <img class="borderImg" height="150px" src="{{product.image.url}}">
+        {%endif%}
                 </a>
                 <div class="borderInnerBox">
                 <a href="/product/{{product.id}}/"><b>{{product}}</b></a>

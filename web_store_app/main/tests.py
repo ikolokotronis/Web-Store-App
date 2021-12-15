@@ -123,7 +123,6 @@ def test_shopping_cart_payment_page_get(client, example_product, example_website
     client.login(username='test_user', password='test_password')
     response = client.get(f'/shopping_cart/{example_website_user.id}/{example_order.id}/payment/')
     assert response.status_code == 200
-    assert response.context['products_summary'] == 100
     for shopping_cart in response.context['shopping_cart_list']:
         assert shopping_cart.quantity == 1
     assert response.context['order'] == example_order
@@ -186,3 +185,19 @@ def test_shopping_cart_success_page_get(client, example_product, example_website
     order = Order.objects.get(user_id=example_website_user.id)
     assert order.user.id == example_website_user.id
 
+
+@pytest.mark.django_db
+def test_newsletter_page_get(client, example_website_user):  # newsletter page test 1
+    client = Client()
+    client.login(username='test_user', password='test_password')
+    response = client.get('/newsletter/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_newsletter_page_post(client, example_website_user):  # newsletter page test 2
+    client = Client()
+    client.login(username='test_user', password='test_password')
+    response = client.post('/newsletter/')
+    assert response.status_code == 200
+    assert response.context['success_text'] == 'Email sent. Check your inbox for further details'

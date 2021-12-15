@@ -20,25 +20,27 @@ from django.urls import path
 from main.views import HomePageView, CategoryDetailsView, SubCategoryView,\
     ShoppingCartView, ShoppingCartCheckoutView, \
     ShoppingCartRemoveProductView, ShoppingCartPaymentView, \
-    ShoppingCartSummaryView, ShoppingCartSuccessView
+    ShoppingCartSummaryView, ShoppingCartSuccessView, NewsletterView
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, \
     UserPanelView, UserPanelEditView, PasswordResetView, UserPanelOrdersView, \
-    UserPanelWalletRefillView, UserPanelWalletWithdrawView
+    UserPanelWalletRefillView, UserPanelWalletWithdrawView, PasswordResetFormView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
+    path('newsletter/', NewsletterView.as_view()),
     path('product/<int:product_id>/', ProductView.as_view()),
     path('category/<int:category_id>/', CategoryDetailsView.as_view()),
     path('subcategory/<int:subcategory_id>/', SubCategoryView.as_view()),
     path('users/register/', RegistrationView.as_view()),
-    path('users/login/', LoginView.as_view()),  #do zmiany na user
-    path('users/logout/', LogoutView.as_view()), #do zmiany na user
-    path('users/panel/<int:user_id>/', UserPanelView.as_view()), #do zmiany na user
-    path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),#do zmiany na user
+    path('users/login/', LoginView.as_view()),
+    path('users/logout/', LogoutView.as_view()),
+    path('users/panel/<int:user_id>/', UserPanelView.as_view()),
+    path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),
     path('users/panel/orders/<int:user_id>/', UserPanelOrdersView.as_view()),
-    path('users/password_reset/', PasswordResetView.as_view()), #do zmiany na user
+    path('users/password_reset/', PasswordResetView.as_view()),
+    path('users/password_reset/form/', PasswordResetFormView.as_view()),
     path('users/wallet/<int:user_id>/refill/', UserPanelWalletRefillView.as_view()),
     path('users/wallet/<int:user_id>/withdraw/', UserPanelWalletWithdrawView.as_view()),
     path('shopping_cart/<int:user_id>/', ShoppingCartView.as_view()),
@@ -46,6 +48,6 @@ urlpatterns = [
     path('shopping_cart/remove/<int:user_id>/<int:product_id>/', ShoppingCartRemoveProductView.as_view()),
     path('shopping_cart/<int:user_id>/<int:order_id>/payment/', ShoppingCartPaymentView.as_view()),
     path('shopping_cart/<int:user_id>/<int:order_id>/summary/', ShoppingCartSummaryView.as_view()),
-    path('shopping_cart/<int:user_id>/<int:order_id>/success/', ShoppingCartSuccessView.as_view()),
+    path('shopping_cart/<int:user_id>/<int:order_id>/success/', ShoppingCartSuccessView.as_view())
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
