@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 import pytest
-
+from main.models import ShoppingCart, Order, ProductOrder
 
 @pytest.mark.django_db
 def test_home_page_get():  #homepage test 1
@@ -38,7 +38,8 @@ def test_category_page_post(client, example_category): #category page test 2
 
 
 @pytest.mark.django_db
-def test_subcategory_page_get(client, example_subcategory, example_category, example_category_subcategory_relation): #subcategory page test 1
+def test_subcategory_page_get(client, example_subcategory,
+                              example_category, example_category_subcategory_relation): #subcategory page test 1
     client = Client()
     response = client.get(f'/subcategory/{example_subcategory.id}/')
     assert response.status_code == 200
@@ -57,38 +58,51 @@ def test_subcategory_page_post(client, example_subcategory): #subcategory page t
 
 
 @pytest.mark.django_db
-def test_shopping_cart_page_get(client, example_website_user): #shopping cart test 1
+def test_shopping_cart_page_get(client, example_website_user,
+                                example_product, example_shopping_cart): #shopping cart test 1
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.get(f'/shopping_cart/{example_website_user.id}/')
     assert response.status_code == 200
-    assert response.context['products_summary'] == 0
+    assert response.context['products_summary'] == 100
+    for shopping_cart in response.context['shopping_cart_list']:
+        assert shopping_cart.quantity == 1
 
 
 @pytest.mark.django_db
-def test_shopping_cart_page_post(client, example_website_user): #shopping cart test 2
+def test_shopping_cart_page_post(client, example_website_user, example_product, example_shopping_cart): #shopping cart test 2
     client = Client()
-    client.login(username='test_user', password='test_password') # TEST, DODAJ PRODUKT DO KOSZYKA I POTEM SPRAWDZ CZY SIE USUNAL
+    client.login(username='test_user', password='test_password')
     response = client.post(f'/shopping_cart/{example_website_user.id}/')
     assert response.status_code == 302
+    assert ShoppingCart.objects.filter(user=example_website_user).count() == 0
 
 
 @pytest.mark.django_db
-def test_shopping_cart_checkout_page_get(client, example_website_user): #shopping cart checkout test 1
+def test_shopping_cart_checkout_page_get(client, example_website_user,
+                                         example_product, example_shopping_cart): #shopping cart checkout test 1
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.get(f'/shopping_cart/{example_website_user.id}/checkout/')
     assert response.status_code == 200
-    assert response.context['products_summary'] == 0
+    assert response.context['products_summary'] == 100
+    for shopping_cart in response.context['shopping_cart_list']:
+        assert shopping_cart.quantity == 1
 
 
 @pytest.mark.django_db
-def test_shopping_cart_checkout_page_post(client, example_website_user): #shopping cart checkout test 2
+def test_shopping_cart_checkout_page_post(client, example_website_user, example_product, example_shopping_cart): #shopping cart checkout test 2
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.post(f'/shopping_cart/{example_website_user.id}/checkout/', {'phone_number': 123456789,
-                                                                                   'address': 'test_address'})
+                                                                                   'address': 'test_address',
+                                                                                   'shipping_type': 'pickup_in_person'})
     assert response.status_code == 302
+    order = Order.objects.get(user=example_website_user)
+    assert ProductOrder.objects.filter(user=example_website_user).count() >= 1
+    assert order.shipping_type == 1
+    assert order.address == 'test_address'
+    assert order.phone_number == 123456789
 
 
 @pytest.mark.django_db
@@ -97,6 +111,8 @@ def test_shopping_cart_remove_product_page_get(client, example_website_user, exa
     client.login(username='test_user', password='test_password')
     response = client.get(f'/shopping_cart/remove/{example_website_user.id}/{example_product.id}/')
     assert response.status_code == 302
+    for shopping_cart in ShoppingCart.objects.filter(user=example_website_user):
+        assert shopping_cart.product == 0
 
 
 @pytest.mark.django_db
@@ -107,6 +123,10 @@ def test_shopping_cart_payment_page_get(client, example_product, example_website
     response = client.get(f'/shopping_cart/{example_website_user.id}/{example_order.id}/payment/')
     assert response.status_code == 200
     assert response.context['products_summary'] == 100
+    for shopping_cart in response.context['shopping_cart_list']:
+        assert shopping_cart.quantity == 1
+    assert response.context['order'] == example_order
+    assert Order.objects.get(user=example_website_user)
 
 
 @pytest.mark.django_db
@@ -114,8 +134,11 @@ def test_shopping_cart_payment_page_post(client, example_product, example_websit
                                         example_shopping_cart, example_order): #shopping cart payment page test 2
     client = Client()
     client.login(username='test_user', password='test_password')
-    response = client.post(f'/shopping_cart/{example_website_user.id}/{example_order.id}/payment/')
+    response = client.post(f'/shopping_cart/{example_website_user.id}/{example_order.id}/payment/',
+                           {'payment_type': 'cash'})
     assert response.status_code == 302
+    order = Order.objects.get(user=example_website_user)
+    assert order.payment_type == 1
 
 
 @pytest.mark.django_db
@@ -126,6 +149,8 @@ def test_shopping_cart_summary_page_get(client, example_product, example_website
     response = client.get(f'/shopping_cart/{example_website_user.id}/{example_order.id}/summary/')
     assert response.status_code == 200
     assert response.context['products_summary'] == 100
+    for shopping_cart in response.context['shopping_cart_list']:
+        assert shopping_cart.quantity == 1
     assert response.context['order'] == example_order
 
 
@@ -136,13 +161,15 @@ def test_shopping_cart_summary_page_post(client, example_product, example_websit
     client.login(username='test_user', password='test_password')
     response = client.post(f'/shopping_cart/{example_website_user.id}/{example_order.id}/summary/')
     assert response.status_code == 302
+    assert example_order.amount_paid == 100
 
 
 @pytest.mark.django_db
 def test_shopping_cart_success_page_get(client, example_product, example_website_user,
-                                        example_shopping_cart, example_order): #shopping cart summary page test 1
+                                        example_shopping_cart, example_order): #shopping cart success page test 1
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.get(f'/shopping_cart/{example_website_user.id}/{example_order.id}/success/')
     assert response.status_code == 200
-    assert response.context['order'] == example_order
+    assert ShoppingCart.objects.filter(user=example_website_user).count() == 0
+

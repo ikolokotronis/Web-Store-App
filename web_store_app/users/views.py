@@ -104,7 +104,7 @@ class UserPanelView(View):
         return render(request, 'users/userpanel.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                         'user': user,
-                                                        'shopping_cart_list':shopping_cart
+                                                        'shopping_cart_list': shopping_cart
                                                             })
 
     def post(self, request, user_id):
@@ -148,7 +148,7 @@ class UserPanelEditView(View):
             return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'user': user,
-                                                                 'shopping_cart_list':shopping_cart})
+                                                                 'shopping_cart_list': shopping_cart})
     def post(self, request, user_id):
         try:
             username = request.POST.get('username')

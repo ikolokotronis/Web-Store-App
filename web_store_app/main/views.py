@@ -218,7 +218,6 @@ class ShoppingCartCheckoutView(View):
             product = Product.objects.get(id=product_id)
             ProductOrder.objects.create(order=order, product=product, quantity=shopping_cart_item.quantity, user=user)
 
-
         return redirect(f'/shopping_cart/{user_id}/{order.id}/payment/')
 
 
@@ -358,8 +357,6 @@ class ShoppingCartSuccessView(View):
             all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart = ShoppingCart.objects.filter(user_id=user_id)
             shopping_cart.delete()
-            order = Order.objects.get(id=order_id)
             return render(request, 'main/shoppingCart_success.html', {'all_categories': all_categories,
-                                                                      'all_subcategories': all_subcategories,
-                                                                      'order':order
-                                                                      })
+                                                                      'all_subcategories': all_subcategories})
+

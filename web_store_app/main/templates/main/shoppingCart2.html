@@ -83,7 +83,11 @@
         {%for product in shopping_cart_list%}
    	   <div class="Cart-Items">
    	   	  <div class="image-box">
+              {%if product.product.image%}
               <a href="/product/{{product.product.id}}/"><img src="{{product.product.image.url}}" style="height: 100%; width: 100%" /></a>
+              {%else%}
+              <a href="/product/{{product.product.id}}/"><img src="" style="height: 100%; width: 100%" /></a>
+              {%endif%}
    	   	  </div>
    	   	  <div class="about">
    	   	  	<h1 class="title"><a href="/product/{{product.product.id}}/">{{product.product}}</a></h1>
