@@ -216,12 +216,6 @@ class PasswordResetView(View):
                                                                  'all_subcategories': all_subcategories,
                                                                  'success_text': 'Check your inbox for further details.'
                                                              })
-        # except Exception:
-        #     all_categories = Category.objects.all()
-        #     all_subcategories = SubCategory.objects.all().order_by('name')
-        #     return render(request, 'users/password_reset.html', {'all_categories': all_categories,
-        #                                                          'all_subcategories': all_subcategories,
-        #                                                          'error_text': "Something went wrong"})
 
 
 class PasswordResetFormView(View):
@@ -253,7 +247,8 @@ class PasswordResetFormView(View):
         else:
             return render(request, 'users/password_reset_form.html', {'all_categories': all_categories,
                                                                       'all_subcategories': all_subcategories,
-                                                                      'error_text': "Passwords don't match"
+                                                                      'error_text':
+                                                                          "Passwords don't match to each other"
                                                                       })
 
 
