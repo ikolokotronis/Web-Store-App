@@ -1,10 +1,10 @@
 {%extends 'main/base2.html'%}
 {%block content%}
-<div class="centerContainer">
+<div style="text-align: center" class="centerContainer">
 <form method="post">
     {%csrf_token%}
 <p>
-    <b>Are you sure you want to log out?</b>
+    Are you sure you want to log out?<br>
     <input type="submit" value="Logout">
 </p>
 </form>
