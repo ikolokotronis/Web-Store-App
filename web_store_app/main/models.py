@@ -115,3 +115,11 @@ class Complaint(models.Model):
 
     def __str__(self):
         return f'{self.user}: {self.subject}'
+
+
+class Newsletter(models.Model):
+    """
+    Stores information about users signed to newsletter
+    """
+    user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
+    datetime_joined = models.DateTimeField(auto_now_add=True)

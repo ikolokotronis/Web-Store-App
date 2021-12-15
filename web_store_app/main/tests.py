@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 import pytest
-from main.models import ShoppingCart, Order, ProductOrder
+from main.models import ShoppingCart, Order, ProductOrder, Complaint
 
 
 @pytest.mark.django_db
@@ -201,3 +201,24 @@ def test_newsletter_page_post(client, example_website_user):  # newsletter page 
     response = client.post('/newsletter/')
     assert response.status_code == 200
     assert response.context['success_text'] == 'Email sent. Check your inbox for further details'
+
+
+@pytest.mark.django_db
+def test_complaint_page_get(client, example_website_user):  # complaint page test 1
+    client = Client()
+    client.login(username='test_user', password='test_password')
+    response = client.get('/complaint/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_complaint_page_post(client, example_website_user):  # complaint page test 2
+    client = Client()
+    client.login(username='test_user', password='test_password')
+    response = client.post('/complaint/', {'subject': 'test_subject', 'content': 'test_content'})
+    assert response.status_code == 200
+    assert response.context['success_text'] == 'Complaint sent'
+    complaint = Complaint.objects.get(user_id=example_website_user.id)
+    assert complaint.subject == 'test_subject'
+    assert complaint.content == 'test_content'
+
