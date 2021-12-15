@@ -26,3 +26,4 @@ def test_product_page_post(client, example_product,
     assert response.context['product'] == example_product
     for shopping_cart in response.context['shopping_cart_list']:
         assert shopping_cart.quantity == 1
+        assert shopping_cart.product == example_product

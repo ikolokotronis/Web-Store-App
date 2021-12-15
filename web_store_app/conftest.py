@@ -1,7 +1,6 @@
-from main.models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order
+from main.models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order, ProductOrder
 from products.models import Product, SubCategoryProduct
 from users.models import WebsiteUser
-
 import pytest
 
 
@@ -61,7 +60,8 @@ def example_website_user():
 def example_shopping_cart():
     return ShoppingCart.objects.create(
         product=Product.objects.first(),
-        user=WebsiteUser.objects.first()
+        user=WebsiteUser.objects.first(),
+        quantity=1
     )
 
 
@@ -79,33 +79,9 @@ def example_order():
 
 
 @pytest.fixture
-def create_products():
-    return [
-        Product.objects.create(
-            name='Product 1',
-            description='Product description 1',
-            rating='3'),
-
-        Product.objects.create(
-            name='Product 2',
-            description='Product description 2',
-            rating='4'),
-        Product.objects.create(
-            name='Product 3',
-            description='Product description 3',
-            rating='5'),
-    ]
-
-
-@pytest.fixture
-def create_categories():
-    return [
-        Category.objects.create(
-            name='First category',
-            description='First description'),
-
-        Category.objects.create(
-            name='Second category',
-            description='Second description',
-        ),
-    ]
+def example_product_order_relation():
+    return ProductOrder.objects.create(
+            user=WebsiteUser.objects.first(),
+            product=Product.objects.first(),
+            order=Order.objects.first(),
+            quantity=1)

@@ -7,6 +7,7 @@ class Category(models.Model):
     """
     Stores information about categories
     """
+    objects = None
     name = models.CharField(max_length=500)
     description = models.TextField()
 

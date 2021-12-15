@@ -306,17 +306,20 @@ class ShoppingCartSummaryView(View):
             order = Order.objects.get(id=order_id)
             if order.shipping_type == 2:
                 products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list) + 15
+                order.amount_paid = products_summary
+                order.save()
             else:
                 products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+                order.amount_paid = products_summary
+                order.save()
             return render(request, 'main/shoppingCart_summary.html', {'all_categories': all_categories,
                                                                       'all_subcategories': all_subcategories,
                                                                       'shopping_cart_list': shopping_cart_list,
                                                                       'products_summary': products_summary,
                                                                       'order': order})
+
     def post(self, request, user_id, order_id):
         order = Order.objects.get(id=order_id)
-        order.amount_paid = request.POST.get('amount_paid')
-        order.save()
         if order.payment_type == 4:
             user = WebsiteUser.objects.get(id=user_id)
             user.wallet -= int(request.POST.get('amount_paid'))
