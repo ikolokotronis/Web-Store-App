@@ -5,6 +5,7 @@ from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
 from django.core.mail import send_mail
+
 class HomePageView(View):
     def get(self, request):
         """

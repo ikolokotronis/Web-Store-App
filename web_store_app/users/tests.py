@@ -137,6 +137,21 @@ def test_password_reset_page_post(client, example_website_user): #password reset
 
 
 @pytest.mark.django_db
+def test_password_reset_form_page_get(client): #password reset form page test 1
+    client = Client()
+    response = client.get(f'/users/password_reset/form/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_password_reset_form_page_post(client, example_website_user): #password form reset page test 2
+    client = Client()
+    response = client.post(f'/users/password_reset/form/', {'email': 'test_email@test.com', 'password': 'new_password',
+                                                       'password2': 'new_password', 'secret_code': 'KFY53NB'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_user_wallet_refill_page_get(client, example_website_user): #user wallet refill page test 1
     client = Client()
     client.login(username='test_user', password='test_password')
