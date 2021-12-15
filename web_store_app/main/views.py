@@ -312,13 +312,16 @@ class ShoppingCartSummaryView(View):
             final_summary = products_summary
             if order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) < 3:
                 if order.discount_code == 'NEWSLETTER':
-                    final_summary = products_summary - (products_summary * 0.15) + 15
+                    final_summary = products_summary - ((products_summary * 0.20) + 15)
                     order.amount_paid = final_summary
                     order.save()
                 else:
                     final_summary = products_summary + 15
                     order.amount_paid = final_summary
                     order.save()
+            elif order.shipping_type == 1 and order.discount_code == 'NEWSLETTER':
+                order.amount_paid = final_summary - (final_summary * 0.20)
+                order.save()
             else:
                 order.amount_paid = final_summary
                 order.save()
@@ -393,6 +396,11 @@ class NewsletterView(View):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         shopping_cart = ShoppingCart.objects.all()
+        if Newsletter.objects.get(user_id=request.user.id):
+            return render(request, 'main/newsletter.html', {'all_categories': all_categories,
+                                                            'all_subcategories': all_subcategories,
+                                                            'shopping_cart_list': shopping_cart,
+                                                            'error_text': 'You are already signed to your newsletter'})
         email = request.POST.get('email')
         send_mail(subject='Music Store Newsletter',
                   message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
