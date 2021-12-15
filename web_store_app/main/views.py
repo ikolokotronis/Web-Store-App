@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order, ProductOrder, Complaint
+from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order, ProductOrder, Complaint, Newsletter
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
@@ -309,6 +309,7 @@ class ShoppingCartSummaryView(View):
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             order = Order.objects.get(id=order_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
+            final_summary = products_summary
             if order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) < 3:
                 if order.discount_code == 'NEWSLETTER':
                     final_summary = products_summary - (products_summary * 0.15) + 15
@@ -319,7 +320,7 @@ class ShoppingCartSummaryView(View):
                     order.amount_paid = final_summary
                     order.save()
             else:
-                order.amount_paid = sum(product.product.price * product.quantity for product in shopping_cart_list)
+                order.amount_paid = final_summary
                 order.save()
 
             return render(request, 'main/shoppingCart_summary.html', {'all_categories': all_categories,
@@ -397,6 +398,7 @@ class NewsletterView(View):
                   message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
                   from_email='hillchar77@gmail.com',
                   recipient_list=[email])
+        Newsletter.objects.create(user_id=request.user.id)
         return render(request, 'main/newsletter.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
                                                         'shopping_cart_list': shopping_cart,

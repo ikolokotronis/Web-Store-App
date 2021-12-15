@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 import pytest
-from main.models import ShoppingCart, Order, ProductOrder, Complaint
+from main.models import ShoppingCart, Order, ProductOrder, Complaint, Newsletter
 
 
 @pytest.mark.django_db
@@ -201,6 +201,7 @@ def test_newsletter_page_post(client, example_website_user):  # newsletter page 
     response = client.post('/newsletter/')
     assert response.status_code == 200
     assert response.context['success_text'] == 'Email sent. Check your inbox for further details'
+    assert Newsletter.objects.get(user_id=example_website_user.id)
 
 
 @pytest.mark.django_db

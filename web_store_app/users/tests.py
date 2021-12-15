@@ -133,7 +133,8 @@ def test_password_reset_page_get(client): #password reset page test 1
 def test_password_reset_page_post(client, example_website_user): #password reset page test 2
     client = Client()
     response = client.post(f'/users/password_reset/', {'email': 'test_email@test.com', 'password': 'reset_password'})
-    assert response.status_code == 302
+    assert response.status_code == 200
+    assert response.context['success_text'] == 'Check your inbox for further details.'
 
 
 @pytest.mark.django_db
@@ -147,7 +148,7 @@ def test_password_reset_form_page_get(client): #password reset form page test 1
 def test_password_reset_form_page_post(client, example_website_user): #password form reset page test 2
     client = Client()
     response = client.post(f'/users/password_reset/form/', {'email': 'test_email@test.com', 'password': 'new_password',
-                                                       'password2': 'new_password', 'secret_code': 'KFY53NB'})
+                                                            'password2': 'new_password', 'secret_code': 'KFY53NB'})
     assert response.status_code == 302
 
 
