@@ -1,0 +1,15 @@
+{%extends 'main/base2.html'%}
+{%block content%}
+<div class="detailsBox">
+<h4>Write a complaint</h4>
+    <form method="post">
+        {%csrf_token%}
+        Subject:<br> <input name="subject" type="text"><br><br>
+        <label for="complaint">Complaint:<br> </label>
+        <textarea id="complaint" name="content"></textarea><br><br>
+        <input type="submit" value="Send">
+    </form><br>
+{{success_text}}
+{{error_text}}
+</div>
+{%endblock%}

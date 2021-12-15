@@ -20,7 +20,8 @@ from django.urls import path
 from main.views import HomePageView, CategoryDetailsView, SubCategoryView,\
     ShoppingCartView, ShoppingCartCheckoutView, \
     ShoppingCartRemoveProductView, ShoppingCartPaymentView, \
-    ShoppingCartSummaryView, ShoppingCartSuccessView, NewsletterView
+    ShoppingCartSummaryView, ShoppingCartSuccessView, NewsletterView, \
+    ComplaintView
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, \
     UserPanelView, UserPanelEditView, PasswordResetView, UserPanelOrdersView, \
@@ -30,6 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view()),
     path('newsletter/', NewsletterView.as_view()),
+    path('complaint/', ComplaintView.as_view()),
     path('product/<int:product_id>/', ProductView.as_view()),
     path('category/<int:category_id>/', CategoryDetailsView.as_view()),
     path('subcategory/<int:subcategory_id>/', SubCategoryView.as_view()),

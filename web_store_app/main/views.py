@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order, ProductOrder
+from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order, ProductOrder, Complaint
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
@@ -379,8 +379,7 @@ class NewsletterView(View):
         """
         Displays a form allowing user to sign in to newsletter
         :param request:
-        :param subcategory_id:
-        :return sub category details page:
+        :return newsletter page:
         """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
@@ -403,3 +402,35 @@ class NewsletterView(View):
                                                         'shopping_cart_list': shopping_cart,
                                                         'success_text': 'Email sent.'
                                                                         ' Check your inbox for further details'})
+
+
+class ComplaintView(View):
+    def get(self, request):
+        """
+        Displays a form, allowing user to write a complaint
+        :return complaint page:
+        """
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        shopping_cart = ShoppingCart.objects.all()
+        return render(request, 'main/complaint.html', {'all_categories': all_categories,
+                                                        'all_subcategories': all_subcategories,
+                                                        'shopping_cart_list': shopping_cart})
+    def post(self, request):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
+        shopping_cart = ShoppingCart.objects.all()
+        if request.POST.get('subject') and request.POST.get('content'):
+            subject = request.POST.get('subject')
+            content = request.POST.get('content')
+            Complaint.objects.create(user_id=request.user.id, subject=subject, content=content)
+            return render(request, 'main/complaint.html', {'all_categories': all_categories,
+                                                           'all_subcategories': all_subcategories,
+                                                           'shopping_cart_list': shopping_cart,
+                                                           'success_text': 'Complaint sent'})
+
+        else:
+            return render(request, 'main/complaint.html', {'all_categories': all_categories,
+                                                           'all_subcategories': all_subcategories,
+                                                           'shopping_cart_list': shopping_cart,
+                                                           'error_text': 'You must define a subject and content'})

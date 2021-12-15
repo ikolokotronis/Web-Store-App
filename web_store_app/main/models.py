@@ -102,3 +102,13 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.user}, {self.datetime_ordered}'
+
+
+class Complaint(models.Model):
+    """
+    Stores information about complaints
+    """
+    user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
+    subject = models.TextField()
+    content = models.TextField()
+    datetime_added = models.DateTimeField(auto_now_add=True)
