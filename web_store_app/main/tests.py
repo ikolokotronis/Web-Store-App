@@ -71,7 +71,8 @@ def test_shopping_cart_page_get(client, example_website_user,
 
 
 @pytest.mark.django_db
-def test_shopping_cart_page_post(client, example_website_user, example_product, example_shopping_cart):  # shopping cart test 2
+def test_shopping_cart_page_post(client, example_website_user,
+                                 example_product, example_shopping_cart):  # shopping cart test 2
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.post(f'/shopping_cart/{example_website_user.id}/')
@@ -80,7 +81,8 @@ def test_shopping_cart_page_post(client, example_website_user, example_product, 
 
 
 @pytest.mark.django_db
-def test_shopping_cart_product_remove_page_get(client, example_website_user, example_product, example_shopping_cart):  # shopping cart product remove test 1
+def test_shopping_cart_product_remove_page_get(client, example_website_user,
+                                               example_product, example_shopping_cart):  # shopping cart product remove test 1
     client = Client()
     client.login(username='test_user', password='test_password')
     response = client.get(f'/shopping_cart/remove/{example_website_user.id}/{example_product.id}/')

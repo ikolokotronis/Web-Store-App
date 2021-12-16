@@ -191,7 +191,7 @@ class ShoppingCartCheckoutView(View):
             if request.GET.get('discount_code'):
                 discount_code = request.GET.get('discount_code')
                 if discount_code == 'NEWSLETTER':
-                    products_summary = int(products_summary - products_summary*0.15)
+                    products_summary = products_summary - products_summary*0.20
             return render(request, 'main/shoppingCart_checkout.html', {'all_categories': all_categories,
                                                                        'all_subcategories': all_subcategories,
                                                                        'shopping_cart_list': shopping_cart_list,
@@ -312,17 +312,24 @@ class ShoppingCartSummaryView(View):
             final_summary = products_summary
             if order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) < 3:
                 if order.discount_code == 'NEWSLETTER':
-                    final_summary = products_summary - ((products_summary * 0.20) + 15)
+                    final_summary = (products_summary - (products_summary * 0.20))+15
                     order.amount_paid = final_summary
                     order.save()
                 else:
                     final_summary = products_summary + 15
                     order.amount_paid = final_summary
                     order.save()
+            elif order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) >= 3:
+                if order.discount_code == 'NEWSLETTER':
+                    final_summary = (products_summary - (products_summary * 0.20))
+                    order.amount_paid = final_summary
+                    order.save()
+                else:
+                    final_summary = products_summary
+                    order.amount_paid = final_summary
+                    order.save()
             elif order.shipping_type == 1 and order.discount_code == 'NEWSLETTER':
-                order.amount_paid = final_summary - (final_summary * 0.20)
-                order.save()
-            else:
+                final_summary = products_summary - (products_summary * 0.20)
                 order.amount_paid = final_summary
                 order.save()
 
