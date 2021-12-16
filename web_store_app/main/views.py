@@ -6,6 +6,7 @@ from datetime import date, timedelta
 from users.models import WebsiteUser
 from django.core.mail import send_mail
 
+
 class HomePageView(View):
     def get(self, request):
         """
@@ -52,13 +53,13 @@ class HomePageView(View):
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
         shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
-                                                  'added_recently': added_recently,
-                                                  'all_categories': all_categories,
-                                                  'all_subcategories': all_subcategories,
-                                                  'product_results': product_results,
-                                                  'category_results': category_results,
-                                                  'subcategory_results': subcategory_results,
-                                                  'shopping_cart_list': shopping_cart}
+                                                            'added_recently': added_recently,
+                                                            'all_categories': all_categories,
+                                                            'all_subcategories': all_subcategories,
+                                                            'product_results': product_results,
+                                                            'category_results': category_results,
+                                                            'subcategory_results': subcategory_results,
+                                                            'shopping_cart_list': shopping_cart}
                       )
 
 
@@ -78,8 +79,8 @@ class CategoryDetailsView(View):
         return render(request, 'main/category_details.html', {'all_categories': all_categories,
                                                               'all_subcategories': all_subcategories,
                                                               'category': category,
-                                                                'subcategories': subcategories,
-                                                                'shopping_cart_list': shopping_cart}
+                                                              'subcategories': subcategories,
+                                                              'shopping_cart_list': shopping_cart}
                       )
 
     def post(self, request, category_id):
@@ -120,10 +121,10 @@ class SubCategoryView(View):
         shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/subcategory_details.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
-                                                              'products': products,
-                                                              'parent_category': parent_category,
+                                                                 'products': products,
+                                                                 'parent_category': parent_category,
                                                                  'subcategory': subcategory,
-                                                              'shopping_cart_list': shopping_cart})
+                                                                 'shopping_cart_list': shopping_cart})
 
     def post(self, request, subcategory_id):
         all_categories = Category.objects.all()
@@ -164,9 +165,10 @@ class ShoppingCartView(View):
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             return render(request, 'main/shoppingCart2.html', {'all_categories': all_categories,
-                                                              'all_subcategories': all_subcategories,
-                                                              'shopping_cart_list': shopping_cart_list,
-                                                              'products_summary': products_summary})
+                                                               'all_subcategories': all_subcategories,
+                                                               'shopping_cart_list': shopping_cart_list,
+                                                               'products_summary': products_summary})
+
     def post(self, request, user_id):
         ShoppingCart.objects.filter(user_id=user_id).delete()
         return redirect(f'/shopping_cart/{user_id}/')
@@ -205,7 +207,8 @@ class ShoppingCartCheckoutView(View):
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             return render(request, 'main/shoppingCart_checkout.html', {'shopping_cart_list': shopping_cart_list,
                                                                        'products_summary': products_summary,
-                                                                       'error_text': 'Phone number can not have more than 9 digits'})
+                                                                       'error_text':
+                                                                           'Phone number cannot have more than 9 digits'})
         address = request.POST.get('address')
         shipping_type = 1
         if post_shipping_type == 'pickup_in_person':
@@ -236,6 +239,7 @@ class ShoppingCartRemoveProductView(View):
     def get(self, request, user_id, product_id):
         """
         A blank page for the purpose of removing a product from the shopping cart
+        (automatically redirects back to shopping cart page)
         :param request:
         :param user_id:
         :param product_id:
@@ -294,7 +298,7 @@ class ShoppingCartPaymentView(View):
 class ShoppingCartSummaryView(View):
     def get(self, request, user_id, order_id):
         """
-        Displays a list of information about the products chosen by user
+        Displays a list of information about the order made by user
         :param request:
         :param user_id:
         :param order_id:
@@ -356,7 +360,8 @@ class ShoppingCartSummaryView(View):
                 return render(request, 'main/shoppingCart_summary.html', {'shopping_cart_list': shopping_cart_list,
                                                                           'products_summary': products_summary,
                                                                           'order': order,
-                                                                          'error_text': 'You dont have enough money in your wallet!'})
+                                                                          'error_text':
+                                                                              "You don't have enough money in your wallet!"})
             else:
                 user.save()
                 return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')

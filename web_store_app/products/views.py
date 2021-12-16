@@ -19,14 +19,14 @@ class ProductView(View):
         shopping_cart = ShoppingCart.objects.all()
         subcategory = SubCategoryProduct.objects.filter(product_id=product_id)[0]
         last_viewed_products = ""
-        response = render(request, 'product/product_details.html', {'product': product,
-                                                                'shopping_cart_list': shopping_cart,
-                                                                'subcategory': subcategory,
-                                                                'last_viewed_products': last_viewed_products,
-                                                                    'all_categories': all_categories,
-                                                                    'all_subcategories': all_subcategories,
-                                                                    }
-                      )
+        # response = render(request, 'product/product_details.html', {'product': product,
+        #                                                         'shopping_cart_list': shopping_cart,
+        #                                                         'subcategory': subcategory,
+        #                                                         'last_viewed_products': last_viewed_products,
+        #                                                             'all_categories': all_categories,
+        #                                                             'all_subcategories': all_subcategories,
+        #                                                             }
+        #               )
         result = []
         result2 = ""
         if request.session.get('last_viewed_products'):
@@ -37,16 +37,10 @@ class ProductView(View):
 
         else:
             request.session['last_viewed_products'] = f'{product.name},'
-        # if request.COOKIES.get('last_viewed_product'):
-        #     last_viewed_products.append(request.COOKIES.get('last_viewed_product'))
-        #     response.set_cookie(key='last_viewed_product', value=product, max_age=3600)
-        # else:
-        #     response.set_cookie(key='last_viewed_product', value=product, max_age=3600)
-        #     last_viewed_products.append(request.COOKIES.get('last_viewed_product'))
-        #     return response
+
         return render(request, 'product/product_details.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories,
-                                                  'product': product,
+                                                                'product': product,
                                                                 'shopping_cart_list': shopping_cart,
                                                                 'subcategory': subcategory,
                                                                 'last_viewed_products': last_viewed_products,

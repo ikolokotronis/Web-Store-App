@@ -6,7 +6,6 @@ from main.models import Category, Order, ProductOrder, SubCategory, ShoppingCart
 from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
-from random import randint
 
 
 class RegistrationView(View):
@@ -21,6 +20,7 @@ class RegistrationView(View):
         return render(request, 'users/registration_form.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories
                                                                 })
+
     def post(self, request):
         username = request.POST.get('username')
         first_name = request.POST.get('first_name')
@@ -34,7 +34,7 @@ class RegistrationView(View):
         if request.POST.get('phone_number'):
             phone_number = request.POST.get('phone_number')
         user = WebsiteUser.objects.create(username=username, first_name=first_name,
-                            last_name=last_name, email=email,
+                                          last_name=last_name, email=email,
                                           phone_number=phone_number, address=address)
         user.set_password(password)
         user.save()
@@ -103,10 +103,10 @@ class UserPanelView(View):
         user = WebsiteUser.objects.get(id=user_id)
         shopping_cart = ShoppingCart.objects.all()
         return render(request, 'users/userpanel.html', {'all_categories': all_categories,
-                                                            'all_subcategories': all_subcategories,
+                                                        'all_subcategories': all_subcategories,
                                                         'user': user,
                                                         'shopping_cart_list': shopping_cart
-                                                            })
+                                                        })
 
     def post(self, request, user_id):
         all_categories = Category.objects.all()
@@ -150,6 +150,7 @@ class UserPanelEditView(View):
                                                                  'all_subcategories': all_subcategories,
                                                                  'user': user,
                                                                  'shopping_cart_list': shopping_cart})
+
     def post(self, request, user_id):
         try:
             username = request.POST.get('username')
@@ -169,7 +170,7 @@ class UserPanelEditView(View):
                 return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                      'all_subcategories': all_subcategories,
                                                                      'user': user,
-                                                                     'error_text': 'You have to type a password'})
+                                                                     'error_text': 'You have to enter a password'})
             user.username = username
             user.first_name = first_name
             user.last_name = last_name
@@ -178,6 +179,7 @@ class UserPanelEditView(View):
             user.address = address
             user.save()
             return redirect('/users/login/')
+
         except Exception:
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
@@ -202,20 +204,20 @@ class PasswordResetView(View):
                                                              })
 
     def post(self, request):
-            # def random_password_reset_code():
-            #     random_code = f'R{randint(1, 1000)}C{randint(1, 1000)}G{randint(1, 1000)}{randint(1, 100)}'
-            #     return random_code
+            #  def random_password_reset_code():
+            #  random_code = f'R{randint(1, 1000)}C{randint(1, 1000)}G{randint(1, 1000)}{randint(1, 100)}'
+            #  return random_code
             all_categories = Category.objects.all()
             all_subcategories = SubCategory.objects.all().order_by('name')
             email = request.POST.get('email')
             send_mail(subject='Password reset',
-                      message=f'Password reset code: KFY53NB, link: 127.0.0.1:8000/users/password_reset/form/',
+                      message='Password reset code: KFY53NB, link: 127.0.0.1:8000/users/password_reset/form/',
                       from_email='hillchar77@gmail.com',
                       recipient_list=[email])
             return render(request, 'users/password_reset.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'success_text': 'Check your inbox for further details.'
-                                                             })
+                                                                 })
 
 
 class PasswordResetFormView(View):
@@ -229,8 +231,8 @@ class PasswordResetFormView(View):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/password_reset_form.html', {'all_categories': all_categories,
-                                                             'all_subcategories': all_subcategories,
-                                                             })
+                                                                  'all_subcategories': all_subcategories,
+                                                                  })
 
     def post(self, request):
         all_categories = Category.objects.all()
@@ -316,7 +318,6 @@ class UserPanelWalletRefillView(View):
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id)
             product_orders = ProductOrder.objects.filter(user_id=user_id)
-            user = WebsiteUser.objects.get(id=user_id)
             wallet = user.wallet
             shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_wallet_refill.html', {'all_categories': all_categories,
@@ -352,7 +353,6 @@ class UserPanelWalletWithdrawView(View):
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id)
             product_orders = ProductOrder.objects.filter(user_id=user_id)
-            user = WebsiteUser.objects.get(id=user_id)
             wallet = user.wallet
             shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_wallet_withdraw.html', {'all_categories': all_categories,
@@ -373,7 +373,6 @@ class UserPanelWalletWithdrawView(View):
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id)
             product_orders = ProductOrder.objects.filter(user_id=user_id)
-            user = WebsiteUser.objects.get(id=user_id)
             wallet = user.wallet
 
             return render(request, 'users/userpanel_wallet_withdraw.html',
@@ -387,3 +386,4 @@ class UserPanelWalletWithdrawView(View):
         else:
             user.save()
         return redirect(f'/users/panel/{user_id}/')
+

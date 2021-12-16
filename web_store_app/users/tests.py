@@ -2,7 +2,6 @@ from django.test import TestCase, Client
 import pytest
 from users.models import WebsiteUser
 from main.models import ProductOrder, Order
-from datetime import datetime, date
 
 
 @pytest.mark.django_db
