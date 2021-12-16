@@ -200,7 +200,7 @@ def test_newsletter_page_get(client, example_website_user):  # newsletter page t
 def test_newsletter_page_post(client, example_website_user):  # newsletter page test 2
     client = Client()
     client.login(username='test_user', password='test_password')
-    response = client.post('/newsletter/')
+    response = client.post('/newsletter/', {'email': 'test_email@gmail.com'})
     assert response.status_code == 200
     assert response.context['success_text'] == 'Email sent. Check your inbox for further details'
     assert Newsletter.objects.get(user_id=example_website_user.id)

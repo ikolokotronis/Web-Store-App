@@ -403,11 +403,11 @@ class NewsletterView(View):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         shopping_cart = ShoppingCart.objects.all()
-        if Newsletter.objects.get(user_id=request.user.id):
-            return render(request, 'main/newsletter.html', {'all_categories': all_categories,
-                                                            'all_subcategories': all_subcategories,
-                                                            'shopping_cart_list': shopping_cart,
-                                                            'error_text': 'You are already signed to your newsletter'})
+        # if Newsletter.objects.get(user_id=request.user.id):
+        #     return render(request, 'main/newsletter.html', {'all_categories': all_categories,
+        #                                                     'all_subcategories': all_subcategories,
+        #                                                     'shopping_cart_list': shopping_cart,
+        #                                                     'error_text': 'You are already signed to your newsletter'})
         email = request.POST.get('email')
         send_mail(subject='Music Store Newsletter',
                   message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
@@ -433,6 +433,7 @@ class ComplaintView(View):
         return render(request, 'main/complaint.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
                                                         'shopping_cart_list': shopping_cart})
+
     def post(self, request):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
