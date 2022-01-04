@@ -12,6 +12,8 @@ A web store application project
 * Forgot password functionality
 * Sign in to the newsletter
 * Write a complaint
+* Search for products, categories or subcategories
+* Preview each category's/subcategory's details
 * Add a product to your shopping cart   
 * Modify the quantity of the product before adding to your shopping cart  
 * Delete a specific product or all products in your shopping cart  
