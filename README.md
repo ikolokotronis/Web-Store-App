@@ -1,7 +1,7 @@
 # Web store app
 A web store application project  
 
-# Tools / Technologies used  
+# Tools / Technologies  
 * Python
 * Django
 * PostgreSQL
