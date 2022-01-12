@@ -1,19 +1,12 @@
 {%extends 'main/base2.html'%}
 {%block content%}
 <div class="centerContainer">
-<h3>Register</h3>
-<form method="post">
-    {%csrf_token%}
-<p>
-    Username:<br> <input type="text" name="username"> <br><br>
-    First name:<br> <input type="text" name="first_name"> <br><br>
-    Last name:<br> <input type="text" name="last_name"> <br><br>
-    E-mail:<br> <input type="email" name="email"> <br><br>
-    Password:<br> <input type="password" name="password"> <br><br>
-    Address(optional): <input type="text" name="address"> <br><br>
-    Phone number(optional): <input type="number" name="phone_number"> <br><br>
-    <input type="submit" value="Register">
-</p>
+    <div class="formHeader" style="text-align: center"><h2>Register</h2></div>
+<form method="post" style="padding: 25px">
+{%csrf_token%}
+  {{form.as_p}}
+  <input type="submit" value="Send">
+
 </form>
 <a href="/users/login/">Already have an account?</a>
     </div>

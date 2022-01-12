@@ -72,10 +72,10 @@ WSGI_APPLICATION = 'web_store_app.wsgi.application'
 DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
-        'NAME': 'web_store_db_4',
+        'NAME': 'web_store_db1',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'USER': 'postgres',
-        'PASSWORD': 'kol123',
+        'PASSWORD': 'postgres',
     }
 }
 

@@ -6,6 +6,7 @@ from main.models import Category, Order, ProductOrder, SubCategory, ShoppingCart
 from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
+from users.forms import RegistrationForm
 
 
 class RegistrationView(View):
@@ -17,28 +18,46 @@ class RegistrationView(View):
         """
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
+        form = RegistrationForm
         return render(request, 'users/registration_form.html', {'all_categories': all_categories,
-                                                                'all_subcategories': all_subcategories
+                                                                'all_subcategories': all_subcategories,
+                                                                'form': form
                                                                 })
 
     def post(self, request):
-        username = request.POST.get('username')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        address = ""
-        if request.POST.get('address'):
-            address = request.POST.get('address')
-        phone_number = 0
-        if request.POST.get('phone_number'):
-            phone_number = request.POST.get('phone_number')
-        user = WebsiteUser.objects.create(username=username, first_name=first_name,
-                                          last_name=last_name, email=email,
-                                          phone_number=phone_number, address=address)
-        user.set_password(password)
-        user.save()
-        return redirect('/users/login/')
+        form = RegistrationForm(request.POST)
+        if form.is_valid() and form.cleaned_data['password'] == form.cleaned_data['password2']:
+            username = form.cleaned_data['username']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            address = ""
+            if form.cleaned_data['address']:
+                address = form.cleaned_data['address']
+            phone_number = 0
+            if form.cleaned_data['phone_number']:
+                phone_number = form.cleaned_data['phone_number']
+            user = WebsiteUser.objects.create(username=username, first_name=first_name,
+                                              last_name=last_name, email=email,
+                                              phone_number=phone_number, address=address)
+            user.set_password(password)
+            user.save()
+            return redirect('/users/login/')
+        elif form.data['password'] and form.data['password2'] and form.data['password'] != form.data['password2']:
+            all_categories = Category.objects.all()
+            all_subcategories = SubCategory.objects.all().order_by('name')
+            form.add_error('password2', 'Passwords do not match')
+            return render(request, 'users/registration_form.html', {'form': form,
+                                                                    'all_categories': all_categories,
+                                                                    'all_subcategories': all_subcategories})
+        else:
+            all_categories = Category.objects.all()
+            all_subcategories = SubCategory.objects.all().order_by('name')
+            return render(request, 'users/registration_form.html', {'form': form,
+                                                                    'all_categories': all_categories,
+                                                                    'all_subcategories': all_subcategories
+                                                                    })
 
 
 class LoginView(View):
