@@ -1,16 +1,16 @@
 {%load static%}
-{%load mathfilters%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Music Store</title>
-    <link rel="stylesheet" href="{% static 'main/css/shoppingCart.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/home_page.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet'>
 </head>
 <body>
 <div id="backgroundLeftContainer">  </div>
 <div id="main">
+
     <div class="header">
         <h1><a href="/"><img width="860px" src="{% static 'main/img/logo2b.png'%}"></a></h1>
     </div>
@@ -23,16 +23,16 @@
 <div class="userManagementBox"><a href="/users/register/"><img style="width: 24px; height: 24px" src="{% static 'main/img/user2.png'%}"></a></div>
     {%endif%}
 
-        <div class="userManagementBox"><a href="#contact"><img style="width: 24px; height: 26px" src="{% static 'main/img/email2.png'%}"></a></div>
+        <div class="userManagementBox"><a href="/complaint/"><img style="width: 24px; height: 26px" src="{% static 'main/img/email2.png'%}"></a></div>
         {%if user.is_authenticated%}
         <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"></a>
             {%if shopping_cart_list|length is not 0%}
-            <span style="color: darkolivegreen">{{shopping_cart_list|length}}</span>
+            <span style="color: darkolivegreen;">{{shopping_cart_list|length}}</span>
             {%endif%}</div><br><br><br>
         {%else%}
         <div class="userManagementBox"><a href="/users/login/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"> </a></div><br><br><br>
-        {%endif%}
 
+        {%endif%}
 <div id="user_banner">
     {%if user.is_authenticated%}
     <i style="color: #403e3e;">Logged in as {{user}}{{welcome_text}}</i>
@@ -44,6 +44,7 @@
         <a style="color: #403e3e;" href="/users/register/">Register/Login</a>
     {%endif%}
     </div>
+<!--        <span style="position: relative; top: 90px; right: 30px"><img src="{% static 'main/img/logosmall.png'%}"></span>-->
     </div>
 
     <div id="leftContainer">
@@ -51,92 +52,68 @@
             {%for category in all_categories%}
             <div class="categoryBox"><a class="categoryLink" href="/category/{{category.id}}">{{category}}</a></div>
             {%endfor%}
+
         </div>
-        {%if product or registration%}
-        <div style="display: none" class="search">
+                <div class="search">
             <form method="post">
                 {%csrf_token%}
                 <input class="searchInput" placeholder="Search..." type="text" name="key_word">
             </form>
-        </div>
-        {%else%}
-        <div class="search">
-            <form method="post">
-                {%csrf_token%}
-                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
-            </form>
-        </div>
-        {%endif%}
-      <div class="detailsContainer">
-
-        {%block content%}
-
-          <div class="CartContainer">
-   	   <div class="Header">
-   	   	<h3 class="Heading">Shopping Cart</h3>
-           {%if shopping_cart_list|length is not 0%}
-           <form method="post">
-               {%csrf_token%}
-               <input type="submit" class="inputAction input_decoration" value="Remove all">
-           </form>
-   	   </div>
-        {%for product in shopping_cart_list%}
-   	   <div class="Cart-Items">
-   	   	  <div class="image-box">
-              {%if product.product.image%}
-              <a href="/product/{{product.product.id}}/"><img src="{{product.product.image.url}}" style="height: 100%; width: 100%" /></a>
-              {%else%}
-              <a href="/product/{{product.product.id}}/"><img src="" style="height: 100%; width: 100%" /></a>
-              {%endif%}
-   	   	  </div>
-   	   	  <div class="about">
-   	   	  	<h1 class="title"><a href="/product/{{product.product.id}}/">{{product.product}}</a></h1>
-   	   	  	<h3 class="subtitle">{{product.product.producent_name|upper}}</h3>
-<!--   	   	  	<img src="" style="height: 30px"/>-->
-   	   	  </div>
-   	   	  <div class="counter">
-<!--   	   	  	<div class="btn">+</div>-->
-   	   	  	<div class="count">{{product.quantity}}x</div>
-<!--   	   	  	<div class="btn">-</div>-->
-   	   	  </div>
-   	   	  <div class="prices">
-   	   	  	<div class="amount">${{product.product.price}}</div>
-<!--   	   	  	<div class="save"><u>Save for later</u></div>-->
-   	   	  	<div class="remove"><a class="Action" href="/shopping_cart/remove/{{user.id}}/{{product.product.id}}/">Remove</a></div>
-   	   	  </div>
-   	   </div>
-              {%endfor%}
-   	 <hr>
-   	 <div class="checkout">
-   	 <div class="total">
-   	 	<div>
-   	 		<div class="Subtotal">Sub-Total</div>
-   	 		<div class="items">
-                {%if shopping_cart_list|length > 1%}
-                {{shopping_cart_list|length}} items
-                {%else%}
-                {{shopping_cart_list|length}} item
-                {%endif%}
+        </div><br>
+{%block content%}
+        <div class="ads"><a href="/newsletter/"><img width="880px" src="{% static 'main/img/adsgif5.gif'%}"></a></div><br><br>
+        <div class="bestSellers">
+            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/bestsellers2.png'%}"></span>
+            {%for product in bestsellers%}
+            <div class="bestSellerBox">
+                <a href="product/{{product.id}}/">
+                <img class="bestsellerImg" height="150px" src="{{product.image.url}}"></a>
+                <div class="bestSellerInnerBox">
+                <a href="product/{{product.id}}/">{{product}}</a>
+                </div>
             </div>
-   	 	</div>
-   	 	<div class="total-amount">${{products_summary}}</div>
-   	 </div>
-   	 <a href="checkout/"><button class="button">Checkout</button></a>
-     </div>
-   </div>
-          {%else%}
-          <a href="/">Add products to your cart!</a>
-          {%endif%}
+            {%endfor%}
+        </div>
+        <div class="newProducts">
+            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/newproducts2.png'%}"></span>
+            {%for product in added_recently%}
+            <div class="newProductBox">
+                <a href="product/{{product.id}}/">
+                <img class="newProductImg" height="150px" src="{{product.image.url}}"></a>
+                <div class="newProductInnerBox">
+                <a href="product/{{product.id}}/">{{product}}</a>
+                </div>
+            </div>
+            {%endfor%}
 
-        {%endblock%}
-
-      </div>
-  </div>
-    <div id="rightContainer">
         </div>
 
     </div>
-</div>
+
+    <div id="rightContainer">
+
+<!--        <div class="search">-->
+<!--            <form method="post">-->
+<!--                {%csrf_token%}-->
+<!--                <input class="searchInput" placeholder="Search..." type="text" name="key_word">-->
+<!--            </form>-->
+<!--        </div>-->
+
+        <div class="categoriesUl">
+
+            <ul style="color: #403e3e">
+                {%for category in all_subcategories%}
+                <span style="padding: 5px;">
+                    <li><a style="color: #403e3e;" href="/subcategory/{{category.id}}">{{category|upper}}</a>
+                    </li>
+                </span>
+                {%endfor%}
+            </ul>
+
+        </div>
+
+    </div>
+{%endblock%}
     <div class="productAds">
         <div class="productAdsImg"><a href="/product/14/"><img width="250" height="210" src="{%static 'main/img/pacificaad.png'%}"></a></div><br>
         <div class="productAdsImg"><a href="/product/1/"><img width="250" height="210"  src="{%static 'main/img/launchkeyminiad.png'%}"></a></div><br>
@@ -144,7 +121,7 @@
 
     </div>
 </div>
-<div id="backgroundRightContainer"></div>
+<div id="backgroundRightContainer">  </div>
 <div class="footer">
     <div class="footerHeader">
         <img src="{%static 'main/img/storefooter.png'%}">
@@ -173,6 +150,7 @@
             <a class="footerLink" href="">Shipping</a><br>
             <a class="footerLink" href="">Returns</a><br>
             <a class="footerLink" href="">Payments</a><br>
+            <a class="footerLink" href="/newsletter/">Newsletter</a><br>
         </div>
     </div>
     <div class="footerBox">

@@ -6,6 +6,7 @@ from datetime import date, timedelta
 from users.models import WebsiteUser
 from django.core.mail import send_mail
 
+
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
 bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
@@ -22,7 +23,7 @@ class HomePageView(View):
         :return home page html:
         """
         welcome_text = ', welcome!'
-        response = render(request, 'main/base.html', {'bestsellers': bestsellers,
+        response = render(request, 'main/index.html', {'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
                                                   'shopping_cart_list': shopping_cart,
@@ -34,7 +35,7 @@ class HomePageView(View):
         else:
             response.set_cookie(key=f'welcome{request.user.id}', value='Welcome', max_age=86400)
             return response
-        return render(request, 'main/base.html', {'bestsellers': bestsellers,
+        return render(request, 'main/index.html', {'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
                                                   'all_subcategories': all_subcategories,
@@ -139,7 +140,7 @@ class ShoppingCartView(View):
         else:
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
-            return render(request, 'main/shoppingCart2.html', {'all_categories': all_categories,
+            return render(request, 'main/shoppingCart.html', {'all_categories': all_categories,
                                                                'all_subcategories': all_subcategories,
                                                                'shopping_cart_list': shopping_cart_list,
                                                                'products_summary': products_summary})

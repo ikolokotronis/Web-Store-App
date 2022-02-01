@@ -1,24 +1,60 @@
-{%extends 'main/base2.html'%}
+{%extends 'main/base.html'%}
 {%block content%}
-<div class="shoppingCartContainer">
-    <div class="cartHeader">
-        <h3 class="Heading">Shopping cart</h3>
-        {%if shopping_cart_list|length is not 0%}
-        <form method="post">
-    {%csrf_token%}
-    <input style="position: relative; left: 15px" class="Action input_decoration" type="submit" value="Remove all">
-</form>
-    </div>
-<ul>
-    {%for product in shopping_cart_list%}
-    <li>{{product.product}} <b>{{product.product.price}}$</b> {{product.quantity}}x <b><a class="Action" href="/shopping_cart/remove/{{user.id}}/{{product.product.id}}/">Remove</a> </b></li>
-    {%endfor%}
-</ul>
-
-Summary: <b>{{products_summary}}$</b><br><br>
-<a href="checkout/">Proceed to checkout</a>
+<div class="CartContainer">
+   	   <div class="Header">
+   	   	<h3 class="Heading">Shopping Cart</h3>
+           {%if shopping_cart_list|length is not 0%}
+           <form method="post">
+               {%csrf_token%}
+               <input type="submit" class="inputAction input_decoration" value="Remove all">
+           </form>
+   	   </div>
+        {%for product in shopping_cart_list%}
+   	   <div class="Cart-Items">
+   	   	  <div class="image-box">
+              {%if product.product.image%}
+              <a href="/product/{{product.product.id}}/"><img src="{{product.product.image.url}}" style="height: 100%; width: 100%" /></a>
+              {%else%}
+              <a href="/product/{{product.product.id}}/"><img src="" style="height: 100%; width: 100%" /></a>
+              {%endif%}
+   	   	  </div>
+   	   	  <div class="about">
+   	   	  	<h1 class="title"><a href="/product/{{product.product.id}}/">{{product.product}}</a></h1>
+   	   	  	<h3 class="subtitle">{{product.product.producent_name|upper}}</h3>
+<!--   	   	  	<img src="" style="height: 30px"/>-->
+   	   	  </div>
+   	   	  <div class="counter">
+<!--   	   	  	<div class="btn">+</div>-->
+   	   	  	<div class="count">{{product.quantity}}x</div>
+<!--   	   	  	<div class="btn">-</div>-->
+   	   	  </div>
+   	   	  <div class="prices">
+   	   	  	<div class="amount">${{product.product.price}}</div>
+<!--   	   	  	<div class="save"><u>Save for later</u></div>-->
+   	   	  	<div class="remove"><a class="Action" href="/shopping_cart/remove/{{user.id}}/{{product.product.id}}/">Remove</a></div>
+   	   	  </div>
+   	   </div>
+              {%endfor%}
+   	 <hr>
+   	 <div class="checkout">
+   	 <div class="total">
+   	 	<div>
+   	 		<div class="Subtotal">Sub-Total</div>
+   	 		<div class="items">
+                {%if shopping_cart_list|length > 1%}
+                {{shopping_cart_list|length}} items
+                {%else%}
+                {{shopping_cart_list|length}} item
+                {%endif%}
+            </div>
+   	 	</div>
+   	 	<div class="total-amount">${{products_summary}}</div>
+   	 </div>
+   	 <a href="checkout/"><button class="button">Checkout</button></a>
+     </div>
+</div>
 {%else%}
-<a href="/"><b>Add products to your cart!</b></a>
+    <a href="/">Add products to your cart!</a>
 {%endif%}
-    </div>
+
 {%endblock%}

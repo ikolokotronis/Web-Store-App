@@ -6,7 +6,6 @@ html,body{
 body{
     background-color: white;
 }
-
 #backgroundLeftContainer{
     background-color: #F9F6E8;
     margin-left: auto;
@@ -43,16 +42,6 @@ body{
     border-radius: 10px;
 }
 
-.footer{
-    position: absolute;
-    top: 1670px;
-    left: 275px;
-    right: 275px;
-    height:150px;
-    background-color: #F9F6E8;
-    box-shadow: 0 1px 8px 1px #888888;
-}
-
 .userManagement{
     float: left;
     background-color: white;
@@ -66,7 +55,7 @@ body{
 
 .userManagementBox{
     padding: 6px;
-    float:left;
+    float: left;
     border-radius: 5px;
 }
 
@@ -251,7 +240,7 @@ a{
     margin: 2px;
     display: block;
     padding: 8px;
-    color: #403e3e;;
+    color: #403e3e;
 }
 
 .detailsContainer{
@@ -304,13 +293,24 @@ input[type=submit].addToCart {
     margin-left: auto;
     margin-right: auto;
     position: absolute;
-    top: 285px;
+    top: 270px;
     left: 1325px;
 }
 
 .productAdsImg{
     border: 2px dashed #ccc;
     padding: 15px;
+}
+
+
+.footer{
+    position: absolute;
+    top: 1670px;
+    left: 275px;
+    right: 275px;
+    height:150px;
+    background-color: #F9F6E8;
+    box-shadow: 0 1px 8px 1px #888888;
 }
 
 .footerHeader{
@@ -336,7 +336,65 @@ a.footerLink{
     color: #403e3e;
 }
 
+.shoppingCartContainer{
+    text-align: center;
+    width: 500px;
+    height: 150px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 25px 40px #1687d933;
+    position: relative;
+    top: 25px;
+    left: 200px;
+}
 
+/*.cartHeader{*/
+/* margin: auto;*/
+/* width: 90%;*/
+/* height: 15%;*/
+/* display: flex;*/
+/* justify-content: space-between;*/
+/* align-items: center;*/
+/*}*/
+/*.Heading{*/
+/* font-size: 20px;*/
+/* font-family: ‘Open Sans’;*/
+/* font-weight: 700;*/
+/* color: #2F3841;*/
+/*}*/
+/*.Action{*/
+/* font-size: 14px;*/
+/* font-family: ‘Open Sans’;*/
+/* font-weight: 600;*/
+/* color: #E44C4C;*/
+/* cursor: pointer;*/
+/*}*/
+
+/*.input_decoration {*/
+/*    background-color: white;*/
+/*    border: 0 none;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.centerContainer{*/
+/*    border: 2px solid #ccc;*/
+/*    width: 30%;*/
+/*    padding: 15px;*/
+/*    position: relative;*/
+/*    left: 300px;*/
+/*}*/
+
+/*.userPanelContainer{*/
+/*    border: 2px solid #ccc;*/
+/*    width: 50%;*/
+/*    padding: 15px;*/
+/*    position: absolute;*/
+/*    left: 15px;*/
+/*}*/
+
+.productImage{
+    position: absolute;
+}
 
 .input_decoration {
     background-color: white;
@@ -511,16 +569,16 @@ hr{
 	font-weight: 900;
 	color: #202020;
 }
-.button{
-	margin-top: 10px;
-	width: 100%;
-	height: 40px;
-	border: none;
+.button {
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    border: none;
     background: #efd56a;
-	border-radius: 20px;
-	cursor: pointer;
-	font-size: 16px;
-	font-family: 'Open Sans';
-	font-weight: 600;
-	color: #202020;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Open Sans';
+    font-weight: 600;
+    color: #202020;
 }

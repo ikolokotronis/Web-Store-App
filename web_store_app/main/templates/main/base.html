@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Music Store</title>
-    <link rel="stylesheet" href="{% static 'main/css/basestyle.css' %}">
-    <link href='https://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
 </head>
 <body>
 <div id="backgroundLeftContainer">  </div>
 <div id="main">
-
     <div class="header">
         <h1><a href="/"><img width="860px" src="{% static 'main/img/logo2b.png'%}"></a></h1>
     </div>
@@ -27,12 +26,12 @@
         {%if user.is_authenticated%}
         <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"></a>
             {%if shopping_cart_list|length is not 0%}
-            <span style="color: darkolivegreen;">{{shopping_cart_list|length}}</span>
+            <span style="color: darkolivegreen">{{shopping_cart_list|length}}</span>
             {%endif%}</div><br><br><br>
         {%else%}
         <div class="userManagementBox"><a href="/users/login/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"> </a></div><br><br><br>
-
         {%endif%}
+
 <div id="user_banner">
     {%if user.is_authenticated%}
     <i style="color: #403e3e;">Logged in as {{user}}{{welcome_text}}</i>
@@ -44,7 +43,6 @@
         <a style="color: #403e3e;" href="/users/register/">Register/Login</a>
     {%endif%}
     </div>
-<!--        <span style="position: relative; top: 90px; right: 30px"><img src="{% static 'main/img/logosmall.png'%}"></span>-->
     </div>
 
     <div id="leftContainer">
@@ -52,68 +50,50 @@
             {%for category in all_categories%}
             <div class="categoryBox"><a class="categoryLink" href="/category/{{category.id}}">{{category}}</a></div>
             {%endfor%}
-
         </div>
-                <div class="search">
+        {%if product or registration%}
+        <div style="display: none" class="search">
             <form method="post">
                 {%csrf_token%}
                 <input class="searchInput" placeholder="Search..." type="text" name="key_word">
             </form>
-        </div><br>
-{%block content%}
-        <div class="ads"><a href="/newsletter/"><img width="880px" src="{% static 'main/img/adsgif5.gif'%}"></a></div><br><br>
-        <div class="bestSellers">
-            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/bestsellers2.png'%}"></span>
-            {%for product in bestsellers%}
-            <div class="bestSellerBox">
-                <a href="product/{{product.id}}/">
-                <img class="bestsellerImg" height="150px" src="{{product.image.url}}"></a>
-                <div class="bestSellerInnerBox">
-                <a href="product/{{product.id}}/">{{product}}</a>
-                </div>
-            </div>
-            {%endfor%}
         </div>
-        <div class="newProducts">
-            <span style="position: absolute; left: 0px"><img src="{% static 'main/img/newproducts2.png'%}"></span>
-            {%for product in added_recently%}
-            <div class="newProductBox">
-                <a href="product/{{product.id}}/">
-                <img class="newProductImg" height="150px" src="{{product.image.url}}"></a>
-                <div class="newProductInnerBox">
-                <a href="product/{{product.id}}/">{{product}}</a>
-                </div>
-            </div>
-            {%endfor%}
-
+        {%else%}
+        <div class="search">
+            <form method="post">
+                {%csrf_token%}
+                <input class="searchInput" placeholder="Search..." type="text" name="key_word">
+            </form>
         </div>
+        {%endif%}
+      <div class="detailsContainer">
 
-    </div>
+        {%block content%}
 
+        {%endblock%}
+
+      </div>
+  </div>
     <div id="rightContainer">
-
+<!--        {%if product%}-->
+<!--        <div style="display: none" class="search">-->
+<!--            <form method="post">-->
+<!--                {%csrf_token%}-->
+<!--                <input class="searchInput" placeholder="Search..." type="text" name="key_word">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        {%else%}-->
 <!--        <div class="search">-->
 <!--            <form method="post">-->
 <!--                {%csrf_token%}-->
 <!--                <input class="searchInput" placeholder="Search..." type="text" name="key_word">-->
 <!--            </form>-->
 <!--        </div>-->
-
-        <div class="categoriesUl">
-
-            <ul style="color: #403e3e">
-                {%for category in all_subcategories%}
-                <span style="padding: 5px;">
-                    <li><a style="color: #403e3e;" href="/subcategory/{{category.id}}">{{category|upper}}</a>
-                    </li>
-                </span>
-                {%endfor%}
-            </ul>
-
+<!--        {%endif%}-->
         </div>
 
     </div>
-{%endblock%}
+</div>
     <div class="productAds">
         <div class="productAdsImg"><a href="/product/14/"><img width="250" height="210" src="{%static 'main/img/pacificaad.png'%}"></a></div><br>
         <div class="productAdsImg"><a href="/product/1/"><img width="250" height="210"  src="{%static 'main/img/launchkeyminiad.png'%}"></a></div><br>
@@ -121,7 +101,7 @@
 
     </div>
 </div>
-<div id="backgroundRightContainer">  </div>
+<div id="backgroundRightContainer"></div>
 <div class="footer">
     <div class="footerHeader">
         <img src="{%static 'main/img/storefooter.png'%}">
