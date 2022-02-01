@@ -4,6 +4,10 @@ from main.models import Category, ShoppingCart, SubCategory
 from products.models import Product, SubCategoryProduct
 from users.models import WebsiteUser
 
+all_categories = Category.objects.all()
+all_subcategories = SubCategory.objects.all().order_by('name')
+shopping_cart = ShoppingCart.objects.all()
+
 
 class ProductView(View):
     def get(self, request, product_id):
@@ -13,10 +17,7 @@ class ProductView(View):
         :param product_id:
         :return product details page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         product = Product.objects.get(id=product_id)
-        shopping_cart = ShoppingCart.objects.all()
         subcategory = SubCategoryProduct.objects.filter(product_id=product_id)[0]
         last_viewed_products = ""
         # response = render(request, 'product/product_details.html', {'product': product,
@@ -48,12 +49,9 @@ class ProductView(View):
                       )
 
     def post(self, request, product_id):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         quantity = request.POST.get('quantity')
         product = Product.objects.get(id=product_id)
         user = WebsiteUser.objects.get(id=request.user.id)
-        shopping_cart = ShoppingCart.objects.all()
         ShoppingCart.objects.create(product=product, user=user, quantity=quantity)
         return render(request, 'product/product_details.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories,

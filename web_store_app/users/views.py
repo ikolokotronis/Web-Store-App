@@ -8,6 +8,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from users.forms import RegistrationForm
 
+all_categories = Category.objects.all()
+all_subcategories = SubCategory.objects.all().order_by('name')
+bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
+added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                        date_added__lte=date.today()).order_by('-date_added')[0:3]
+shopping_cart = ShoppingCart.objects.all()
+
 
 class RegistrationView(View):
     def get(self, request):
@@ -16,8 +23,6 @@ class RegistrationView(View):
         :param request:
         :return registration form page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         form = RegistrationForm
         return render(request, 'users/registration_form.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories,
@@ -67,15 +72,11 @@ class LoginView(View):
         :param request:
         :return login form page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/login_form.html', {'all_categories': all_categories,
                                                          'all_subcategories': all_subcategories,
                                                          })
 
     def post(self, request):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
@@ -95,8 +96,6 @@ class LogoutView(View):
         :param request:
         :return logout form page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/logout_form.html', {'all_categories': all_categories,
                                                           'all_subcategories': all_subcategories,
                                                           })
@@ -117,10 +116,7 @@ class UserPanelView(View):
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/panel/{request.user.id}/')
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         user = WebsiteUser.objects.get(id=user_id)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'users/userpanel.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
                                                         'user': user,
@@ -128,16 +124,10 @@ class UserPanelView(View):
                                                         })
 
     def post(self, request, user_id):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
                                                             'added_recently': added_recently,
                                                             'all_categories': all_categories,
@@ -161,10 +151,7 @@ class UserPanelEditView(View):
         if user_id != logged_user_id:
             return redirect(f'/users/edit/{request.user.id}/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             user = WebsiteUser.objects.get(id=user_id)
-            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'user': user,
@@ -183,8 +170,6 @@ class UserPanelEditView(View):
             if password != "":
                 user.set_password(password)
             else:
-                all_categories = Category.objects.all()
-                all_subcategories = SubCategory.objects.all().order_by('name')
                 user = WebsiteUser.objects.get(id=user_id)
                 return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                      'all_subcategories': all_subcategories,
@@ -200,8 +185,6 @@ class UserPanelEditView(View):
             return redirect('/users/login/')
 
         except Exception:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             user = WebsiteUser.objects.get(id=user_id)
             return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
@@ -216,18 +199,11 @@ class PasswordResetView(View):
         :param request:
         :return password reset page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/password_reset.html', {'all_categories': all_categories,
                                                              'all_subcategories': all_subcategories,
                                                              })
 
     def post(self, request):
-            #  def random_password_reset_code():
-            #  random_code = f'R{randint(1, 1000)}C{randint(1, 1000)}G{randint(1, 1000)}{randint(1, 100)}'
-            #  return random_code
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             email = request.POST.get('email')
             send_mail(subject='Password reset',
                       message='Password reset code: KFY53NB, link: 127.0.0.1:8000/users/password_reset/form/',
@@ -247,15 +223,11 @@ class PasswordResetFormView(View):
         :param request:
         :return password reset page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         return render(request, 'users/password_reset_form.html', {'all_categories': all_categories,
                                                                   'all_subcategories': all_subcategories,
                                                                   })
 
     def post(self, request):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
@@ -285,12 +257,9 @@ class UserPanelOrdersView(View):
         if user_id != logged_user_id:
             return redirect(f'/users/panel/orders/{request.user.id}/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id).order_by('-id')
             product_orders = ProductOrder.objects.filter(user_id=user_id)
-            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_orders.html', {'user': user,
                                                                    'orders': orders,
                                                                    'all_categories': all_categories,
@@ -299,16 +268,10 @@ class UserPanelOrdersView(View):
                                                                    'shopping_cart_list': shopping_cart})
 
     def post(self, request, user_id):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
                                                             'added_recently': added_recently,
                                                             'all_categories': all_categories,
@@ -332,13 +295,10 @@ class UserPanelWalletRefillView(View):
         if user_id != logged_user_id:
             return redirect(f'/users/wallet/{request.user.id}/refill/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id)
             product_orders = ProductOrder.objects.filter(user_id=user_id)
             wallet = user.wallet
-            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_wallet_refill.html', {'all_categories': all_categories,
                                                                           'all_subcategories': all_subcategories,
                                                                           'user': user,
@@ -367,13 +327,10 @@ class UserPanelWalletWithdrawView(View):
         if user_id != logged_user_id:
             return redirect(f'/users/wallet/{request.user.id}/withdraw/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id)
             product_orders = ProductOrder.objects.filter(user_id=user_id)
             wallet = user.wallet
-            shopping_cart = ShoppingCart.objects.all()
             return render(request, 'users/userpanel_wallet_withdraw.html', {'all_categories': all_categories,
                                                                             'all_subcategories': all_subcategories,
                                                                             'user': user,
@@ -387,13 +344,10 @@ class UserPanelWalletWithdrawView(View):
         user = WebsiteUser.objects.get(id=user_id)
         user.wallet -= int(amount)
         if user.wallet < 0:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             user = WebsiteUser.objects.get(id=user_id)
             orders = Order.objects.filter(user_id=user_id)
             product_orders = ProductOrder.objects.filter(user_id=user_id)
             wallet = user.wallet
-
             return render(request, 'users/userpanel_wallet_withdraw.html',
                           {'all_categories': all_categories,
                            'all_subcategories': all_subcategories,

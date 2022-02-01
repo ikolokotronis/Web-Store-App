@@ -6,6 +6,13 @@ from datetime import date, timedelta
 from users.models import WebsiteUser
 from django.core.mail import send_mail
 
+all_categories = Category.objects.all()
+all_subcategories = SubCategory.objects.all().order_by('name')
+bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
+added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+                                        date_added__lte=date.today()).order_by('-date_added')[0:3]
+shopping_cart = ShoppingCart.objects.all()
+
 
 class HomePageView(View):
     def get(self, request):
@@ -15,12 +22,6 @@ class HomePageView(View):
         :return home page html:
         """
         welcome_text = ', welcome!'
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
-        shopping_cart = ShoppingCart.objects.all()
         response = render(request, 'main/base.html', {'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
@@ -42,16 +43,10 @@ class HomePageView(View):
                       )
 
     def post(self, request):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
                                                             'added_recently': added_recently,
                                                             'all_categories': all_categories,
@@ -72,10 +67,7 @@ class CategoryDetailsView(View):
         :return category details page:
         """
         category = Category.objects.get(id=category_id)
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         subcategories = SubCategory.objects.filter(category_id=category_id)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/category_details.html', {'all_categories': all_categories,
                                                               'all_subcategories': all_subcategories,
                                                               'category': category,
@@ -84,16 +76,10 @@ class CategoryDetailsView(View):
                       )
 
     def post(self, request, category_id):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
                                                             'added_recently': added_recently,
                                                             'all_categories': all_categories,
@@ -113,12 +99,9 @@ class SubCategoryView(View):
         :param subcategory_id:
         :return sub category details page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
         products = Product.objects.filter(subcategory_id=subcategory_id)
         parent_category = CategorySubCategory.objects.filter(subcategory_id=subcategory_id)[0]
         subcategory = SubCategory.objects.get(id=subcategory_id)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/subcategory_details.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'products': products,
@@ -127,16 +110,10 @@ class SubCategoryView(View):
                                                                  'shopping_cart_list': shopping_cart})
 
     def post(self, request, subcategory_id):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-        added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                                date_added__lte=date.today()).order_by('-date_added')[0:3]
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
                                                             'added_recently': added_recently,
                                                             'all_categories': all_categories,
@@ -160,8 +137,6 @@ class ShoppingCartView(View):
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             return render(request, 'main/shoppingCart2.html', {'all_categories': all_categories,
@@ -186,8 +161,6 @@ class ShoppingCartCheckoutView(View):
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/checkout/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             if request.GET.get('discount_code'):
@@ -267,8 +240,6 @@ class ShoppingCartPaymentView(View):
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/{order_id}/payment/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             order = Order.objects.get(id=order_id)
 
@@ -308,8 +279,6 @@ class ShoppingCartSummaryView(View):
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/{order_id}/summary/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             order = Order.objects.get(id=order_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
@@ -382,8 +351,6 @@ class ShoppingCartSuccessView(View):
         if user_id != logged_user_id:
             return redirect(f'/shopping_cart/{request.user.id}/{order_id}/success/')
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             shopping_cart = ShoppingCart.objects.filter(user_id=user_id)
             shopping_cart.delete()
             return render(request, 'main/shoppingCart_success.html', {'all_categories': all_categories,
@@ -397,17 +364,11 @@ class NewsletterView(View):
         :param request:
         :return newsletter page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/newsletter.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
                                                         'shopping_cart_list': shopping_cart})
 
     def post(self, request):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        shopping_cart = ShoppingCart.objects.all()
         # if Newsletter.objects.get(user_id=request.user.id):
         #     return render(request, 'main/newsletter.html', {'all_categories': all_categories,
         #                                                     'all_subcategories': all_subcategories,
@@ -432,17 +393,11 @@ class ComplaintView(View):
         Displays a form, allowing user to write a complaint
         :return complaint page:
         """
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        shopping_cart = ShoppingCart.objects.all()
         return render(request, 'main/complaint.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
                                                         'shopping_cart_list': shopping_cart})
 
     def post(self, request):
-        all_categories = Category.objects.all()
-        all_subcategories = SubCategory.objects.all().order_by('name')
-        shopping_cart = ShoppingCart.objects.all()
         if request.POST.get('subject') and request.POST.get('content'):
             subject = request.POST.get('subject')
             content = request.POST.get('content')
