@@ -1,5 +1,7 @@
 # Web store app
-A web store application project  
+A web store application project  (made for django practice.) 
+Originally it was written to be a music store but it could be anything you want, based on what you add to database. (except from the logo, which you can delete of course.)  
+
 
 # Tools / Technologies  
 * Python
