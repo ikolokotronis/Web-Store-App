@@ -16,6 +16,7 @@ bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3
 added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                         date_added__lte=date.today()).order_by('-date_added')[0:3]
 shopping_cart = ShoppingCart.objects.all()
+discount_codes = [i.code for i in DiscountCodes.objects.all()]
 
 
 class HomePageView(View):
@@ -168,8 +169,10 @@ class ShoppingCartCheckoutView(View):
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             if request.GET.get('discount_code'):
-                discount_codes = [i.code for i in DiscountCodes.objects.all()]
-                discount_code = request.GET.get('discount_code')
+                try:
+                    discount_code = DiscountCodes.objects.get(name=request.GET.get('discount_code'))
+                except Exception:
+                    return redirect(f'/shopping_cart/{request.user.id}/checkout/')
                 if discount_code in discount_codes:
                     products_summary = products_summary - products_summary * 0.20
             return render(request, 'main/shoppingCart_checkout.html', {'all_categories': all_categories,
@@ -199,8 +202,12 @@ class ShoppingCartCheckoutView(View):
         user = WebsiteUser.objects.get(id=user_id)
         order = ""
         if request.GET.get('discount_code'):
+            try:
+                discount_code = DiscountCodes.objects.get(name=request.GET.get('discount_code'))
+            except Exception:
+                return redirect(f'/shopping_cart/{request.user.id}/checkout/')
             order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
-                                         address=address, discount_code=request.GET.get('discount_code'))
+                                         address=address, discount_code=discount_code)
         else:
             order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
                                          address=address)
@@ -289,7 +296,7 @@ class ShoppingCartSummaryView(View):
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             final_summary = products_summary
             if order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) < 3:
-                if order.discount_code == 'NEWSLETTER':
+                if order.discount_code:  # not finished yet
                     final_summary = (products_summary - (products_summary * 0.20))+15
                     order.amount_paid = final_summary
                     order.save()

@@ -77,7 +77,7 @@ class Order(models.Model):
     product_ordered = models.ManyToManyField(Product, through=ProductOrder)
     datetime_ordered = models.DateTimeField(auto_now_add=True)
     amount_paid = models.IntegerField(null=True)
-    discount_code = models.TextField(null=True)
+    discount_code = models.ForeignKey("DiscountCodes", on_delete=models.CASCADE, null=True)
     status_choices = (
         (1, 'Information about the order received'),
         (2, 'Order packaging in progress'),
