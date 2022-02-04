@@ -123,3 +123,13 @@ class Newsletter(models.Model):
     """
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     datetime_joined = models.DateTimeField(auto_now_add=True)
+
+
+class DiscountCodes(models.Model):
+    """
+        Stores available discount codes
+    """
+    code = models.TextField()
+
+    def __str__(self):
+        return self.code

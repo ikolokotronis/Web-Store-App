@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Category, SubCategory, CategorySubCategory, ShoppingCart, Order, ProductOrder, Complaint, Newsletter
+from .models import Category, SubCategory, CategorySubCategory,\
+                    ShoppingCart, Order, \
+                    ProductOrder, Complaint, \
+                    Newsletter, DiscountCodes
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
@@ -24,11 +27,11 @@ class HomePageView(View):
         """
         welcome_text = ', welcome!'
         response = render(request, 'main/index.html', {'bestsellers': bestsellers,
-                                                  'added_recently': added_recently,
-                                                  'all_categories': all_categories,
-                                                  'shopping_cart_list': shopping_cart,
-                                                      'welcome_text': welcome_text,
-                                                      'all_subcategories': all_subcategories}
+                                                       'added_recently': added_recently,
+                                                       'all_categories': all_categories,
+                                                       'shopping_cart_list': shopping_cart,
+                                                       'welcome_text': welcome_text,
+                                                       'all_subcategories': all_subcategories}
                       )
         if request.COOKIES.get(f'welcome{request.user.id}'):
             welcome_text = ', welcome back!'
@@ -165,9 +168,10 @@ class ShoppingCartCheckoutView(View):
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             if request.GET.get('discount_code'):
+                discount_codes = [i.code for i in DiscountCodes.objects.all()]
                 discount_code = request.GET.get('discount_code')
-                if discount_code == 'NEWSLETTER':
-                    products_summary = products_summary - products_summary*0.20
+                if discount_code in discount_codes:
+                    products_summary = products_summary - products_summary * 0.20
             return render(request, 'main/shoppingCart_checkout.html', {'all_categories': all_categories,
                                                                        'all_subcategories': all_subcategories,
                                                                        'shopping_cart_list': shopping_cart_list,
