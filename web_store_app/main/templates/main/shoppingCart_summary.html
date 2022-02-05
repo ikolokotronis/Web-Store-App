@@ -20,7 +20,7 @@ Address: <b>{{order.address}}</b><br><br>
 Phone number: <b>{{order.phone_number}}</b><br><br>
 Payment type: <b>{{order.get_payment_type_display}}</b><br><br>
     {%if order.discount_code%}
-Discount code: <b>{{order.discount_code}}</b><br><br>
+Discount code: <b>{{order.discount_code.name}}</b><br><br>
     {%endif%}
 Summary: <b>{{products_summary}}$</b><br><br>
 <form method="post">

@@ -77,7 +77,7 @@ class Order(models.Model):
     product_ordered = models.ManyToManyField(Product, through=ProductOrder)
     datetime_ordered = models.DateTimeField(auto_now_add=True)
     amount_paid = models.IntegerField(null=True)
-    discount_code = models.ForeignKey("DiscountCodes", on_delete=models.CASCADE, null=True)
+    discount_code = models.ForeignKey("DiscountCode", on_delete=models.CASCADE, null=True)
     status_choices = (
         (1, 'Information about the order received'),
         (2, 'Order packaging in progress'),
@@ -125,11 +125,9 @@ class Newsletter(models.Model):
     datetime_joined = models.DateTimeField(auto_now_add=True)
 
 
-class DiscountCodes(models.Model):
-    """
-        Stores available discount codes
-    """
-    code = models.TextField()
+class DiscountCode(models.Model):
+    name = models.TextField()
+    discount_percent = models.IntegerField()
 
     def __str__(self):
-        return self.code
+        return f"{self.name} ({self.discount_percent})"

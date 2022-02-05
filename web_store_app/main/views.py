@@ -3,12 +3,11 @@ from django.views import View
 from .models import Category, SubCategory, CategorySubCategory,\
                     ShoppingCart, Order, \
                     ProductOrder, Complaint, \
-                    Newsletter, DiscountCodes
+                    Newsletter, DiscountCode
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
 from django.core.mail import send_mail
-
 
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
@@ -16,7 +15,7 @@ bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3
 added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                         date_added__lte=date.today()).order_by('-date_added')[0:3]
 shopping_cart = ShoppingCart.objects.all()
-discount_codes = [i.code for i in DiscountCodes.objects.all()]
+discount_codes = DiscountCode.objects.all()
 
 
 class HomePageView(View):
@@ -170,7 +169,7 @@ class ShoppingCartCheckoutView(View):
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             if request.GET.get('discount_code'):
                 try:
-                    discount_code = DiscountCodes.objects.get(name=request.GET.get('discount_code'))
+                    discount_code = DiscountCode.objects.get(name=request.GET.get('discount_code'))
                 except Exception:
                     return redirect(f'/shopping_cart/{request.user.id}/checkout/')
                 if discount_code in discount_codes:
@@ -203,7 +202,7 @@ class ShoppingCartCheckoutView(View):
         order = ""
         if request.GET.get('discount_code'):
             try:
-                discount_code = DiscountCodes.objects.get(name=request.GET.get('discount_code'))
+                discount_code = DiscountCode.objects.get(name=request.GET.get('discount_code'))
             except Exception:
                 return redirect(f'/shopping_cart/{request.user.id}/checkout/')
             order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
@@ -296,8 +295,8 @@ class ShoppingCartSummaryView(View):
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
             final_summary = products_summary
             if order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) < 3:
-                if order.discount_code:  # not finished yet
-                    final_summary = (products_summary - (products_summary * 0.20))+15
+                if order.discount_code:
+                    final_summary = (products_summary - (products_summary * (order.discount_code.discount_percent/100)))+15
                     order.amount_paid = final_summary
                     order.save()
                 else:
@@ -305,16 +304,16 @@ class ShoppingCartSummaryView(View):
                     order.amount_paid = final_summary
                     order.save()
             elif order.shipping_type == 2 and len([shopping_cart.quantity for shopping_cart in shopping_cart_list]) >= 3:
-                if order.discount_code == 'NEWSLETTER':
-                    final_summary = (products_summary - (products_summary * 0.20))
+                if order.discount_code:
+                    final_summary = (products_summary - (products_summary * (order.discount_code.discount_percent/100)))
                     order.amount_paid = final_summary
                     order.save()
                 else:
                     final_summary = products_summary
                     order.amount_paid = final_summary
                     order.save()
-            elif order.shipping_type == 1 and order.discount_code == 'NEWSLETTER':
-                final_summary = products_summary - (products_summary * 0.20)
+            elif order.shipping_type == 1:
+                final_summary = products_summary - (products_summary * (order.discount_code.discount_percent/100))
                 order.amount_paid = final_summary
                 order.save()
 
