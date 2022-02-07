@@ -6,7 +6,6 @@ from users.models import WebsiteUser
 
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
-shopping_cart = ShoppingCart.objects.all()
 
 
 class ProductView(View):
@@ -17,6 +16,7 @@ class ProductView(View):
         :param product_id:
         :return product details page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         product = Product.objects.get(id=product_id)
         subcategory = SubCategoryProduct.objects.filter(product_id=product_id)[0]
         last_viewed_products = ""
@@ -42,13 +42,14 @@ class ProductView(View):
         return render(request, 'product/product_details.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories,
                                                                 'product': product,
-                                                                'shopping_cart_list': shopping_cart,
+                                                                'shopping_cart_list': shopping_cart_list,
                                                                 'subcategory': subcategory,
                                                                 'last_viewed_products': last_viewed_products,
                                                                 'result': result2}
                       )
 
     def post(self, request, product_id):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         quantity = request.POST.get('quantity')
         product = Product.objects.get(id=product_id)
         user = WebsiteUser.objects.get(id=request.user.id)
@@ -57,5 +58,5 @@ class ProductView(View):
                                                                 'all_subcategories': all_subcategories,
                                                                 'product': product,
                                                                 'success_text': 'Product added to cart',
-                                                                'shopping_cart_list': shopping_cart}
+                                                                'shopping_cart_list': shopping_cart_list}
                       )

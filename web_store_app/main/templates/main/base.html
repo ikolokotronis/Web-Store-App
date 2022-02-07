@@ -6,6 +6,7 @@
     <title>Music Store</title>
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
+    <script src="{%static 'main/js/app.js'%}"></script>
 </head>
 <body>
 <div id="backgroundLeftContainer">  </div>
@@ -26,7 +27,7 @@
         {%if user.is_authenticated%}
         <div class="userManagementBox"><a href="/shopping_cart/{{user.id}}/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"></a>
             {%if shopping_cart_list|length is not 0%}
-            <span style="color: darkolivegreen">{{shopping_cart_list|length}}</span>
+            <span id="cart-item-counter" style="color: darkolivegreen">{{shopping_cart_list|length}}</span>
             {%endif%}</div><br><br><br>
         {%else%}
         <div class="userManagementBox"><a href="/users/login/"><img style="width: 24px; height: 23px" src="{% static 'main/img/shopping-cart2.png'%}"> </a></div><br><br><br>

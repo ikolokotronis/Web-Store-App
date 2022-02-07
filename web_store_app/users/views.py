@@ -13,7 +13,6 @@ all_subcategories = SubCategory.objects.all().order_by('name')
 bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
 added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                         date_added__lte=date.today()).order_by('-date_added')[0:3]
-shopping_cart = ShoppingCart.objects.all()
 
 
 class RegistrationView(View):
@@ -113,6 +112,7 @@ class UserPanelView(View):
         :param user_id:
         :return user panel page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/panel/{request.user.id}/')
@@ -120,10 +120,11 @@ class UserPanelView(View):
         return render(request, 'users/userpanel.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
                                                         'user': user,
-                                                        'shopping_cart_list': shopping_cart
+                                                        'shopping_cart_list': shopping_cart_list
                                                         })
 
     def post(self, request, user_id):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
@@ -135,7 +136,7 @@ class UserPanelView(View):
                                                             'product_results': product_results,
                                                             'category_results': category_results,
                                                             'subcategory_results': subcategory_results,
-                                                            'shopping_cart_list': shopping_cart}
+                                                            'shopping_cart_list': shopping_cart_list}
                       )
 
 
@@ -147,6 +148,7 @@ class UserPanelEditView(View):
         :param user_id:
         :return user panel edit page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/edit/{request.user.id}/')
@@ -155,7 +157,7 @@ class UserPanelEditView(View):
             return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'user': user,
-                                                                 'shopping_cart_list': shopping_cart})
+                                                                 'shopping_cart_list': shopping_cart_list})
 
     def post(self, request, user_id):
         try:
@@ -253,6 +255,7 @@ class UserPanelOrdersView(View):
         :param user_id:
         :return user panel orders page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/panel/orders/{request.user.id}/')
@@ -265,9 +268,10 @@ class UserPanelOrdersView(View):
                                                                    'all_categories': all_categories,
                                                                    'all_subcategories': all_subcategories,
                                                                    'product_orders': product_orders,
-                                                                   'shopping_cart_list': shopping_cart})
+                                                                   'shopping_cart_list': shopping_cart_list})
 
     def post(self, request, user_id):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
@@ -279,7 +283,7 @@ class UserPanelOrdersView(View):
                                                             'product_results': product_results,
                                                             'category_results': category_results,
                                                             'subcategory_results': subcategory_results,
-                                                            'shopping_cart_list': shopping_cart}
+                                                            'shopping_cart_list': shopping_cart_list}
                       )
 
 
@@ -291,6 +295,7 @@ class UserPanelWalletRefillView(View):
         :param user_id:
         :return user panel wallet refill page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/wallet/{request.user.id}/refill/')
@@ -305,7 +310,7 @@ class UserPanelWalletRefillView(View):
                                                                           'orders': orders,
                                                                           'product_orders': product_orders,
                                                                           'wallet': wallet,
-                                                                          'shopping_cart_list': shopping_cart})
+                                                                          'shopping_cart_list': shopping_cart_list})
 
     def post(self, request, user_id):
         amount = request.POST.get('amount')
@@ -323,6 +328,7 @@ class UserPanelWalletWithdrawView(View):
         :param user_id:
         :return user panel withdraw page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         logged_user_id = request.user.id
         if user_id != logged_user_id:
             return redirect(f'/users/wallet/{request.user.id}/withdraw/')
@@ -337,7 +343,7 @@ class UserPanelWalletWithdrawView(View):
                                                                             'orders': orders,
                                                                             'product_orders': product_orders,
                                                                             'wallet': wallet,
-                                                                            'shopping_cart_list': shopping_cart})
+                                                                            'shopping_cart_list': shopping_cart_list})
 
     def post(self, request, user_id):
         amount = request.POST.get('amount')

@@ -14,8 +14,6 @@ all_subcategories = SubCategory.objects.all().order_by('name')
 bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
 added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
                                         date_added__lte=date.today()).order_by('-date_added')[0:3]
-shopping_cart = ShoppingCart.objects.all()
-discount_codes = DiscountCode.objects.all()
 
 
 class HomePageView(View):
@@ -25,11 +23,12 @@ class HomePageView(View):
         :param request:
         :return home page html:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         welcome_text = ', welcome!'
         response = render(request, 'main/index.html', {'bestsellers': bestsellers,
                                                        'added_recently': added_recently,
                                                        'all_categories': all_categories,
-                                                       'shopping_cart_list': shopping_cart,
+                                                       'shopping_cart_list': shopping_cart_list,
                                                        'welcome_text': welcome_text,
                                                        'all_subcategories': all_subcategories}
                       )
@@ -42,11 +41,12 @@ class HomePageView(View):
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
                                                   'all_subcategories': all_subcategories,
-                                                  'shopping_cart_list': shopping_cart,
+                                                  'shopping_cart_list': shopping_cart_list,
                                                   'welcome_text': welcome_text}
                       )
 
     def post(self, request):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
@@ -58,7 +58,7 @@ class HomePageView(View):
                                                             'product_results': product_results,
                                                             'category_results': category_results,
                                                             'subcategory_results': subcategory_results,
-                                                            'shopping_cart_list': shopping_cart}
+                                                            'shopping_cart_list': shopping_cart_list}
                       )
 
 
@@ -70,16 +70,18 @@ class CategoryDetailsView(View):
         :param category_id:
         :return category details page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         category = Category.objects.get(id=category_id)
         subcategories = SubCategory.objects.filter(category_id=category_id)
         return render(request, 'main/category_details.html', {'all_categories': all_categories,
                                                               'all_subcategories': all_subcategories,
                                                               'category': category,
                                                               'subcategories': subcategories,
-                                                              'shopping_cart_list': shopping_cart}
+                                                              'shopping_cart_list': shopping_cart_list}
                       )
 
     def post(self, request, category_id):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
@@ -91,7 +93,7 @@ class CategoryDetailsView(View):
                                                             'product_results': product_results,
                                                             'category_results': category_results,
                                                             'subcategory_results': subcategory_results,
-                                                            'shopping_cart_list': shopping_cart}
+                                                            'shopping_cart_list': shopping_cart_list}
                       )
 
 
@@ -103,6 +105,7 @@ class SubCategoryView(View):
         :param subcategory_id:
         :return sub category details page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         products = Product.objects.filter(subcategory_id=subcategory_id)
         parent_category = CategorySubCategory.objects.filter(subcategory_id=subcategory_id)[0]
         subcategory = SubCategory.objects.get(id=subcategory_id)
@@ -111,9 +114,10 @@ class SubCategoryView(View):
                                                                  'products': products,
                                                                  'parent_category': parent_category,
                                                                  'subcategory': subcategory,
-                                                                 'shopping_cart_list': shopping_cart})
+                                                                 'shopping_cart_list': shopping_cart_list})
 
     def post(self, request, subcategory_id):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         key_word = request.POST.get('key_word')
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
@@ -125,7 +129,7 @@ class SubCategoryView(View):
                                                             'product_results': product_results,
                                                             'category_results': category_results,
                                                             'subcategory_results': subcategory_results,
-                                                            'shopping_cart_list': shopping_cart}
+                                                            'shopping_cart_list': shopping_cart_list}
                       )
 
 
@@ -170,10 +174,9 @@ class ShoppingCartCheckoutView(View):
             if request.GET.get('discount_code'):
                 try:
                     discount_code = DiscountCode.objects.get(name=request.GET.get('discount_code'))
+                    products_summary = products_summary - products_summary * discount_code.discount_percent/100
                 except Exception:
                     return redirect(f'/shopping_cart/{request.user.id}/checkout/')
-                if discount_code in discount_codes:
-                    products_summary = products_summary - products_summary * 0.20
             return render(request, 'main/shoppingCart_checkout.html', {'all_categories': all_categories,
                                                                        'all_subcategories': all_subcategories,
                                                                        'shopping_cart_list': shopping_cart_list,
@@ -375,11 +378,13 @@ class NewsletterView(View):
         :param request:
         :return newsletter page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         return render(request, 'main/newsletter.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
-                                                        'shopping_cart_list': shopping_cart})
+                                                        'shopping_cart_list': shopping_cart_list})
 
     def post(self, request):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         # if Newsletter.objects.get(user_id=request.user.id):
         #     return render(request, 'main/newsletter.html', {'all_categories': all_categories,
         #                                                     'all_subcategories': all_subcategories,
@@ -393,7 +398,7 @@ class NewsletterView(View):
         Newsletter.objects.create(user_id=request.user.id)
         return render(request, 'main/newsletter.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
-                                                        'shopping_cart_list': shopping_cart,
+                                                        'shopping_cart_list': shopping_cart_list,
                                                         'success_text': 'Email sent.'
                                                                         ' Check your inbox for further details'})
 
@@ -404,22 +409,24 @@ class ComplaintView(View):
         Displays a form, allowing user to write a complaint
         :return complaint page:
         """
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         return render(request, 'main/complaint.html', {'all_categories': all_categories,
                                                         'all_subcategories': all_subcategories,
-                                                        'shopping_cart_list': shopping_cart})
+                                                        'shopping_cart_list': shopping_cart_list})
 
     def post(self, request):
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         if request.POST.get('subject') and request.POST.get('content'):
             subject = request.POST.get('subject')
             content = request.POST.get('content')
             Complaint.objects.create(user_id=request.user.id, subject=subject, content=content)
             return render(request, 'main/complaint.html', {'all_categories': all_categories,
                                                            'all_subcategories': all_subcategories,
-                                                           'shopping_cart_list': shopping_cart,
+                                                           'shopping_cart_list': shopping_cart_list,
                                                            'success_text': 'Complaint sent'})
 
         else:
             return render(request, 'main/complaint.html', {'all_categories': all_categories,
                                                            'all_subcategories': all_subcategories,
-                                                           'shopping_cart_list': shopping_cart,
+                                                           'shopping_cart_list': shopping_cart_list,
                                                            'error_text': 'You must define a subject and content'})

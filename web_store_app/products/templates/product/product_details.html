@@ -1,21 +1,17 @@
 {%extends 'main/base.html'%}
-{%block content%}
 {%load static%}
+{%block content%}
 <div class="productDetailsBox">
 <!--    {%for product in last_viewed_products%}-->
 <!--    -{{product}}-->
 <!--    {%endfor%}-->
     <div class="productImage">
     {%if product.image%}
-        {%if product.name == 'Gio GRX70QA-TRB' or product.name == 'SE Series ST Special' or product.name == 'PA300E'%}
-    <img style="width: 50%" src="{{product.image.url}}">
-        {%else%}
         <img src="{{product.image.url}}">
-        {%endif%}
     {%else%}
-    This product has no image
+        <small>This product has no image</small>
     {%endif%}
-        </div>
+    </div>
     <div class="productInformationContainer">
     <div class="productInformationBox">
         <span style="font-size: 15px">
@@ -57,7 +53,7 @@
         <div class="addToCartBox">
 <form method="post">
 {%csrf_token%}
-<input class="addToCart" type="submit" value="Add to cart">
+<input class="addToCart" id="add-to-cart-button" type="submit" value="Add to cart">
     <input style="width: 25px" type="number" name="quantity" value="1">
 </form><br><br>
             </div>
