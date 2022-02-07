@@ -12,8 +12,9 @@ from django.core.mail import send_mail
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
 bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                        date_added__lte=date.today()).order_by('-date_added')[0:3]
+added_recently = Product.objects.all().order_by('-id')[0:3]
+# added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
+#                                         date_added__lte=date.today()).order_by('-date_added')[0:3]
 
 
 class HomePageView(View):

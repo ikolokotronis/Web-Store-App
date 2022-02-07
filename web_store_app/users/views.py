@@ -214,7 +214,12 @@ class PasswordResetView(View):
 
     def post(self, request):
             email = request.POST.get('email')
-            user = WebsiteUser.objects.get(email=email)
+            user = ""
+            try:
+                user = WebsiteUser.objects.get(email=email)
+            except ObjectDoesNotExist:
+                messages.error(request, "Incorrect e-mail")
+                return redirect('/users/password_reset/')
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             token = token_generator.make_token(user)
             domain = get_current_site(request).domain
@@ -229,9 +234,9 @@ class PasswordResetView(View):
                 [email],
                 fail_silently=False,
             )
+            messages.success(request, 'Check your e-mail inbox for further details')
             return render(request, 'users/password_reset.html', {'all_categories': all_categories,
-                                                                 'all_subcategories': all_subcategories,
-                                                                 'success_text': 'Check your inbox for further details.'
+                                                                 'all_subcategories': all_subcategories
                                                                  })
 
 
@@ -243,7 +248,8 @@ class PasswordResetVerificationView(View):
             if not token_generator.check_token(user, token):
                 messages.error(request, 'Password has already been changed')
                 return redirect('login-page')
-            return render(request, 'users/new_password_form.html')
+            return render(request, 'users/new_password_form.html', {'all_categories': all_categories,
+                                                                    'all_subcategories': all_subcategories})
         except ObjectDoesNotExist:
             messages.error(request, 'Incorrect link or password is already changed')
             return redirect('login-page')
@@ -256,7 +262,8 @@ class PasswordResetVerificationView(View):
 
         if password1 != password2:
             messages.error(request, 'Passwords mismatch')
-            return render(request, 'new_password_form.html')
+            return render(request, 'users/new_password_form.html', {'all_categories': all_categories,
+                                                                    'all_subcategories': all_subcategories,})
 
         user.set_password(password1)
         user.save()

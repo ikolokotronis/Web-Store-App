@@ -42,7 +42,7 @@
     <span style="color: #403e3e;">
         <i>You're not logged in</i>
         </span>
-        <a style="color: #403e3e;" href="/users/register/">Register/Login</a>
+        <a style="color: #403e3e;" href="/users/login/">Login/Register</a>
     {%endif%}
     </div>
 <!--        <span style="position: relative; top: 90px; right: 30px"><img src="{% static 'main/img/logosmall.png'%}"></span>-->
@@ -55,7 +55,7 @@
             {%endfor%}
 
         </div>
-                <div class="search">
+        <div class="search">
             <form method="post">
                 {%csrf_token%}
                 <input class="searchInput" placeholder="Search..." type="text" name="key_word">
@@ -128,10 +128,10 @@
         <img src="{%static 'main/img/storefooter.png'%}">
         <div class="footerInfoBox" style="padding-left: 10px">
             805 Sound Avenue<br>
-            75220, Dallas<br>
-            United States<br>
+            75220, Road<br>
+            Music land<br>
             musicstore@contact.com<br>
-            +1-900-920-0700
+            +01-900-920-0700
 
         </div>
     </div>
