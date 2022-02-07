@@ -348,49 +348,22 @@ a.footerLink{
     left: 200px;
 }
 
-/*.cartHeader{*/
-/* margin: auto;*/
-/* width: 90%;*/
-/* height: 15%;*/
-/* display: flex;*/
-/* justify-content: space-between;*/
-/* align-items: center;*/
-/*}*/
-/*.Heading{*/
-/* font-size: 20px;*/
-/* font-family: ‘Open Sans’;*/
-/* font-weight: 700;*/
-/* color: #2F3841;*/
-/*}*/
-/*.Action{*/
-/* font-size: 14px;*/
-/* font-family: ‘Open Sans’;*/
-/* font-weight: 600;*/
-/* color: #E44C4C;*/
-/* cursor: pointer;*/
-/*}*/
 
-/*.input_decoration {*/
-/*    background-color: white;*/
-/*    border: 0 none;*/
-/*    cursor: pointer;*/
-/*}*/
+.centerContainer{
+    border: 2px solid #ccc;
+    width: 30%;
+    padding: 15px;
+    position: relative;
+    left: 300px;
+}
 
-/*.centerContainer{*/
-/*    border: 2px solid #ccc;*/
-/*    width: 30%;*/
-/*    padding: 15px;*/
-/*    position: relative;*/
-/*    left: 300px;*/
-/*}*/
-
-/*.userPanelContainer{*/
-/*    border: 2px solid #ccc;*/
-/*    width: 50%;*/
-/*    padding: 15px;*/
-/*    position: absolute;*/
-/*    left: 15px;*/
-/*}*/
+.userPanelContainer{
+    border: 2px solid #ccc;
+    width: 50%;
+    padding: 15px;
+    position: absolute;
+    left: 15px;
+}
 
 .productImage{
     position: absolute;

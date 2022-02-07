@@ -264,35 +264,6 @@ class PasswordResetVerificationView(View):
         messages.success(request, 'Password changed successfully')
         return redirect('login-page')
 
-class PasswordResetFormView(View):
-    def get(self, request):
-        """
-        Displays a password reset form, allowing a user that has forgotten his password, to set a new one after
-        confirming his authenticity by entering the code from his e-mail inbox
-        :param request:
-        :return password reset page:
-        """
-        return render(request, 'users/password_reset_form.html', {'all_categories': all_categories,
-                                                                  'all_subcategories': all_subcategories,
-                                                                  })
-
-    def post(self, request):
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        password2 = request.POST.get('password2')
-        secret_code = request.POST.get('secret_code')
-        user = WebsiteUser.objects.get(email=email)
-        if password == password2 and secret_code == 'KFY53NB':
-            user.set_password(password)
-            user.save()
-            return redirect('/users/login/')
-        else:
-            return render(request, 'users/password_reset_form.html', {'all_categories': all_categories,
-                                                                      'all_subcategories': all_subcategories,
-                                                                      'error_text':
-                                                                          "Passwords don't match to each other"
-                                                                      })
-
 
 class UserPanelOrdersView(View):
     def get(self, request, user_id):

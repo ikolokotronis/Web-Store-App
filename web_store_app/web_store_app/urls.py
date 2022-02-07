@@ -25,8 +25,7 @@ from main.views import HomePageView, CategoryDetailsView, SubCategoryView,\
 from products.views import ProductView
 from users.views import RegistrationView, LoginView, LogoutView, \
     UserPanelView, UserPanelEditView, PasswordResetView, UserPanelOrdersView, \
-    UserPanelWalletRefillView, UserPanelWalletWithdrawView, PasswordResetFormView, \
-    PasswordResetVerificationView
+    UserPanelWalletRefillView, UserPanelWalletWithdrawView, PasswordResetVerificationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,7 +42,6 @@ urlpatterns = [
     path('users/edit/<int:user_id>/', UserPanelEditView.as_view()),
     path('users/panel/orders/<int:user_id>/', UserPanelOrdersView.as_view()),
     path('users/password_reset/', PasswordResetView.as_view()),
-    path('users/password_reset/form/', PasswordResetFormView.as_view()),
     path('users/password-reset-verification/<uidb64>/<token>/', PasswordResetVerificationView.as_view(),
          name='password-reset-verification'),
     path('users/wallet/<int:user_id>/refill/', UserPanelWalletRefillView.as_view()),
