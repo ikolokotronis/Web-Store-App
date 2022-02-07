@@ -7,6 +7,13 @@ from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from users.forms import RegistrationForm
+from django.urls import reverse
+from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
+from .utils import token_generator
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
@@ -207,15 +214,55 @@ class PasswordResetView(View):
 
     def post(self, request):
             email = request.POST.get('email')
-            send_mail(subject='Password reset',
-                      message='Password reset code: KFY53NB, link: 127.0.0.1:8000/users/password_reset/form/',
-                      from_email='hillchar77@gmail.com',
-                      recipient_list=[email])
+            user = WebsiteUser.objects.get(email=email)
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            token = token_generator.make_token(user)
+            domain = get_current_site(request).domain
+            link = reverse('password-reset-verification', kwargs={'uidb64': uidb64, 'token': token})
+            email_subject = 'Password reset'
+            activation_url = f'http://{domain}{link}'
+            email_body = f'Hello {user}, your password reset link:  {activation_url}'
+            send_mail(
+                email_subject,
+                email_body,
+                'noreply@noreply.com',
+                [email],
+                fail_silently=False,
+            )
             return render(request, 'users/password_reset.html', {'all_categories': all_categories,
                                                                  'all_subcategories': all_subcategories,
                                                                  'success_text': 'Check your inbox for further details.'
                                                                  })
 
+
+class PasswordResetVerificationView(View):
+    def get(self, request, uidb64, token):
+        try:
+            id = force_str(urlsafe_base64_decode(uidb64))
+            user = WebsiteUser.objects.get(id=id)
+            if not token_generator.check_token(user, token):
+                messages.error(request, 'Password has already been changed')
+                return redirect('login-page')
+            return render(request, 'users/new_password_form.html')
+        except ObjectDoesNotExist:
+            messages.error(request, 'Incorrect link or password is already changed')
+            return redirect('login-page')
+
+    def post(self, request, uidb64, token):
+        id = force_str(urlsafe_base64_decode(uidb64))
+        user = WebsiteUser.objects.get(id=id)
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 != password2:
+            messages.error(request, 'Passwords mismatch')
+            return render(request, 'new_password_form.html')
+
+        user.set_password(password1)
+        user.save()
+
+        messages.success(request, 'Password changed successfully')
+        return redirect('login-page')
 
 class PasswordResetFormView(View):
     def get(self, request):
