@@ -76,7 +76,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+This is a list of things you need in order to use the software and how to install them.
+
 * pip
   ```sh
   pip install django
