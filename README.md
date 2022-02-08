@@ -135,8 +135,8 @@ You could use this project as a jumpstart, prototype or an inspiration for your 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Add some JavaScript to make the app more dynamic
-- [] Improve the Front-end
+- [ ] Add some JavaScript to make the app more dynamic
+- [ ] Improve the Front-end
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
