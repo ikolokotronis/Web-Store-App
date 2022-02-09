@@ -23,7 +23,7 @@ class Product(models.Model):
 
     producent_name = models.CharField(max_length=250, null=True)
 
-    price = models.IntegerField()
+    price = models.FloatField()
 
     description = models.TextField(null=True)
 

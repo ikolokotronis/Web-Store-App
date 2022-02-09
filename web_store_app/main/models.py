@@ -76,7 +76,7 @@ class Order(models.Model):
     user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
     product_ordered = models.ManyToManyField(Product, through=ProductOrder)
     datetime_ordered = models.DateTimeField(auto_now_add=True)
-    amount_paid = models.IntegerField(null=True)
+    amount_paid = models.FloatField(null=True)
     discount_code = models.ForeignKey("DiscountCode", on_delete=models.CASCADE, null=True)
     status_choices = (
         (1, 'Information about the order received'),
