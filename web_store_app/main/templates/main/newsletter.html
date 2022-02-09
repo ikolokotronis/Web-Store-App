@@ -1,7 +1,7 @@
 {%extends 'main/base.html'%}
 {%block content%}
 <div class="centerContainer">
-            {% if messages %}
+        {% if messages %}
         <ul class="messages">
         {% for message in messages %}
             <li>{{ message | safe }}</li>

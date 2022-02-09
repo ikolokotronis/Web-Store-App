@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from products.models import Product
-from datetime import date, timedelta
 from main.models import Category, Order, ProductOrder, SubCategory, ShoppingCart
 from users.models import WebsiteUser
 from django.contrib.auth import authenticate, login, logout
@@ -17,9 +16,6 @@ from django.contrib import messages
 
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
-bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
-                                        date_added__lte=date.today()).order_by('-date_added')[0:3]
 
 
 class RegistrationView(View):
@@ -36,6 +32,8 @@ class RegistrationView(View):
                                                                 })
 
     def post(self, request):
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         form = RegistrationForm(request.POST)
         if form.is_valid() and form.cleaned_data['password'] == form.cleaned_data['password2']:
             username = form.cleaned_data['username']
@@ -56,15 +54,11 @@ class RegistrationView(View):
             user.save()
             return redirect('/users/login/')
         elif form.data['password'] and form.data['password2'] and form.data['password'] != form.data['password2']:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             form.add_error('password2', 'Passwords do not match')
             return render(request, 'users/registration_form.html', {'form': form,
                                                                     'all_categories': all_categories,
                                                                     'all_subcategories': all_subcategories})
         else:
-            all_categories = Category.objects.all()
-            all_subcategories = SubCategory.objects.all().order_by('name')
             return render(request, 'users/registration_form.html', {'form': form,
                                                                     'all_categories': all_categories,
                                                                     'all_subcategories': all_subcategories
@@ -136,9 +130,7 @@ class UserPanelView(View):
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
-                                                            'added_recently': added_recently,
-                                                            'all_categories': all_categories,
+        return render(request, 'main/search_results.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                             'product_results': product_results,
                                                             'category_results': category_results,
@@ -301,9 +293,7 @@ class UserPanelOrdersView(View):
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
-                                                            'added_recently': added_recently,
-                                                            'all_categories': all_categories,
+        return render(request, 'main/search_results.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                             'product_results': product_results,
                                                             'category_results': category_results,
