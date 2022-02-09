@@ -228,7 +228,7 @@ class ShoppingCartCheckoutView(View):
         if request.GET.get('discount_code'):
             try:
                 discount_code = DiscountCode.objects.get(name=request.GET.get('discount_code'))
-            except Exception:
+            except ObjectDoesNotExist:
                 messages.error(request, 'Discount code does not exist!')
                 return redirect(f'/shopping_cart/{request.user.id}/checkout/')
             try:

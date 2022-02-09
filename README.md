@@ -51,7 +51,7 @@
 
 
 This is my Coders Lab bootcamp graduation project.  
-Originally it was written to be a music store but it could be anything you want, based on what you add to the database. (except for the logo and the ads, which you can delete or make your own of course).
+Originally it was written to be a music store, but it could be anything you want, based on what you add to the database(except for the logo and the ads, which you can delete or make your own of course).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

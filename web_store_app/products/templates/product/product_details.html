@@ -62,6 +62,7 @@
 <span style="font-size: 16px"><a href="/users/login/"><b>Log in</b> to add this product to cart</a></span>
 {%endif%}
     </span>
+    {%if cleared_last_viewed_products%}
     <div class="viewedRecentlyContainer">
         <h4>Viewed recently</h4>
         {%for viewed_recently_product in cleared_last_viewed_products%}
@@ -73,5 +74,6 @@
         </a>
         {%endfor%}
     </div>
+    {%endif%}
     </div>
 {%endblock%}
