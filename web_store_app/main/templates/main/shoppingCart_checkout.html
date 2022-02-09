@@ -3,6 +3,13 @@
 <div style="text-align: center" class="CartContainer">
     <div class="cartHeader">
 <h3 class="Heading">Shopping cart</h3>
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
         </div>
 {%if shopping_cart_list|length is 1%}
 

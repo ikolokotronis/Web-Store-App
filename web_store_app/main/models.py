@@ -131,3 +131,8 @@ class DiscountCode(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.discount_percent})"
+
+
+class DiscountCodeUsage(models.Model):
+    user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
+    discount_code = models.ForeignKey(DiscountCode, on_delete=models.CASCADE)

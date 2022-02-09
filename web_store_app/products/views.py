@@ -51,9 +51,28 @@ class ProductView(View):
         product = Product.objects.get(id=product_id)
         user = WebsiteUser.objects.get(id=request.user.id)
         ShoppingCart.objects.create(product=product, user=user, quantity=quantity)
+        last_viewed_products = ""
+        cleared_last_viewed_products = []
+        displayed_last_viewed_products = []
+        if request.session.get('last_viewed_products'):
+            last_viewed_products = request.session.get('last_viewed_products').split(',')
+            request.session['last_viewed_products'] += f'{product.id},'
+            for product_id in last_viewed_products:
+                if product_id:
+                    if product_id in displayed_last_viewed_products:
+                        pass
+                    else:
+                        displayed_last_viewed_products.append(product_id)
+                        cleared_last_viewed_products.append(Product.objects.get(id=product_id))
+
+        else:
+            request.session['last_viewed_products'] = f'{product.id},'
         return render(request, 'product/product_details.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories,
                                                                 'product': product,
                                                                 'success_text': 'Product added to cart',
-                                                                'shopping_cart_list': shopping_cart_list}
+                                                                'shopping_cart_list': shopping_cart_list,
+                                                                'last_viewed_products': last_viewed_products,
+                                                                'cleared_last_viewed_products': cleared_last_viewed_products
+                                                                }
                       )

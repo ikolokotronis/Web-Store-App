@@ -3,11 +3,13 @@ from django.views import View
 from .models import Category, SubCategory, CategorySubCategory,\
                     ShoppingCart, Order, \
                     ProductOrder, Complaint, \
-                    Newsletter, DiscountCode
+                    Newsletter, DiscountCode, DiscountCodeUsage
 from products.models import Product
 from datetime import date, timedelta
 from users.models import WebsiteUser
 from django.core.mail import send_mail
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
@@ -171,9 +173,15 @@ class ShoppingCartCheckoutView(View):
             if request.GET.get('discount_code'):
                 try:
                     discount_code = DiscountCode.objects.get(name=request.GET.get('discount_code'))
-                    products_summary = products_summary - products_summary * discount_code.discount_percent/100
-                except Exception:
+                except ObjectDoesNotExist:
+                    messages.error(request, 'Discount code does not exist!')
                     return redirect(f'/shopping_cart/{request.user.id}/checkout/')
+                try:
+                    DiscountCodeUsage.objects.get(discount_code=discount_code, user=request.user)
+                    messages.error(request, 'You already used this discount code!')
+                    return redirect(f'/shopping_cart/{request.user.id}/checkout/')
+                except ObjectDoesNotExist:
+                    products_summary = products_summary - products_summary * discount_code.discount_percent / 100
             return render(request, 'main/shoppingCart_checkout.html', {'all_categories': all_categories,
                                                                        'all_subcategories': all_subcategories,
                                                                        'shopping_cart_list': shopping_cart_list,
@@ -204,9 +212,16 @@ class ShoppingCartCheckoutView(View):
             try:
                 discount_code = DiscountCode.objects.get(name=request.GET.get('discount_code'))
             except Exception:
+                messages.error(request, 'Discount code does not exist!')
                 return redirect(f'/shopping_cart/{request.user.id}/checkout/')
-            order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
-                                         address=address, discount_code=discount_code)
+            try:
+                DiscountCodeUsage.objects.get(discount_code=discount_code, user=request.user)
+                messages.error(request, 'You already used this discount code!')
+                return redirect(f'/shopping_cart/{request.user.id}/checkout/')
+            except ObjectDoesNotExist:
+                order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
+                                             address=address, discount_code=discount_code)
+                DiscountCodeUsage.objects.create(discount_code=discount_code, user=request.user)
         else:
             order = Order.objects.create(shipping_type=shipping_type, user=user, phone_number=phone_number,
                                          address=address)
