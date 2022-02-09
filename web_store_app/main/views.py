@@ -5,7 +5,6 @@ from .models import Category, SubCategory, CategorySubCategory,\
                     ProductOrder, Complaint, \
                     Newsletter, DiscountCode, DiscountCodeUsage
 from products.models import Product
-from datetime import date, timedelta
 from users.models import WebsiteUser
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -13,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
+# from datetime import date, timedelta
 # added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
 #                                         date_added__lte=date.today()).order_by('-date_added')[0:3]
 
@@ -56,16 +56,7 @@ class HomePageView(View):
             response.set_cookie(key=f'welcome{request.user.id}', value='Welcome', max_age=86400)
             return response
 
-
-        return render(request, 'main/index.html', {'bestsellers': bestsellers,
-                                                  'added_recently': added_recently,
-                                                  'all_categories': all_categories,
-                                                  'all_subcategories': all_subcategories,
-                                                  'shopping_cart_list': shopping_cart_list,
-                                                  'welcome_text': welcome_text,
-                                                  'cleared_last_viewed_products': cleared_last_viewed_products[::-1][0:3]
-                                                   }
-                      )
+        return response
 
     def post(self, request):
         shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
@@ -364,21 +355,11 @@ class ShoppingCartSummaryView(View):
         order = Order.objects.get(id=order_id)
         if order.payment_type == 4:
             user = WebsiteUser.objects.get(id=user_id)
-            user.wallet -= int(request.POST.get('amount_paid'))
+            user.wallet -= float(request.POST.get('amount_paid'))
             if user.wallet < 0:
-                shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
-                products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
-                order = Order.objects.get(id=order_id)
-                if order.shipping_type == 2:
-                    products_summary = sum(
-                        product.product.price * product.quantity for product in shopping_cart_list) + 15
-                else:
-                    products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
-                return render(request, 'main/shoppingCart_summary.html', {'shopping_cart_list': shopping_cart_list,
-                                                                          'products_summary': products_summary,
-                                                                          'order': order,
-                                                                          'error_text':
-                                                                              "You don't have enough money in your wallet!"})
+                messages.error(request, f"You have insufficient funds in your wallet! "
+                                        f"<a href='/shopping_cart/{request.user.id}/{order_id}/payment/'><b>Go back to payment details</b></a>")
+                return redirect(f'/shopping_cart/{request.user.id}/{order_id}/summary/')
             else:
                 user.save()
                 return redirect(f'/shopping_cart/{user_id}/{order_id}/success/')

@@ -11,4 +11,4 @@ class WebsiteUser(AbstractUser):
     email = models.CharField(max_length=250, null=True)
     phone_number = models.IntegerField(null=True)
     address = models.TextField(null=True)
-    wallet = models.IntegerField(null=True, default=0)
+    wallet = models.FloatField(null=True, default=0)
