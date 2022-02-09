@@ -52,7 +52,7 @@
 
 This is my Coders Lab bootcamp graduation project. It's main goal is to make a web application for any kind of store.  
 Originally it was written to be a music store, but it could be anything you want, based on what you add to the database.  
-Please mark that I used a logo and some ad's for visual purposes, which refer to the application's overall theme.
+Please mark that I used a logo and some ad's for visual purposes, which refer to the music store theme.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
