@@ -123,21 +123,11 @@ This is a list of things you need in order to use the software and how to instal
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-You could use this project as a jumpstart, prototype or an inspiration for your web store application. 
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
 <!-- ROADMAP -->
 ## Roadmap
 
 - [ ] Add some JavaScript to make the app more dynamic
-- [ ] Improve the Front-end
+- [ ] Improve the front-end
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
