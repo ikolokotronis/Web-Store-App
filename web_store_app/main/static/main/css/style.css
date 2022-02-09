@@ -137,6 +137,35 @@ a{
     margin: 2px;
     border-radius: 20px;
 }
+.viewedRecentlyBox{
+    float: left;
+    background-color: white;
+    width: 222.5px;
+    height: 180px;
+    margin: 2px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 20px;
+}
+
+.viewedRecentlyImg{
+
+}
+
+.viewedRecentlyContainer{
+    width: 890px;
+    height: 525px;
+    margin: 2px;
+    border: 2px solid #ccc;
+    display: block;
+    padding: 10px;
+    position: absolute;
+    top: 500px;
+    right: 50px;
+}
+
+
 #rightContainer{
     background-color: white;
     width: 400px;
@@ -212,24 +241,6 @@ a{
     bottom: 175px;
 }
 
-.productDescriptionBox{
-    float: left;
-    background-color: white;
-    width: 290px;
-    height: 200px;
-    margin: 2px;
-    border-radius: 10px;
-    border: 2px solid #ccc;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    color: #403e3e;
-    padding: 10px;
-    position: relative;
-    top: 20px;
-}
-
 .productShoppingDetails{
     position: absolute;
     bottom: 95px;
@@ -256,7 +267,25 @@ a{
     top: 175px;
 }
 
-.productSpecificationBox{
+.productDescriptionBox{
+    float: left;
+    background-color: white;
+    width: 290px;
+    height: 200px;
+    margin: 2px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: #403e3e;
+    padding: 10px;
+    position: relative;
+    top: 20px;
+}
+
+/*.productSpecificationBox{
     width: 890px;
     height: 525px;
     margin: 2px;
@@ -266,7 +295,7 @@ a{
     position: absolute;
     top: 500px;
     right: 50px;
-}
+}*/
 
 .addToCartBox{
     position: absolute;

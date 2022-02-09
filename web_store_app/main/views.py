@@ -11,8 +11,6 @@ from django.core.mail import send_mail
 
 all_categories = Category.objects.all()
 all_subcategories = SubCategory.objects.all().order_by('name')
-bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
-added_recently = Product.objects.all().order_by('-id')[0:3]
 # added_recently = Product.objects.filter(date_added__gte=date.today() - timedelta(days=3),
 #                                         date_added__lte=date.today()).order_by('-date_added')[0:3]
 
@@ -24,6 +22,8 @@ class HomePageView(View):
         :param request:
         :return home page html:
         """
+        bestsellers = Product.objects.filter(is_bestseller=True).order_by('-rating')[0:3]
+        added_recently = Product.objects.all().order_by('-id')[0:3]
         shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         welcome_text = ', welcome!'
         response = render(request, 'main/index.html', {'bestsellers': bestsellers,
@@ -38,6 +38,8 @@ class HomePageView(View):
         else:
             response.set_cookie(key=f'welcome{request.user.id}', value='Welcome', max_age=86400)
             return response
+
+
         return render(request, 'main/index.html', {'bestsellers': bestsellers,
                                                   'added_recently': added_recently,
                                                   'all_categories': all_categories,
@@ -52,9 +54,7 @@ class HomePageView(View):
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
-                                                            'added_recently': added_recently,
-                                                            'all_categories': all_categories,
+        return render(request, 'main/search_results.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                             'product_results': product_results,
                                                             'category_results': category_results,
@@ -87,9 +87,7 @@ class CategoryDetailsView(View):
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
-                                                            'added_recently': added_recently,
-                                                            'all_categories': all_categories,
+        return render(request, 'main/search_results.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                             'product_results': product_results,
                                                             'category_results': category_results,
@@ -123,9 +121,7 @@ class SubCategoryView(View):
         product_results = Product.objects.filter(name__icontains=key_word)
         category_results = Category.objects.filter(name__icontains=key_word)
         subcategory_results = SubCategory.objects.filter(name__icontains=key_word)
-        return render(request, 'main/search_results.html', {'bestsellers': bestsellers,
-                                                            'added_recently': added_recently,
-                                                            'all_categories': all_categories,
+        return render(request, 'main/search_results.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
                                                             'product_results': product_results,
                                                             'category_results': category_results,

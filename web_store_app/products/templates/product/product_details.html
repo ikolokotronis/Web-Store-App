@@ -62,11 +62,16 @@
 <span style="font-size: 16px"><a href="/users/login/"><b>Log in</b> to add this product to cart</a></span>
 {%endif%}
     </span>
-<!--    <div class="productSpecificationBox">-->
-<!--        {%for product in last_viewed_products%}-->
-<!--        - {{product}}<br>-->
-<!--        {%endfor%}-->
-<!--        {{result}}-->
-<!--    </div>-->
+    <div class="viewedRecentlyContainer">
+        <h4>Viewed recently</h4>
+        {%for viewed_recently_product in cleared_last_viewed_products%}
+        <a href="/product/{{viewed_recently_product.id}}/">
+        <div class="viewedRecentlyBox">
+            <img class="bestsellerImg" height="150px" src="{{viewed_recently_product.image.url}}">
+            <div class="addedRecentlyInnerBox">{{viewed_recently_product}}</div>
+        </div>
+        </a>
+        {%endfor%}
+    </div>
     </div>
 {%endblock%}

@@ -20,24 +20,21 @@ class ProductView(View):
         product = Product.objects.get(id=product_id)
         subcategory = SubCategoryProduct.objects.filter(product_id=product_id)[0]
         last_viewed_products = ""
-        # response = render(request, 'product/product_details.html', {'product': product,
-        #                                                         'shopping_cart_list': shopping_cart,
-        #                                                         'subcategory': subcategory,
-        #                                                         'last_viewed_products': last_viewed_products,
-        #                                                             'all_categories': all_categories,
-        #                                                             'all_subcategories': all_subcategories,
-        #                                                             }
-        #               )
-        result = []
-        result2 = ""
+        cleared_last_viewed_products = []
+        displayed_last_viewed_products = []
         if request.session.get('last_viewed_products'):
             last_viewed_products = request.session.get('last_viewed_products').split(',')
-            request.session['last_viewed_products'] += f'{product.name},'
-            for p in last_viewed_products:
-                result2 = p
+            request.session['last_viewed_products'] += f'{product.id},'
+            for product_id in last_viewed_products:
+                if product_id:
+                    if product_id in displayed_last_viewed_products:
+                        pass
+                    else:
+                        displayed_last_viewed_products.append(product_id)
+                        cleared_last_viewed_products.append(Product.objects.get(id=product_id))
 
         else:
-            request.session['last_viewed_products'] = f'{product.name},'
+            request.session['last_viewed_products'] = f'{product.id},'
 
         return render(request, 'product/product_details.html', {'all_categories': all_categories,
                                                                 'all_subcategories': all_subcategories,
@@ -45,7 +42,7 @@ class ProductView(View):
                                                                 'shopping_cart_list': shopping_cart_list,
                                                                 'subcategory': subcategory,
                                                                 'last_viewed_products': last_viewed_products,
-                                                                'result': result2}
+                                                                'cleared_last_viewed_products': cleared_last_viewed_products}
                       )
 
     def post(self, request, product_id):
