@@ -7,7 +7,7 @@
 <h3 align="center">Web Store App</h3>
 
   <p align="center">
-    This is a web store application, which functions as a music store demo
+    A web store application made with django
     <br />
     <a href="https://github.com/ikolokotronis/Web-Store-App"><strong>Explore the docs »</strong></a>
     <br />
@@ -50,8 +50,9 @@
 ## About The Project
 
 
-This is my Coders Lab bootcamp graduation project.  
-Originally it was written to be a music store, but it could be anything you want, based on what you add to the database(except for the logo and the ads, which you can delete or make your own of course).
+This is my Coders Lab bootcamp graduation project. It's main goal is to make a web application for any kind of store.  
+Originally it was written to be a music store, but it could be anything you want, based on what you add to the database.  
+Please mark that I used a logo and some ad's for visual purposes, which refer to the application's overall theme.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
