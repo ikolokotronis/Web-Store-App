@@ -8,25 +8,7 @@
 
 {%for order in orders%}
 
- {%if order.payment_type == None %}
-
- <div style="display: none">
-
-&nbsp;- Order nr <b>{{order.id}}</b><br><br>
-Products bought: {%for product_order in product_orders%}
- {%if product_order.order.id == order.id%}<a href="/product/{{product_order.product.id}}/">{{product_order.product}}, </a>{%endif%}
-{%endfor%}<br><br>
-Status: {{order.get_status_display}}<br><br>
-Shipping: {{order.get_shipping_type_display}}<br><br>
-Address: {{order.address}}<br><br>
-Phone number: {{order.phone_number}}<br><br>
-Payment method: {{order.get_payment_type_display}}<br><br>
-Amount paid: {{order.amount_paid}}$<br><br><br>--------<br><br><br>
-
-  </div>
-
- {%else%}
-
+ {%if order.payment_type%}
   <div>
 
 &nbsp;- Order nr <b>{{order.id}}</b><br><br>

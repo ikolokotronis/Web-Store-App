@@ -345,9 +345,14 @@ class ShoppingCartSummaryView(View):
                     order.amount_paid = final_summary
                     order.save()
             elif order.shipping_type == 1:
-                final_summary = products_summary - (products_summary * (order.discount_code.discount_percent/100))
-                order.amount_paid = final_summary
-                order.save()
+                if order.discount_code:
+                    final_summary = products_summary - (products_summary * (order.discount_code.discount_percent/100))
+                    order.amount_paid = final_summary
+                    order.save()
+                else:
+                    final_summary = products_summary
+                    order.amount_paid = final_summary
+                    order.save()
 
             return render(request, 'main/shoppingCart_summary.html', {'all_categories': all_categories,
                                                                       'all_subcategories': all_subcategories,

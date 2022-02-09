@@ -88,7 +88,7 @@
             {%endfor%}
 
         </div><br><br>
-
+        {%if cleared_last_viewed_products%}
         <div class="newProducts">
             <span style="position: absolute; left: 0px">VIEWED RECENTLY</span>
             {%for viewed_recently_product in cleared_last_viewed_products%}
@@ -101,6 +101,7 @@
             </div>
             {%endfor%}
         </div>
+        {%endif%}
 
     </div>
     <div id="rightContainer">
