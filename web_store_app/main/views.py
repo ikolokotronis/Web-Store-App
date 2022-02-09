@@ -399,23 +399,23 @@ class NewsletterView(View):
                                                         'shopping_cart_list': shopping_cart_list})
 
     def post(self, request):
-        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
-        # if Newsletter.objects.get(user_id=request.user.id):
-        #     return render(request, 'main/newsletter.html', {'all_categories': all_categories,
-        #                                                     'all_subcategories': all_subcategories,
-        #                                                     'shopping_cart_list': shopping_cart,
-        #                                                     'error_text': 'You are already signed to your newsletter'})
         email = request.POST.get('email')
-        send_mail(subject='Music Store Newsletter',
-                  message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
-                  from_email='hillchar77@gmail.com',
-                  recipient_list=[email])
-        Newsletter.objects.create(user_id=request.user.id)
-        return render(request, 'main/newsletter.html', {'all_categories': all_categories,
-                                                        'all_subcategories': all_subcategories,
-                                                        'shopping_cart_list': shopping_cart_list,
-                                                        'success_text': 'Email sent.'
-                                                                        ' Check your inbox for further details'})
+        shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
+        try:
+            Newsletter.objects.get(email=email)
+            messages.error(request, 'This e-mail is already signed to our newsletter!')
+            return redirect('/newsletter/')
+        except ObjectDoesNotExist:
+            send_mail(subject='Music Store Newsletter',
+                      message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
+                      from_email='hillchar77@gmail.com',
+                      recipient_list=[email])
+            Newsletter.objects.create(email=email)
+            return render(request, 'main/newsletter.html', {'all_categories': all_categories,
+                                                            'all_subcategories': all_subcategories,
+                                                            'shopping_cart_list': shopping_cart_list,
+                                                            'success_text': 'Email sent.'
+                                                                            ' Check your inbox for further details'})
 
 
 class ComplaintView(View):

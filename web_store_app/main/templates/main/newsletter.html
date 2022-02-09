@@ -1,6 +1,13 @@
 {%extends 'main/base.html'%}
 {%block content%}
 <div class="centerContainer">
+            {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li>{{ message | safe }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 <h4>Join to our newsletter</h4>
     <form method="post">
         {%csrf_token%}

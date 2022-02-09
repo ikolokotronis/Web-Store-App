@@ -121,7 +121,7 @@ class Newsletter(models.Model):
     """
     Stores information about users signed to newsletter
     """
-    user = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE)
+    email = models.TextField(null=True)
     datetime_joined = models.DateTimeField(auto_now_add=True)
 
 
