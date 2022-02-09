@@ -41,8 +41,8 @@ class ProductView(View):
                                                                 'product': product,
                                                                 'shopping_cart_list': shopping_cart_list,
                                                                 'subcategory': subcategory,
-                                                                'last_viewed_products': last_viewed_products,
-                                                                'cleared_last_viewed_products': cleared_last_viewed_products}
+                                                                'cleared_last_viewed_products': cleared_last_viewed_products[::-1][0:6]
+                                                                }
                       )
 
     def post(self, request, product_id):
@@ -72,7 +72,6 @@ class ProductView(View):
                                                                 'product': product,
                                                                 'success_text': 'Product added to cart',
                                                                 'shopping_cart_list': shopping_cart_list,
-                                                                'last_viewed_products': last_viewed_products,
-                                                                'cleared_last_viewed_products': cleared_last_viewed_products
+                                                                'cleared_last_viewed_products': cleared_last_viewed_products[::-1][0:6]
                                                                 }
                       )

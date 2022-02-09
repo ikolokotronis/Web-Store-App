@@ -28,12 +28,27 @@ class HomePageView(View):
         added_recently = Product.objects.all().order_by('-id')[0:3]
         shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         welcome_text = ', welcome!'
+        last_viewed_products = ""
+        cleared_last_viewed_products = []
+        displayed_last_viewed_products = []
+        if request.session.get('last_viewed_products'):
+            last_viewed_products = request.session.get('last_viewed_products').split(',')
+            for product_id in last_viewed_products:
+                if product_id:
+                    if product_id in displayed_last_viewed_products:
+                        pass
+                    else:
+                        displayed_last_viewed_products.append(product_id)
+                        cleared_last_viewed_products.append(Product.objects.get(id=product_id))
+
         response = render(request, 'main/index.html', {'bestsellers': bestsellers,
                                                        'added_recently': added_recently,
                                                        'all_categories': all_categories,
                                                        'shopping_cart_list': shopping_cart_list,
                                                        'welcome_text': welcome_text,
-                                                       'all_subcategories': all_subcategories}
+                                                       'all_subcategories': all_subcategories,
+                                                       'cleared_last_viewed_products': cleared_last_viewed_products[::-1][0:3]
+                                                       }
                       )
         if request.COOKIES.get(f'welcome{request.user.id}'):
             welcome_text = ', welcome back!'
@@ -47,7 +62,9 @@ class HomePageView(View):
                                                   'all_categories': all_categories,
                                                   'all_subcategories': all_subcategories,
                                                   'shopping_cart_list': shopping_cart_list,
-                                                  'welcome_text': welcome_text}
+                                                  'welcome_text': welcome_text,
+                                                  'cleared_last_viewed_products': cleared_last_viewed_products[::-1][0:3]
+                                                   }
                       )
 
     def post(self, request):

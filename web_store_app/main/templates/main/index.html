@@ -87,10 +87,22 @@
             </div>
             {%endfor%}
 
+        </div><br><br>
+
+        <div class="newProducts">
+            <span style="position: absolute; left: 0px">VIEWED RECENTLY</span>
+            {%for viewed_recently_product in cleared_last_viewed_products%}
+            <div class="newProductBox">
+                <a href="product/{{product.id}}/">
+                <img class="newProductImg" height="150px" src="{{viewed_recently_product.image.url}}"></a>
+                <div class="newProductInnerBox">
+                <a href="product/{{product.id}}/">{{viewed_recently_product}}</a>
+                </div>
+            </div>
+            {%endfor%}
         </div>
 
     </div>
-
     <div id="rightContainer">
 
 <!--        <div class="search">-->
