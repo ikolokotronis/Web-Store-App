@@ -1,6 +1,13 @@
 {%extends 'main/base.html'%}
 {%block content%}
 <div class="centerContainer">
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 <h3>Withdraw from your wallet, {{user}}</h3> <h4>{{error_text}}</h4>
 Current amount: <b>${{wallet}}</b>
 <form method="post">

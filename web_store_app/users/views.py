@@ -84,9 +84,8 @@ class LoginView(View):
             login(request, user)
             return redirect('/')
         else:
-            return render(request, 'users/login_form.html', {'all_categories': all_categories,
-                                                             'all_subcategories': all_subcategories,
-                                                             'error_text': 'Wrong username or password, try again'})
+            messages.error(request, 'Wrong username or password, try again')
+            return redirect('/users/login/')
 
 
 class LogoutView(View):
@@ -189,11 +188,8 @@ class UserPanelEditView(View):
             return redirect(f'/users/edit/{request.user.id}/')
 
         except Exception:
-            user = WebsiteUser.objects.get(id=user_id)
-            return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
-                                                                 'all_subcategories': all_subcategories,
-                                                                 'user': user,
-                                                                 'error_text': "Something went wrong"})
+            messages.success(request, 'Something went wrong!')
+            return redirect(f'/users/edit/{request.user.id}/')
 
 
 class PasswordResetView(View):
@@ -368,18 +364,8 @@ class UserPanelWalletWithdrawView(View):
         user = WebsiteUser.objects.get(id=user_id)
         user.wallet -= int(amount)
         if user.wallet < 0:
-            user = WebsiteUser.objects.get(id=user_id)
-            orders = Order.objects.filter(user_id=user_id)
-            product_orders = ProductOrder.objects.filter(user_id=user_id)
-            wallet = user.wallet
-            return render(request, 'users/userpanel_wallet_withdraw.html',
-                          {'all_categories': all_categories,
-                           'all_subcategories': all_subcategories,
-                           'user': user,
-                           'orders': orders,
-                           'product_orders': product_orders,
-                           'wallet': wallet,
-                           'error_text': f'You can only withdraw {user.wallet}$'})
+            messages.error(request, f"You can't withdraw more than {request.user.wallet}$")
+            return redirect(f'/users/wallet/{request.user.id}/withdraw/')
         else:
             user.save()
         return redirect(f'/users/panel/{user_id}/')
