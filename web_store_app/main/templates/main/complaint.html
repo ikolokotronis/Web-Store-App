@@ -3,6 +3,13 @@
 <div class="detailsBox">
     <div class="centerContainer">
 <h4>Write a complaint</h4>
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li>{{ message | safe }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
     <form method="post">
         {%csrf_token%}
         Subject:<br> <input name="subject" type="text"><br><br>

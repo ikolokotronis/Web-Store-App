@@ -201,10 +201,8 @@ class ShoppingCartCheckoutView(View):
         if len(phone_number) > 9:
             shopping_cart_list = ShoppingCart.objects.filter(user_id=user_id)
             products_summary = sum(product.product.price * product.quantity for product in shopping_cart_list)
-            return render(request, 'main/shoppingCart_checkout.html', {'shopping_cart_list': shopping_cart_list,
-                                                                       'products_summary': products_summary,
-                                                                       'error_text':
-                                                                           'Phone number cannot have more than 9 digits'})
+            messages.error(request, 'Phone number cannot have more than 9 digits!')
+            return redirect(f'/shopping_cart/{request.user.id}/checkout/')
         address = request.POST.get('address')
         shipping_type = 1
         if post_shipping_type == 'pickup_in_person':
@@ -406,16 +404,18 @@ class NewsletterView(View):
             messages.error(request, 'This e-mail is already signed to our newsletter!')
             return redirect('/newsletter/')
         except ObjectDoesNotExist:
+            if request.POST.get('email') == "":
+                messages.error(request, 'Enter your email!')
+                return redirect('/newsletter/')
             send_mail(subject='Newsletter',
                       message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
                       from_email='hillchar77@gmail.com',
                       recipient_list=[email])
             Newsletter.objects.create(email=email)
+            messages.success(request, 'Email sent, check your inbox for further details')
             return render(request, 'main/newsletter.html', {'all_categories': all_categories,
                                                             'all_subcategories': all_subcategories,
-                                                            'shopping_cart_list': shopping_cart_list,
-                                                            'success_text': 'Email sent.'
-                                                                            ' Check your inbox for further details'})
+                                                            'shopping_cart_list': shopping_cart_list})
 
 
 class ComplaintView(View):
@@ -435,13 +435,9 @@ class ComplaintView(View):
             subject = request.POST.get('subject')
             content = request.POST.get('content')
             Complaint.objects.create(user_id=request.user.id, subject=subject, content=content)
-            return render(request, 'main/complaint.html', {'all_categories': all_categories,
-                                                           'all_subcategories': all_subcategories,
-                                                           'shopping_cart_list': shopping_cart_list,
-                                                           'success_text': 'Complaint sent'})
+            messages.success(request, 'Complaint sent')
+            return redirect('/complaint/')
 
         else:
-            return render(request, 'main/complaint.html', {'all_categories': all_categories,
-                                                           'all_subcategories': all_subcategories,
-                                                           'shopping_cart_list': shopping_cart_list,
-                                                           'error_text': 'You must define a subject and content'})
+            messages.error(request, 'You must define a subject and content')
+            return redirect('/complaint/')
