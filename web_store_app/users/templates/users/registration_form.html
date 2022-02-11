@@ -2,6 +2,13 @@
 {%block content%}
 <div class="centerContainer">
     <div class="formHeader" style="text-align: center"><h2>Register</h2></div>
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 <form method="post" style="padding: 25px">
 {%csrf_token%}
   {{form.as_p}}

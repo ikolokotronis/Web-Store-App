@@ -35,16 +35,35 @@ class RegistrationView(View):
         all_categories = Category.objects.all()
         all_subcategories = SubCategory.objects.all().order_by('name')
         form = RegistrationForm(request.POST)
-        if form.is_valid() and form.cleaned_data['password'] == form.cleaned_data['password2']:
+        if form.is_valid() and form.cleaned_data['password'] and form.cleaned_data['password2']:
+            if len(form.cleaned_data['password2']) < 8:
+                messages.error(request, "Password too short (Min. 8 characters)")
+                return redirect('/users/register/')
+            elif any(not c.isalnum() for c in form.cleaned_data['password2']) is False \
+                or any(c.isupper() for c in form.cleaned_data['password2']) is False \
+                or any(c.islower() for c in form.cleaned_data['password2']) is False \
+                or any(c.isdigit() for c in form.cleaned_data['password2']) is False:
+                messages.error(request, 'The password does not have all special characters'
+                                        '(There should be letters, lowercase letters, numbers and special characters)')
+                return redirect('/users/register/')
+            elif  form.data['password'] != form.data['password2']:
+                messages.error(request, "Passwords mismatch")
+                return redirect('/users/register/')
+            elif WebsiteUser.objects.filter(username=form.cleaned_data['username']):
+                messages.error(request, 'A user with the given username already exists')
+                return redirect('/users/register/')
+            elif WebsiteUser.objects.filter(email=form.cleaned_data['email']):
+                messages.error(request, 'A user with the given e-mail already exists')
+                return redirect('/users/register/')
             username = form.cleaned_data['username']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
-            address = ""
+            address = None
             if form.cleaned_data['address']:
                 address = form.cleaned_data['address']
-            phone_number = 0
+            phone_number = None
             if form.cleaned_data['phone_number']:
                 phone_number = form.cleaned_data['phone_number']
             user = WebsiteUser.objects.create(username=username, first_name=first_name,
@@ -52,12 +71,8 @@ class RegistrationView(View):
                                               phone_number=phone_number, address=address)
             user.set_password(password)
             user.save()
+            messages.success(request, "Account successfully created!")
             return redirect('/users/login/')
-        elif form.data['password'] and form.data['password2'] and form.data['password'] != form.data['password2']:
-            form.add_error('password2', 'Passwords do not match')
-            return render(request, 'users/registration_form.html', {'form': form,
-                                                                    'all_categories': all_categories,
-                                                                    'all_subcategories': all_subcategories})
         else:
             return render(request, 'users/registration_form.html', {'form': form,
                                                                     'all_categories': all_categories,
@@ -175,6 +190,9 @@ class UserPanelEditView(View):
 
             else:
                 messages.error(request, 'You have to type your password')
+                return redirect(f'/users/edit/{request.user.id}/')
+            if len(phone_number) > 9:
+                messages.error(request, 'Phone number cannot have more than 9 digits!')
                 return redirect(f'/users/edit/{request.user.id}/')
             user.username = username
             user.first_name = first_name

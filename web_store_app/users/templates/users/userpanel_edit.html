@@ -16,8 +16,16 @@
     Last name: <input type="text" value="{{user.last_name}}" name="last_name"><br><br>
     Password: <input type="password" name="password"><br><br>
     E-mail: <input type="text" value="{{user.email}}" name="email"><br><br>
+    {%if user.phone_number == None%}
+    Phone number: <input type="text" value="" name="phone_number"><br><br>
+    {%else%}
     Phone number: <input type="text" value="{{user.phone_number}}" name="phone_number"><br><br>
+    {%endif%}
+    {%if user.address == None%}
+    Address: <input type="text" value="" name="address"><br><br>
+    {%else%}
     Address: <input type="text" value="{{user.address}}" name="address"><br><br>
+    {%endif%}
     <input type="submit" value="Save">
 </form>
 </div>
