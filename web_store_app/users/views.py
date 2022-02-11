@@ -169,13 +169,14 @@ class UserPanelEditView(View):
             address = request.POST.get('address')
             user = WebsiteUser.objects.get(id=user_id)
             if password != "":
-                user.set_password(password)
+                user = authenticate(username=request.user.username, password=password)
+                if user is None:
+                    messages.error(request, 'Wrong password!')
+                    return redirect(f'/users/edit/{request.user.id}/')
+
             else:
-                user = WebsiteUser.objects.get(id=user_id)
-                return render(request, 'users/userpanel_edit.html', {'all_categories': all_categories,
-                                                                     'all_subcategories': all_subcategories,
-                                                                     'user': user,
-                                                                     'error_text': 'You have to enter a password'})
+                messages.error(request, 'You have to type your password')
+                return redirect(f'/users/edit/{request.user.id}/')
             user.username = username
             user.first_name = first_name
             user.last_name = last_name
@@ -183,7 +184,9 @@ class UserPanelEditView(View):
             user.phone_number = phone_number
             user.address = address
             user.save()
-            return redirect('/users/login/')
+            login(request, user)
+            messages.success(request, 'Data successfully updated!')
+            return redirect(f'/users/edit/{request.user.id}/')
 
         except Exception:
             user = WebsiteUser.objects.get(id=user_id)

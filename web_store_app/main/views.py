@@ -406,7 +406,7 @@ class NewsletterView(View):
             messages.error(request, 'This e-mail is already signed to our newsletter!')
             return redirect('/newsletter/')
         except ObjectDoesNotExist:
-            send_mail(subject='Music Store Newsletter',
+            send_mail(subject='Newsletter',
                       message='Thank you for joining to our newsletter, here is your -20% discount code: NEWSLETTER',
                       from_email='hillchar77@gmail.com',
                       recipient_list=[email])
@@ -426,8 +426,8 @@ class ComplaintView(View):
         """
         shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         return render(request, 'main/complaint.html', {'all_categories': all_categories,
-                                                        'all_subcategories': all_subcategories,
-                                                        'shopping_cart_list': shopping_cart_list})
+                                                       'all_subcategories': all_subcategories,
+                                                       'shopping_cart_list': shopping_cart_list})
 
     def post(self, request):
         shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)

@@ -2,6 +2,13 @@
 {%block content%}
 <div class="userPanelContainer">
 <h3>Edit {{user}}</h3> <h4>{{error_text}}</h4>
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 <form method="post">
     {%csrf_token%}
     Username: <input type="text" value="{{user}}" name="username"><br><br>
