@@ -21,7 +21,7 @@
 {%if user.is_authenticated%}
 <div class="userManagementBox"><a href="/users/panel/{{user.id}}/"><img style="width: 24px; height: 24px" src="{% static 'main/img/user2.png'%}"></a></div>
     {%else%}
-<div class="userManagementBox"><a href="/users/register/"><img style="width: 24px; height: 24px" src="{% static 'main/img/user2.png'%}"></a></div>
+<div class="userManagementBox"><a href="/users/login/"><img style="width: 24px; height: 24px" src="{% static 'main/img/user2.png'%}"></a></div>
     {%endif%}
 
         <div class="userManagementBox"><a href="/complaint/"><img style="width: 24px; height: 26px" src="{% static 'main/img/email2.png'%}"></a></div>
@@ -44,7 +44,7 @@
     <span style="color: #403e3e;">
         <i>You're not logged in</i>
         </span>
-        <a style="color: #403e3e;" href="/users/register/">Login/Register</a>
+        <a style="color: #403e3e;" href="/users/login/">Login/Register</a>
     {%endif%}
     </div>
     </div>
