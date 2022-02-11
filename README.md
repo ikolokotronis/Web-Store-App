@@ -7,7 +7,7 @@
 <h3 align="center">Web Store App</h3>
 
   <p align="center">
-    This is a web store application, which functions as a music store demo
+    A web store application made with django
     <br />
     <a href="https://github.com/ikolokotronis/Web-Store-App"><strong>Explore the docs »</strong></a>
     <br />
@@ -50,8 +50,10 @@
 ## About The Project
 
 
-This is my Coders Lab bootcamp graduation project.  
-Originally it was written to be a music store, but it could be anything you want, based on what you add to the database(except for the logo and the ads, which you can delete or make your own of course).
+This is my Coders Lab bootcamp graduation project. It's main goal is to make a web application for any kind of store.  
+Originally it was written to be a music store, but it could be anything you want, based on what you add to the database.  
+Please mark that I used a logo and some ad's for visual purposes, which refer to the music store theme.  
+Also, please note that I had to make some logical decisions due to the application's overall theme, which may not be applicable to other themes.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -139,7 +141,7 @@ This is a list of things you need in order to use the software and how to instal
 
 Any contributions you make are appreciated.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+If you have a suggestion that would make this better, please follow these instructions:
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b branch_name/some_text`)
