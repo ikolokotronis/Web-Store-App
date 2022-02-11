@@ -144,7 +144,11 @@ This is a list of things you need in order to use the software and how to instal
 ## Own store setup
 Want to setup your own store? Follow these instructions:
 1. Install the project locally (Explained <a href="#installation">here</a>)
-2. Update the database with your data: (Categories, subcategories, products and relations between them. Each relation has it's own model in the DB). I recommend using django admin for that. (For a server on localhost the address is 127.0.0.1/admin/).
+2. Update the database with your data, the following structure is recomended: 
+* Up to 5 categories
+* Up to 3 subcategories in each category
+* Up to 6 products in each subcategory
+* <b>Important!</b> Remember to set up relations. Each relation has it's own model in the DB. I recommend using django admin for that. (For a server on localhost the address is 127.0.0.1/admin/).
 3. Replace the logo, ads, title and information with whatever you choose. Look at them as an inspiration for your ideas.
 4. You're good to go! 
 
