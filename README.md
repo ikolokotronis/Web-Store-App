@@ -93,7 +93,7 @@ Also, please note that I had to make some logical decisions due to the applicati
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
