@@ -156,16 +156,6 @@ Want to setup your own store? Follow these instructions:
 4. You're good to go! 
 
 
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Add some JavaScript to make the app more dynamic
-- [ ] Improve the shopping cart's frontend
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 <!-- CONTACT -->
 ## Contact
 
