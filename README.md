@@ -7,16 +7,7 @@
 <h3 align="center">Web Store App</h3>
 
   <p align="center">
-    A web store application made with django
-    <br />
-    <a href="https://github.com/ikolokotronis/Web-Store-App"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
     <a href="#demo">View Demo</a>
-    ·
-    <a href="https://github.com/ikolokotronis/Web-Store-App/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/ikolokotronis/Web-Store-App/issues">Request Feature</a>
   </p>
 </div>
 
@@ -53,10 +44,8 @@
 ## About The Project
 
 
-This is my Coders Lab bootcamp graduation project. It's main goal is to make a web application for any kind of store.  
-Originally it was written to be a music store, but it could be anything you want, based on what you add to the database.  
-Please mark that I used a logo and some ad's for visual purposes, which refer to the music store theme.  
-Also, please note that I had to make some logical decisions due to the application's overall theme, which may not be applicable to other themes.  
+A Django web store app with a music theme. Register, buy products with fake money or create your own store using your ideas. 
+
 <b>Want to set up your own store?</b> Go to <a href="#own-store-setup">this</a> section
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -123,8 +112,7 @@ This is a list of things you need in order to use the software and how to instal
    ```sh
    git clone https://github.com/ikolokotronis/Web-Store-App
    ```
-3. Install PIP packages(shown above)
-4. Enter your database settings in settings.py. Here is an example if you want to use PostgreSQL:
+3. Enter your database settings in settings.py. Here is an example if you want to use PostgreSQL:
    ```python
    DATABASES = {
     'default': {
@@ -137,7 +125,7 @@ This is a list of things you need in order to use the software and how to instal
     }
    ```
 5. In settings.py change the email data to yours if you want to work with the django send_email function. *
-6. In your terminal, switch to the main directory (cd web_store_app/) and run python manage.py runserver
+6. In your terminal run python manage.py runserver
 
 "*" means optional
 
@@ -151,9 +139,8 @@ Want to setup your own store? Follow these instructions:
 * Up to 5 categories
 * Up to 3 subcategories in each category
 * Up to 6 products in each subcategory
-* <b>Important!</b> Remember to set up relations. Each relation has it's own model in the DB. I recommend using django admin for that. (For a server on localhost the address is 127.0.0.1/admin/).
-3. Replace the logo, ads, title and information with whatever you choose. Look at them as an inspiration for your ideas.
-4. You're good to go! 
+* <b>Important!</b> Remember to set up relations. Each relation is a django model with its table in the database. I recommend using django admin for this. (127.0.0.1/admin/ on localhost).
+3. Replace the logo, ads, title and information with whatever you like, and you're good to go!
 
 
 <!-- CONTACT -->
