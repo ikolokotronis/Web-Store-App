@@ -51,13 +51,14 @@ This is my bootcamp graduation project. Register, buy products with fake money o
 
 ## Key functionalities
 * Shopping cart
-* Viewed recently (based on session)
+* Viewed recently (session based)
 * Bestsellers, new products and recently viewed products are displayed in landing page
 * Newsletter
-* Forgot password
-* Discount codes
+* Forgot password functionality 
+* Discount functionality 
 * Wallet
-* Authentication system
+* Auth system
+* Personal account 
 
 
 ## Demo
