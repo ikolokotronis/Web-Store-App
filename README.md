@@ -42,7 +42,7 @@
 ## About The Project
 
 
-This is my bootcamp graduation project. Register, buy products with fake money or create your own store using your ideas. 
+This is my bootcamp graduation project. Register and buy music instruments with fake money or personalize the app to create your own store using your ideas. 
 
 <b>Want to set up your own store?</b> Go to <a href="#own-store-setup">this</a> section
 
