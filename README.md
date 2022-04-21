@@ -42,7 +42,7 @@
 ## About The Project
 
 
-A Django web store app with a music theme. Register, buy products with fake money or create your own store using your ideas. 
+This is my bootcamp graduation project. Register, buy products with fake money or create your own store using your ideas. 
 
 <b>Want to set up your own store?</b> Go to <a href="#own-store-setup">this</a> section
 
@@ -133,12 +133,12 @@ This is a list of things you need in order to use the software and how to instal
 ## Own store setup
 Want to setup your own store? Follow these instructions:
 1. Install the project locally (Explained <a href="#installation">here</a>)
-2. Update the database with your data, the following structure is recomended: 
+2. Go to the django admin panel (127.0.0.1/admin/ on localhost) and fill the database with your data, the following structure is recomended: 
 * Up to 5 categories
 * Up to 3 subcategories in each category
 * Up to 6 products in each subcategory
-* <b>Important!</b> Remember to set up relations. Each relation is a django model with its table in the database. I recommend using django admin for this. (127.0.0.1/admin/ on localhost).
-3. Replace the logo, ads, title and information with whatever you like, and you're good to go!
+* <b>Important!</b> Remember to set up relation models in django admin
+3. In base.html files replace the logo, ads, title and hard coded information with whatever you want, and you're good to go!
 
 
 <!-- CONTACT -->
