@@ -4,7 +4,7 @@
 <br />
 <div align="center">
 
-<h3 align="center">Web Store App</h3>
+<h3 align="center">Music Web Store</h3>
 
   <p align="center">
     <a href="#demo">View Demo</a>
