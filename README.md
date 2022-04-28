@@ -138,6 +138,6 @@ This is a list of things you need in order to use the software and how to instal
 
 Ioannis Kolokotronis - ioanniskolokotronis1@gmail.com
 
-Project Link: [https://github.com/ikolokotronis/Web-Store-App](https://github.com/ikolokotronis/Web-Store-App)
+Project Link: [https://github.com/ikolokotronis/music-web-store](https://github.com/ikolokotronis/music-web-store)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
