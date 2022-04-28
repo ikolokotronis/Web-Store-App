@@ -45,7 +45,7 @@
 This is my bootcamp graduation project.  
 A model for a online shop with musical instruments. Comes with a backend built in django & a frontend music-themed. 
 
-<b>Store setup is <a href="#own-store-setup">here</a></b>
+<b>Store setup is <a href="#store-setup">here</a></b>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
