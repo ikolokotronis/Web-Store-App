@@ -46,8 +46,6 @@ This is my bootcamp graduation project. A model for a online shop with musical i
 
 <b>Store setup is <a href="#store-setup">here</a></b>
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 ## Key functionalities
 * Shopping cart
