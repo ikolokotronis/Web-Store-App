@@ -50,7 +50,6 @@ This is my bootcamp graduation project. A model for a online shop with musical i
 ## Key functionalities
 * Shopping cart
 * Viewed recently (session based)
-* Bestsellers, new products and recently viewed products are displayed in landing page
 * Newsletter
 * Forgot password functionality 
 * Discount functionality 
