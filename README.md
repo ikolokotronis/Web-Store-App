@@ -59,7 +59,7 @@ This is my bootcamp graduation project. A model for a online shop with musical i
 
 
 ## Demo
-<i>Not available yet</i>
+![](public/gifs/app-demo.gif)
 
 
 ### Built With
@@ -83,7 +83,7 @@ To get a local copy up and running follow these steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/ikolokotronis/Web-Store-App
+   git clone https://github.com/ikolokotronis/music-web-store.git
    ```
 2. Install pip packages
    ```python
