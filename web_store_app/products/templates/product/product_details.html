@@ -64,7 +64,7 @@
     </span>
     {%if cleared_last_viewed_products%}
     <div class="viewedRecentlyContainer">
-        <h4>Viewed recently</h4>
+        <h4 style="position: relative; left: 15px;"><i>Products you viewed recently</i></h4>
         {%for viewed_recently_product in cleared_last_viewed_products%}
         {%if viewed_recently_product == product%}
         {{null}}
