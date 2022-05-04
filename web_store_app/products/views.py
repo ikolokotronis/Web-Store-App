@@ -4,9 +4,6 @@ from main.models import Category, ShoppingCart, SubCategory
 from products.models import Product, SubCategoryProduct
 from users.models import WebsiteUser
 
-all_categories = Category.objects.all()
-all_subcategories = SubCategory.objects.all().order_by('name')
-
 
 class ProductView(View):
     def get(self, request, product_id):
@@ -16,6 +13,8 @@ class ProductView(View):
         :param product_id:
         :return product details page:
         """
+        all_categories = Category.objects.all()
+        all_subcategories = SubCategory.objects.all().order_by('name')
         shopping_cart_list = ShoppingCart.objects.filter(user_id=request.user.id)
         product = Product.objects.get(id=product_id)
         subcategory = SubCategoryProduct.objects.filter(product_id=product_id)[0]
