@@ -32,7 +32,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#own-store-setup">Own store setup</a></li>
+    <li><a href="#store-setup">Store setup</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -74,33 +74,22 @@ To get a local copy up and running follow these steps.
 
 ### Prerequisites
 
-This is a list of things you need in order to use the software and how to install them.
-
-* pip
+* Upgrade pip to latest version
   ```sh
-  pip install django
+  python -m pip install --upgrade pip
   ```
-  ```sh
-  pip install psycopg2-binary
-  ```
-  ```sh
-  pip install six
-  ```
-  ```sh
-  pip install django-mathfilters
-  ```
-  ```sh
-  pip install pillow
-  ```
-
+  
 ### Installation
 
-1. Make sure you have python installed in your sytem
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/ikolokotronis/Web-Store-App
    ```
-3. Enter your database settings in settings.py. Here is an example if you want to use PostgreSQL:
+2. Install pip packages
+   ```python
+   pip install -r requirements.txt
+   ```
+3. Enter your database settings in settings.py. Here is an example if you want to use PSQL:
    ```python
    DATABASES = {
     'default': {
@@ -112,8 +101,8 @@ This is a list of things you need in order to use the software and how to instal
     }
     }
    ```
-5. In settings.py change the email data to yours if you want to work with the django send_email function. *
-6. Open terminal and run python manage.py runserver
+4. In settings.py change the email data to yours if you want to work with the django send_email function. *
+5. Open terminal and run python manage.py runserver
 
 "*" means optional
 
