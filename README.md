@@ -46,10 +46,6 @@ This is my bootcamp graduation project. A model for a online shop with musical i
 
 <b>Store setup is <a href="#store-setup">here</a></b>
 
-### Built With
-
-* [Django](https://www.djangoproject.com/)
-
 
 ## Key functionalities
 * Shopping cart
@@ -60,6 +56,10 @@ This is my bootcamp graduation project. A model for a online shop with musical i
 * Wallet
 * Auth system
 * Personal account 
+
+### Built With
+
+* [Django](https://www.djangoproject.com/)
 
 
 ## Demo
