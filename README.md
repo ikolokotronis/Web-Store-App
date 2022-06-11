@@ -125,4 +125,9 @@ Ioannis Kolokotronis - ioanniskolokotronis1@gmail.com
 
 Project Link: [https://github.com/ikolokotronis/music-web-store](https://github.com/ikolokotronis/music-web-store)
 
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
