@@ -106,9 +106,6 @@ To get a local copy up and running follow these steps.
 
 "*" means optional
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 ## Store setup
 1. Install the project locally (Explained <a href="#installation">here</a>)
 2. Go to the django admin panel (127.0.0.1:8000/admin/ on localhost) and fill the database using the following structure: 
