@@ -49,13 +49,12 @@ This is my bootcamp graduation project. A model for a online shop with musical i
 
 ## Key functionalities
 * Shopping cart
-* Viewed recently (session based)
-* Newsletter
-* Forgot password functionality 
-* Discount functionality 
-* Wallet
 * Auth system
-* Personal account 
+* Personal account  
+* Forgot password functionality 
+* Discount code functionality 
+* Viewed recently (session based)
+* Wallet
 
 ### Built With
 
