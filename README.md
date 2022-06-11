@@ -100,10 +100,8 @@ To get a local copy up and running follow these steps.
     }
     }
    ```
-4. In settings.py change the email data to yours if you want to work with the django send_email function. *
+4. In order for the email sending functionality to work correctly, in settings.py go to line 137, 138 and fill the blank lines.
 5. Open terminal and run python manage.py runserver
-
-"*" means optional
 
 ## Store setup
 1. Install the project locally (Explained <a href="#installation">here</a>)
