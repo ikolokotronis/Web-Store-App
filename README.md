@@ -106,9 +106,9 @@ To get a local copy up and running follow these steps.
 ## Store setup
 1. Install the project locally (Explained <a href="#installation">here</a>)
 2. Go to the django admin panel at /admin/ and fill the database using the following structure: 
-* Up to 5 categories
-* Up to 3 subcategories in each category) 
-* Up to 6 products in each subcategory)
+* 5 categories
+* Up to 3 subcategories in each category
+* Up to 6 products in each subcategory
  
 <b>Important!</b> Remember to set up all relation models in django admin (e.g. the CategorySubCategory model)
 
