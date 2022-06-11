@@ -1,7 +1,4 @@
 <div id="top"></div>
-
-
-<br />
 <div align="center">
 
 <h3 align="center">Music Web Store</h3>
