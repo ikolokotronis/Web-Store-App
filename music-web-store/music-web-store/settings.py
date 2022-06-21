@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'main',
     'products',
     'users',
-    'mathfilters'
 ]
 
 MIDDLEWARE = [
@@ -42,7 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'web_store_app.urls'
+ROOT_URLCONF = 'music-web-store.urls'
 
 TEMPLATES = [
     {
@@ -61,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web_store_app.wsgi.application'
+WSGI_APPLICATION = 'music-web-store.wsgi.application'
 
 
 # Database
