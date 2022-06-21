@@ -1,7 +1,4 @@
 <div id="top"></div>
-
-
-<br />
 <div align="center">
 
 <h3 align="center">Music Web Store</h3>
@@ -49,22 +46,20 @@ This is my bootcamp graduation project. A model for a online shop with musical i
 
 ## Key functionalities
 * Shopping cart
-* Viewed recently (session based)
-* Newsletter
-* Forgot password functionality 
-* Discount functionality 
-* Wallet
 * Auth system
-* Personal account 
-
-
-## Demo
-<i>Not available yet</i>
-
+* Personal account  
+* Forgot password functionality 
+* Discount code functionality 
+* Viewed recently (session based)
+* Wallet
 
 ### Built With
 
 * [Django](https://www.djangoproject.com/)
+
+
+## Demo
+![](public/gifs/app-demo.gif)
 
 
 <!-- GETTING STARTED -->
@@ -83,7 +78,7 @@ To get a local copy up and running follow these steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/ikolokotronis/Web-Store-App
+   git clone https://github.com/ikolokotronis/music-web-store.git
    ```
 2. Install pip packages
    ```python
@@ -101,21 +96,17 @@ To get a local copy up and running follow these steps.
     }
     }
    ```
-4. In settings.py change the email data to yours if you want to work with the django send_email function. *
+4. In order for the email sending functionality to work correctly, in settings.py go to line 137, 138 and fill the blank lines.
 5. Open terminal and run python manage.py runserver
-
-"*" means optional
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 ## Store setup
 1. Install the project locally (Explained <a href="#installation">here</a>)
-2. Go to the django admin panel (127.0.0.1:8000/admin/ on localhost) and fill the database using the following structure: 
-* Up to 5 categories
-* Up to 3 subcategories in each category (relation between subcategories and categories) 
-* Up to 6 products in each subcategory (relation between products and subcategories)  
-<b>Important!</b> Remember to set up relation models in django admin
+2. Go to the django admin panel at /admin/ and fill the database using the following structure: 
+* 5 categories
+* Up to 3 subcategories in each category
+* Up to 6 products in each subcategory
+ 
+<b>Important!</b> Remember to set up all relation models in django admin (e.g. the CategorySubCategory model)
 
 
 <!-- CONTACT -->
@@ -124,5 +115,10 @@ To get a local copy up and running follow these steps.
 Ioannis Kolokotronis - ioanniskolokotronis1@gmail.com
 
 Project Link: [https://github.com/ikolokotronis/music-web-store](https://github.com/ikolokotronis/music-web-store)
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
