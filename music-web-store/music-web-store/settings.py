@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-5zi)z+v(43zwtqh637(lisn_jk!&vxhdori1vqobhpv*lv_y*)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -70,11 +70,12 @@ WSGI_APPLICATION = 'music-web-store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'web_store_db1',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
+        'HOST': 'music-web-store-db',
+        'PORT': 5432,
     }
 }
 
